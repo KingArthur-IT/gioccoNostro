@@ -2,7 +2,9 @@
   <header class="header">
       <span class="span">Authorized</span>
   </header>  
-  <router-view/>
+  <main>
+      <router-view/>
+  </main>
 </template>
 
 <script>
