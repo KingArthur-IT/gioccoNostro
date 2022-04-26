@@ -25,6 +25,7 @@ export default {
 @import '@/assets/normolize.css';
 
 #app{
+  font-family: 'Inter';
   background-color: var(--background-color);
 }
 </style>
