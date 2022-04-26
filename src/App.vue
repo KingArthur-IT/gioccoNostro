@@ -23,4 +23,8 @@ export default {
 <style>
 @import '@/assets/base.css';
 @import '@/assets/normolize.css';
+
+#app{
+  background-color: var(--background-color);
+}
 </style>
