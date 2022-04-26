@@ -21,8 +21,17 @@ export default {
 </script>
 
 <style>
-@import '@/assets/base.css';
-@import '@/assets/normolize.css';
+@import '@/styles/base.css';
+@import '@/styles/normolize.css';
+@font-face {
+  font-family: 'Gilroy';
+  src: local('@/assets/fonts/Gilroy Medium'), local('@/assets/fonts/Gilroy-Medium'),
+      url('@/assets/fonts/Gilroy-Medium.woff2') format('woff2'),
+      url('@/assets/fonts/Gilroy-Medium.woff') format('woff'),
+      url('@/assets/fonts/Gilroy-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
 
 #app{
   font-family: 'Inter';

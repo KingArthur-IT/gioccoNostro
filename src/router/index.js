@@ -1,29 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import StartPage from '../views/StartPage.vue'
-
-
-import AboutView from '../views/AboutView.vue'
+import SignIn from '../views/SignIn.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-        path: '/',
-        name: 'home',
-        component: StartPage,
-        meta: { auth: false }
-      },
-      {
-        path: '/about',
-        name: 'about',
-        component: AboutView,
-        meta: { auth: true }
-      }
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: HomeView
-    // },
+      path: '/',
+      name: 'home',
+      component: StartPage,
+      meta: { auth: false }
+    },
+    {
+      path: '/sign-in',
+      name: 'signIn',
+      component: SignIn,
+      meta: { auth: false }
+    },
     // {
     //   path: '/about',
     //   name: 'about',
