@@ -1,7 +1,7 @@
 <template>
   <header class="header">
-      <span class="span">Default</span>
-  </header>
+      <span class="span">Authorized</span>
+  </header>  
   <router-view/>
 </template>
 
@@ -11,7 +11,7 @@
 
 <style scoped>
 .header{
-    height: 200px;
+    height: 300px;
     background-color: var(--background-color);
 }
 .span{
