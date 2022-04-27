@@ -1,6 +1,5 @@
 <template>
-    <div class="border-radius sidebar">
-
+    <div class="border-radius head">
     </div>
 </template>
 
@@ -11,9 +10,11 @@ export default {
 </script>
 
 <style scoped>
-.sidebar{
+.head{
     background-color: var(--section-background);
-    width: 250px;
-    height: 100%;
+    width: 100%;
+    height: 80px;
+    padding: 25px 20px;
+    margin-bottom: var(--offset);
 }
 </style>
