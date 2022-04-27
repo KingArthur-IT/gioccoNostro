@@ -4,12 +4,16 @@
 [data-theme="light"]{
   --background-color: #ffffff;
   --background-start-color: #ffffff;
+  --items-background: #1E1F25;
+  --selected-items-background: #282C38;
   --primary-text-color: #000000;
 } 
 
 [data-theme="dark"]{
   --background-color: #141518;
   --background-start-color: #1D1F25;
+  --items-background: #1E1F25;
+  --selected-items-background: #282C38;
   --primary-text-color: #ffffff;
 } 
 
