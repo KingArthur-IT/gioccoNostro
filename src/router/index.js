@@ -22,7 +22,7 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: Profile,
-      meta: { auth: true }
+      meta: { auth: true, title: 'Profile' }
     },
     // {
     //   path: '/about',

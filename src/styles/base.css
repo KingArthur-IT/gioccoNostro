@@ -7,7 +7,9 @@
   --background-start-color: #ffffff;
   --section-background: #1E1F25;
   --selected-background: #282C38;
+
   --primary-text-color: #000000;
+  --secondary-text-color: #D7D7DA;
 } 
 
 [data-theme="dark"]{
@@ -15,7 +17,9 @@
   --background-start-color: #1D1F25;
   --section-background: #1E1F25;
   --selected-background: #282C38;
+
   --primary-text-color: #ffffff;
+  --secondary-text-color: #D7D7DA;
 } 
 
 *{
@@ -24,6 +28,9 @@
 
 .primary-text-color{
   color: var(--primary-text-color);
+}
+.secondary-text-color{
+  color: var(--secondary-text-color);
 }
 .container{
   max-width: 1440px;
