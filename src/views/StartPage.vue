@@ -8,7 +8,7 @@
           <p class="primary-text-color start-main__subtitle">
             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
           </p>
-          <button class="primary-text-color">Start Now</button>
+          <Button class="primary-text-color" :text="'Start Now'" :width="193"/>
         </div>
       </div>
     </div>
@@ -16,8 +16,11 @@
 </template>
 
 <script>
+import Button from '@/components/UIKit/Button.vue'
 export default {
-
+  components:{
+    Button
+  }
 }
 </script>
 

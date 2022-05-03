@@ -10,6 +10,8 @@
 
   --primary-text-color: #000000;
   --secondary-text-color: #D7D7DA;
+
+  --primary-button-color: #246CF9;
 } 
 
 [data-theme="dark"]{
@@ -20,6 +22,8 @@
 
   --primary-text-color: #ffffff;
   --secondary-text-color: #D7D7DA;
+
+  --primary-button-color: #246CF9;
 } 
 
 *{

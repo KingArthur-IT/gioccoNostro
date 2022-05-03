@@ -7,8 +7,8 @@
             </div>
             <div class="head__icons mr-20">
                 <div class="head__vertical-divider mr-20"></div>
-                <BellIcon class="mr-20" />
-                <LightSchemeIcon class="mr-20" />
+                <BellIcon class="mr-20 head-icon" />
+                <LightSchemeIcon class="mr-20 head-icon" @click="toggleColorTheme"/>
                 <div class="head__vertical-divider"></div>
             </div>
             <div class="head__lang secondary-text-color">
@@ -31,7 +31,14 @@ export default {
         Select
     },
     setup(){
-       
+       const toggleColorTheme = () => {
+           const currentTheme = document.getElementById('app').getAttribute('data-theme');
+           document.getElementById('app').setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+       }
+
+       return {
+           toggleColorTheme
+       }
     }
 }
 </script>
@@ -70,5 +77,8 @@ export default {
 }
 .mr-20{
     margin-right: 20px;
+}
+.head-icon{
+    cursor: pointer;
 }
 </style>
