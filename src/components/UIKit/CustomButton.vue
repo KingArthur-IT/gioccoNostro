@@ -18,7 +18,7 @@ export default {
 <style scoped>
 .button{
     background: var(--primary-button-color);
-    color: #fff;
+    color: var(--primary-text-color);
     border-radius: 10px;
     padding-top: 12px;
     padding-bottom: 12px;

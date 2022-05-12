@@ -9,7 +9,7 @@
             Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
           </p>
           <div class="start-main__btn">
-            <Button class="primary-text-color" :text="'Start Now'" @click="startEvent"/>
+            <CustomButton :text="'Start Now'" @click="startEvent"/>
           </div>
         </div>
         <img src="@/assets/img/laptop.png" class="start-main__laptop">
@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import Button from '@/components/UIKit/Button.vue'
+import CustomButton from '@/components/UIKit/CustomButton.vue'
 import { useRouter } from 'vue-router'
 
 export default {
   components:{
-    Button
+    CustomButton
   },
   setup(){
     const router = useRouter()

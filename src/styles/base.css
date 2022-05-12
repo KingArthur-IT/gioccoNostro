@@ -8,8 +8,12 @@
   --section-background: #1E1F25;
   --selected-background: #282C38;
 
+  --input-border: #3C4254; 
+
   --primary-text-color: #000000;
   --secondary-text-color: #D7D7DA;
+  --gray-text-color: #757B8C;
+
 
   --primary-button-color: #246CF9;
   --primary-hover-button-color: #185DE2;
@@ -22,8 +26,11 @@
   --section-background: #1E1F25;
   --selected-background: #282C38;
 
+  --input-border: #3C4254; 
+
   --primary-text-color: #ffffff;
   --secondary-text-color: #D7D7DA;
+  --gray-text-color: #757B8C;
 
   --primary-button-color: #246CF9;
   --primary-hover-button-color: #185DE2;

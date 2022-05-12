@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import StartPage from '../views/StartPage.vue'
-import SignIn from '../views/SignIn.vue'
+import SignInUp from '../views/SignInUp.vue'
 import Profile from '../views/Profile.vue'
 
 const router = createRouter({
@@ -15,7 +15,7 @@ const router = createRouter({
     {
       path: '/sign-in',
       name: 'signIn',
-      component: SignIn,
+      component: SignInUp,
       meta: { auth: false }
     },
     {
