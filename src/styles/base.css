@@ -12,6 +12,8 @@
   --secondary-text-color: #D7D7DA;
 
   --primary-button-color: #246CF9;
+  --primary-hover-button-color: #185DE2;
+  --primary-active-button-color: #0949C6;
 } 
 
 [data-theme="dark"]{
@@ -24,6 +26,8 @@
   --secondary-text-color: #D7D7DA;
 
   --primary-button-color: #246CF9;
+  --primary-hover-button-color: #185DE2;
+  --primary-active-button-color: #0949C6;
 } 
 
 *{

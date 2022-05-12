@@ -1,5 +1,5 @@
 <template>
-  <button class="button" :style="`width: ${width}px`">
+  <button class="button">
       {{text}}
   </button>
 </template>
@@ -10,9 +10,6 @@ export default {
         text: {
             type: String,
             required: true
-        },
-        width:{
-            type: Number,
         }
     }
 }
@@ -31,5 +28,12 @@ export default {
     outline: none;
     appearance: none;
     cursor: pointer;
+    width: 100%;
+}
+.button:hover{
+    background: var(--primary-hover-button-color);
+}
+.button:active{
+    background: var(--primary-active-button-color);
 }
 </style>
