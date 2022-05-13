@@ -2,7 +2,7 @@
     <div class="border-radius head">
         <p class="head__title primary-text-color">{{$route.meta.title}}</p>
         <div class="head__controls">
-            <div class="mr-20">
+            <div class="mr-30">
                 <SearchInput />
             </div>
             <div class="head__icons mr-20">
@@ -74,9 +74,13 @@ export default {
     align-items: center;
 }
 .head__lang{
+    margin-right: 15px;
 }
 .mr-20{
     margin-right: 20px;
+}
+.mr-30{
+    margin-right: 30px;
 }
 .head-icon{
     cursor: pointer;

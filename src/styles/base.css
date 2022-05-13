@@ -18,6 +18,8 @@
   --primary-button-color: #246CF9;
   --primary-hover-button-color: #185DE2;
   --primary-active-button-color: #0949C6;
+
+  --primary-svg-color: #fff
 } 
 
 [data-theme="dark"]{
@@ -35,6 +37,8 @@
   --primary-button-color: #246CF9;
   --primary-hover-button-color: #185DE2;
   --primary-active-button-color: #0949C6;
+
+  --primary-svg-color: #fff
 } 
 
 *{
