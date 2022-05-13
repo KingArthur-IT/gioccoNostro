@@ -4,16 +4,19 @@
         :label="'Email'"
         :placeholder="'name@mail.com'"
         class="sign-in__input"
+        v-model="formData.email.value"
     />
     <CustomInput 
         :label="'Password'"
         :placeholder="'Type here'"
         class="sign-in__input"
+        v-model="formData.password.value"
     />
     <div class="sign-in__checkbox-wrap">
         <div class="sign-in__checkbox-hero">
-            <CustomCheckbox class="sign-in__checkbox" />
-            <p class="sign-in__text">Remember me</p>
+            <CustomCheckbox v-model="shouldRememberMe">
+                <p class="sign-in__text">Remember me</p>
+            </CustomCheckbox>
         </div>
         <p class="sign-in__text sign-in__forgot">Forgot Password?</p>
     </div>
@@ -25,6 +28,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
@@ -34,11 +38,17 @@ export default {
         CustomInput, CustomButton, CustomCheckbox
     },
     setup(){
+        const formData = {
+            email: ref(''),
+            password: ref(''),
+        }
+        let shouldRememberMe = ref(true)
+
         const SignInEvent = () => {
-            console.log('Sign In')
+            console.log('Sign In', formData.email.value, formData.password.value, shouldRememberMe.value)
         }
 
-        return { SignInEvent }
+        return { formData, shouldRememberMe, SignInEvent }
     }
 }
 </script>
@@ -58,14 +68,12 @@ export default {
     display: flex;
     align-items: center;
 }
-.sign-in__checkbox{
-    margin-right: 15px;
-}
 .sign-in__btn{
     margin-bottom: 20px;
 }
 .sign-in__text{
     margin: 0;
+    margin-left: 15px;
     font-size: 14px;
     line-height: 17px;
     color: var(--primary-text-color);

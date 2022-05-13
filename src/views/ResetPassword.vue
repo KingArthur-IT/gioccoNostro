@@ -11,11 +11,13 @@
                 :label="'Create new password'"
                 :placeholder="'Create new password'"
                 class="reset__input"
+                v-model="password"
           />
           <CustomInput 
                 :label="'Confirm password'"
                 :placeholder="'Create new password'"
                 class="reset__input"
+                v-model="confirmPassword"
           />
           <CustomButton class="reset__btn" :text="'Confirm'" @click="ResetEvent"/>
         </div>
@@ -25,6 +27,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 
@@ -33,11 +36,14 @@ export default {
         CustomInput, CustomButton
     },
     setup(){
+        const password = ref(''),
+              confirmPassword = ref('')
+
         const ResetEvent = () => {
-            console.log('Reset')
+            console.log('Reset', password.value, confirmPassword.value)
         }
 
-        return { ResetEvent }
+        return { password, confirmPassword, ResetEvent }
     }
 }
 </script>

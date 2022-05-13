@@ -5,12 +5,17 @@
             <p class="custom-input__required" v-if="showRequiredInfo">Required fields<sup>*</sup></p>
             <p class="custom-input__error" v-if="isError">Incorrect<sup>*</sup></p>
         </div>
-        <input type="text" :placeholder="placeholder">
+        <input  type="text" 
+                :placeholder="placeholder" 
+                :value="modelValue"
+                @input="(event) => $emit('update:modelValue', event.target.value)"
+        >
     </div>
 </template>
 
 <script>
 export default {
+    emits: ['update:modelValue'],
     props: {
         label: {
             type: String,
@@ -31,8 +36,12 @@ export default {
         isError: {
             type: Boolean,
             default: false
+        },
+        modelValue: {
+            type: String,
+            default: ''
         }
-    }
+    },
 }
 </script>
 

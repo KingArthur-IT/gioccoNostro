@@ -13,6 +13,7 @@
                 :label="'Email'"
                 :placeholder="'name@mail.com'"
                 class="forgot__input"
+                v-model="email"
           />
           <CustomButton class="forgot__btn" :text="'Reset Password'" @click="ResetEvent"/>
           <a href="" class="forgot__link">I remember the password</a>
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 
@@ -31,11 +33,12 @@ export default {
         CustomInput, CustomButton
     },
     setup(){
+        const email = ref('');
         const ResetEvent = () => {
-            console.log('Reset')
+            console.log('Reset', email.value)
         }
 
-        return { ResetEvent }
+        return { email, ResetEvent }
     }
 }
 </script>

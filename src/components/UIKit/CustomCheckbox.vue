@@ -1,38 +1,40 @@
 <template>
-  <input  type="checkbox"
-          class="custom-checkbox"  
-          :class="{'checked': isChecked}"
-          @input="handleInput"
-  >
+  <div class="wrapper" @click="changeEvent(modelValue)">
+    <input  type="checkbox"
+            class="custom-checkbox"  
+            :class="{'checked': modelValue}"
+            :value="modelValue"
+            @input="(event) => $emit('update:modelValue', event.target.checked)"
+    >
+    <slot></slot>
+  </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-
 export default {
-  emits: ['input'],
+  emits: ['update:modelValue'],
   props: {
-    value: {
+    modelValue: {
       type: Boolean,
       default: true
     }
   },
-  setup(props, { emit }){
-    let isChecked = ref(props.value)
-
-    const handleInput = () => {
-      isChecked.value = !isChecked.value;
-      emit('input', isChecked.value)
+  setup(props, {emit}){
+    const changeEvent = (oldValue) => {
+      emit('update:modelValue', !oldValue)
     }
 
     return {
-      isChecked, handleInput
+      changeEvent
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.wrapper{
+  display: flex
+}
 .custom-checkbox {
   position: relative;
   appearance: none;
