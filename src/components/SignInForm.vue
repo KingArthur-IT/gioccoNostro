@@ -38,7 +38,7 @@ export default {
             console.log('Sign In')
         }
 
-    return { SignInEvent }
+        return { SignInEvent }
     }
 }
 </script>
