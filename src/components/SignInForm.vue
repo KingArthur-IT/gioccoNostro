@@ -15,20 +15,21 @@
     <div class="sign-in__checkbox-wrap">
         <div class="sign-in__checkbox-hero">
             <CustomCheckbox v-model="shouldRememberMe">
-                <p class="sign-in__text">Remember me</p>
+                <p class="sign-in__text ml">Remember me</p>
             </CustomCheckbox>
         </div>
-        <p class="sign-in__text sign-in__forgot">Forgot Password?</p>
+        <p class="sign-in__text sign-in__forgot" @click="goToResetPasswordPage">Forgot Password?</p>
     </div>
     <CustomButton class="sign-in__btn" :text="'Sign In'" @click="SignInEvent"/>
     <p class="sign-in__text">
-        Don't have an account? <a href="" target="_blank">Sign Up</a>
+        Don't have an account? <span @click="goToSignUp">Sign Up</span>
     </p>
   </div>
 </template>
 
 <script>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
@@ -37,24 +38,31 @@ export default {
     components: {
         CustomInput, CustomButton, CustomCheckbox
     },
-    setup(){
+    emits: ['setSignUpTabActive'],
+    setup(props, { emit }){
+        const router = useRouter()
         const formData = {
             email: ref(''),
             password: ref(''),
         }
         let shouldRememberMe = ref(true)
 
+        const goToSignUp = () => {
+            emit('setSignUpTabActive')
+        }
+        const goToResetPasswordPage = () => {
+            router.push({name: 'resetPassword'})
+        }
         const SignInEvent = () => {
             console.log('Sign In', formData.email.value, formData.password.value, shouldRememberMe.value)
         }
 
-        return { formData, shouldRememberMe, SignInEvent }
+        return { formData, shouldRememberMe, goToSignUp, goToResetPasswordPage, SignInEvent }
     }
 }
 </script>
 
 <style scoped>
-
 .sign-in__input{
     margin-bottom: 15px;
 }
@@ -73,18 +81,24 @@ export default {
 }
 .sign-in__text{
     margin: 0;
-    margin-left: 15px;
     font-size: 14px;
-    line-height: 17px;
+    line-height: 120%;
     color: var(--primary-text-color);
 }
-.sign-in__text a{
+.sign-in__text a,
+.sign-in__text a:visited,
+.sign-in__text span{
     text-decoration: none;
     color: var(--primary-button-color);
     font-size: 14px;
-    line-height: 17px;
+    line-height: 120%;
+    cursor: pointer;
 }
 .sign-in__forgot{
     color: var(--gray-text-color);
+    cursor: pointer;
+}
+.ml{
+    margin-left: 15px;
 }
 </style>

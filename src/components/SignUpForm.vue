@@ -49,7 +49,7 @@
     </div>
     <CustomButton class="sign-up__btn" :text="'Sign Up'" @click="SignUpEvent"/>
     <p class="sign-up__text">
-        Do you already have an account? <a href="" target="_blank">Sign In</a>
+        Do you already have an account? <span @click="goToSignIn">Sign In</span>
     </p>
   </div>
 </template>
@@ -64,7 +64,8 @@ export default {
     components: {
         CustomInput, CustomButton, CustomCheckbox
     },
-    setup(){
+    emits: ['setSignInTabActive'],
+    setup(props, { emit }){
         const formData = {
             userName: ref(''),
             email: ref(''),
@@ -75,11 +76,15 @@ export default {
             isTermAgree: ref(false),
         }
 
+        const goToSignIn = () => {
+            emit('setSignInTabActive')
+        }
+
         const SignUpEvent = () => {
             console.log('Sign UP', formData)
         }
 
-        return { formData, SignUpEvent }
+        return { formData, goToSignIn, SignUpEvent }
     }
 }
 </script>
@@ -102,11 +107,14 @@ export default {
     line-height: 17px;
     color: var(--primary-text-color);
 }
-.sign-up__text a{
+.sign-up__text a,
+.sign-up__text a:visited,
+.sign-up__text span{
     text-decoration: none;
     color: var(--primary-button-color);
     font-size: 14px;
-    line-height: 17px;
+    line-height: 120%;
+    cursor: pointer;
 }
 .ml{
     margin-left: 18px;

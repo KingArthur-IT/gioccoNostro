@@ -66,7 +66,7 @@ export default {
     margin-bottom: 25px;
     font-weight: 500;
     font-size: 24px;
-    line-height: 29px;
+    line-height: 120%;
     text-align: center;
     color: var(--primary-text-color);
 }

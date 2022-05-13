@@ -33,7 +33,8 @@ export default {
 
 <style scoped>
 .wrapper{
-  display: flex
+  display: flex;
+  cursor: pointer;
 }
 .custom-checkbox {
   position: relative;
@@ -46,6 +47,7 @@ export default {
   height: 20px;
   border: 1px solid var(--primary-button-color);
   background-color: var(--background-color);
+  cursor: pointer;
 }
 .custom-checkbox.checked::after{
   content: '';

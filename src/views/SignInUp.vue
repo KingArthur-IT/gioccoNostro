@@ -7,8 +7,8 @@
             <li class="sign__tab" :class="{'tab-active': isSignUpTabActive}" @click="isSignUpTabActive = true">Sign Up</li>
             <li class="sign__tab" :class="{'tab-active': !isSignUpTabActive}" @click="isSignUpTabActive = false">Sign In</li>
           </ul>
-          <SignUpForm v-if="isSignUpTabActive" />
-          <SignInForm v-else />
+          <SignUpForm v-if="isSignUpTabActive" @setSignInTabActive="isSignUpTabActive = false"/>
+          <SignInForm v-else @setSignUpTabActive="isSignUpTabActive = true" />
         </div>
       </div>
     </div>
