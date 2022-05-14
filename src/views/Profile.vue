@@ -1,6 +1,9 @@
 <template>
     <div class="border-radius profile">
       <div class="profile__left-side">
+        <div class="profile__id-label">
+          <IdLabel />
+        </div>
          <CustomInput 
             :label="'User Info'"
             :placeholder="'John Doe'"
@@ -64,11 +67,12 @@
 </template>
 
 <script>
+import IdLabel from '@/components/UIKit/IdLabel.vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 export default {
   components: {
-        CustomInput, CustomButton
+        CustomInput, CustomButton, IdLabel
     },
 }
 </script>
@@ -81,6 +85,10 @@ export default {
   padding: 30px 30px 55px 30px;
   display: flex;
   justify-content: space-between;
+}
+.profile__id-label{
+  width: 239px;
+  margin-bottom: 30px;
 }
 .profile__input{
   margin-bottom: 15px;

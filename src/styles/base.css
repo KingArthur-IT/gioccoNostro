@@ -24,6 +24,8 @@
   --warning-color: #FA2256;
   --warning-hover-color: #EE1448;
   --warning-active-color: #D00D3C;
+
+  --light-green: #30E0A1;
 } 
 
 [data-theme="dark"]{
@@ -47,6 +49,8 @@
   --warning-color: #FA2256;
   --warning-hover-color: #EE1448;
   --warning-active-color: #D00D3C;
+
+  --light-green: #30E0A1;
 } 
 
 *{
