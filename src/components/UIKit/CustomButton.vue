@@ -1,5 +1,10 @@
 <template>
-  <button class="button">
+  <button class="button" :class="{
+      'primary': isPrimary && !isOutlined,
+      'primary-outlined': isPrimary && isOutlined,
+      'warning': !isPrimary && !isOutlined,
+      'warning-outlined': !isPrimary && isOutlined
+  }">
       {{text}}
   </button>
 </template>
@@ -10,6 +15,14 @@ export default {
         text: {
             type: String,
             required: true
+        },
+        isPrimary: {
+            type: Boolean,
+            default: true
+        },
+        isOutlined: {
+            type: Boolean,
+            default: false
         }
     }
 }
@@ -17,23 +30,43 @@ export default {
 
 <style scoped>
 .button{
-    background: var(--primary-button-color);
     color: var(--primary-text-color);
     border-radius: 10px;
-    padding-top: 12px;
+    padding-top: 11px;
     padding-bottom: 12px;
     font-weight: 600px;
     height: 40px;
-    border: none;
     outline: none;
     appearance: none;
     cursor: pointer;
     width: 100%;
 }
-.button:hover{
+.primary{
+    background: var(--primary-button-color);
+    border: 1px solid var(--primary-button-color);
+}
+.primary-outlined{
+    background: transparent;
+    border: 1px solid var(--primary-button-color);
+}
+.primary:hover{
     background: var(--primary-hover-button-color);
 }
-.button:active{
+.primary:active{
     background: var(--primary-active-button-color);
+}
+.warning{
+    background: var(--warning-color);
+    border: 1px solid var(--warning-color);
+}
+.warning-outlined{
+    background: transparent;
+    border: 1px solid var(--warning-color);
+}
+.warning:hover{
+    background: var(--warning-hover-color);
+}
+.warning:active{
+    background: var(--warning-active-color);
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div class="custom-input">
-        <div class="custom-input__upper-info">
+        <div v-if="isHeadInfoShown()" class="custom-input__upper-info">
             <label v-if="label !== ''" class="custom-input__label">{{label}}<sup v-if="isRequired">*</sup> </label>
             <p class="custom-input__required" v-if="showRequiredInfo">Required fields<sup>*</sup></p>
             <p class="custom-input__error" v-if="isError">Incorrect<sup>*</sup></p>
@@ -40,8 +40,17 @@ export default {
         modelValue: {
             type: String,
             default: ''
-        }
+        },
     },
+    setup(props){
+        const isHeadInfoShown = () => {
+            return props.label !== '' || props.showRequiredInfo || props.isError
+        }
+
+        return {
+            isHeadInfoShown
+        }
+    }
 }
 </script>
 

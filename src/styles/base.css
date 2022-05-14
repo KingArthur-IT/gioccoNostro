@@ -19,7 +19,11 @@
   --primary-hover-button-color: #185DE2;
   --primary-active-button-color: #0949C6;
 
-  --primary-svg-color: #fff
+  --primary-svg-color: #fff;
+
+  --warning-color: #FA2256;
+  --warning-hover-color: #EE1448;
+  --warning-active-color: #D00D3C;
 } 
 
 [data-theme="dark"]{
@@ -38,7 +42,11 @@
   --primary-hover-button-color: #185DE2;
   --primary-active-button-color: #0949C6;
 
-  --primary-svg-color: #fff
+  --primary-svg-color: #fff;
+
+  --warning-color: #FA2256;
+  --warning-hover-color: #EE1448;
+  --warning-active-color: #D00D3C;
 } 
 
 *{
