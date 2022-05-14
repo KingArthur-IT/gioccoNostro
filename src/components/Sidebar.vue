@@ -1,29 +1,47 @@
 <template>
     <div class="border-radius sidebar">
-        <div class="sidebar__title">Giocco Nostro</div>
-        <div class="sidebar__user-info">
-            <div class="sidebar__avatar">{{avatar}}</div>
-            <div class="sidebar__user">
-                <p class="sidevar__username">{{userName}}</p>
-                <p class="sidebar__user-id">ID: {{id}}</p>
+        <div class="sidebar__top-section">
+            <div class="sidebar__title">Giocco Nostro</div>
+            <div class="sidebar__user-info">
+                <div class="sidebar__avatar">{{avatar}}</div>
+                <div class="sidebar__user">
+                    <p class="sidevar__username">{{userName}}</p>
+                    <p class="sidebar__user-id">ID: {{id}}</p>
+                </div>
+                <MorePoints class="sidebar__more"/>
             </div>
-            <MorePoints class="sidebar__more"/>
+            <ul class="siderbar__page-links">
+                <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Dashboard'}">
+                    <DashboardIcon class="sidebar__page-icon"/>
+                    <p>Dashboard</p>
+                </li>
+                <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Market'}">
+                    <MarketIcon class="sidebar__page-icon"/>
+                    <p>Market</p>
+                </li>
+                <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Transitions'}">
+                    <TransitionsIcon class="sidebar__page-icon"/>
+                    <p>Transitions</p>
+                </li>
+            </ul>
         </div>
-        <ul class="siderbar__page-links">
-            <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Dashboard'}">
-                <DashboardIcon class="sidebar__page-icon"/>
-                <p>Dashboard</p>
-            </li>
-            <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Market'}">
-                <MarketIcon class="sidebar__page-icon"/>
-                <p>Market</p>
-            </li>
-            <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Transitions'}">
-                <TransitionsIcon class="sidebar__page-icon"/>
-                <p>Transitions</p>
-            </li>
-        </ul>
-
+        <div class="sidebar__bottom-section">
+            <div class="sidebar__information-wrapper">
+                <p class="sidebar__information-title">Information</p>
+                <p class="sidebar__information-item">Game Rules</p>
+                <p class="sidebar__information-item">Terms of Use</p>
+            </div>
+            <ul class="siderbar__settings-links">
+                <li class="sidebar__settings-link">
+                    <SettingsIcon class="sidebar__page-icon"/>
+                    <p>Settings</p>
+                </li>
+                <li class="sidebar__settings-link">
+                    <LogoutIcon class="sidebar__page-icon"/>
+                    <p>Exit</p>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -32,15 +50,18 @@ import MorePoints from '@/components/Icons/MorePoints.vue'
 import DashboardIcon from '@/components/Icons/DashboardIcon.vue'
 import MarketIcon from '@/components/Icons/MarketIcon.vue'
 import TransitionsIcon from '@/components/Icons/TransitionsIcon.vue'
+import SettingsIcon from '@/components/Icons/SettingsIcon.vue'
+import LogoutIcon from '@/components/Icons/LogoutIcon.vue'
 
 export default {
     components: {
-        MorePoints, DashboardIcon, MarketIcon, TransitionsIcon
+        MorePoints, DashboardIcon, MarketIcon, TransitionsIcon,
+        SettingsIcon, LogoutIcon
     },
     setup(){
         const userName = 'Adam Simpson',
               avatar = 'AS',
-              id = '64216342136133',
+              id = '64216342136133';
         
         return {
             userName, avatar, id
@@ -54,6 +75,18 @@ export default {
     background-color: var(--section-background);
     min-width: 250px;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.sidebar__top-section{
+    
+}
+.sidebar__bottom-section{
+    flex-basis: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .sidebar__title{
     font-family: 'Gilroy';
@@ -114,7 +147,7 @@ export default {
     margin: 0;
 }
 .sidebar__page-link{
-    padding: 12px 28px;
+    padding: 17px 28px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -137,5 +170,51 @@ export default {
 .active-link.sidebar__page-link p,
 .sidebar__page-link:hover p{
     color: var(--primary-text-color);
+}
+.sidebar__information-wrapper{
+    
+}
+.sidebar__information-title{
+    margin: 0;
+    margin-bottom: 14px;
+    padding-left: 26px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 120%;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #3C4254;
+}
+.sidebar__information-item{
+    margin: 0;
+    padding: 14px 26px;
+    color: var(--gray-text-color);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+    cursor: pointer;
+}
+.siderbar__settings-links{
+    padding: 0;
+    margin: 0;
+    margin-bottom: 18px;
+}
+.sidebar__settings-link{
+    padding: 0;
+    padding: 18px 28px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+.sidebar__settings-link p{
+    margin: 0;
+    color: var(--gray-text-color);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 120%;
+}
+.sidebar__settings-link:hover p{
+    color: var(--primary-text-color)
 }
 </style>
