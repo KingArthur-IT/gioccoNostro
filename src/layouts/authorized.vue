@@ -26,7 +26,7 @@ export default{
     padding: var(--offset);
     display: flex;
     background-color: var(--background-color);
-    height: 100vh;
+    min-height: 100vh;
 }
 .hero{
     width: 100%;

@@ -7,18 +7,16 @@
                 :value="modelValue"
                 @input="(event) => $emit('update:modelValue', event.target.value)"
         >
-        <VoiceIcon class="search-input__voice-icon"/>
     </div>
 </template>
 
 <script>
 import SearchIcon from '@/components/Icons/SearchIcon.vue'
-import VoiceIcon from '@/components/Icons/VoiceIcon.vue'
 
 export default {
     emits: ['update:modelValue'],
     components:{
-        SearchIcon, VoiceIcon
+        SearchIcon
     },
     props: {
         placeholder: {
@@ -55,12 +53,6 @@ export default {
     position: absolute;
     top: 12px;
     left: 12px;
-    z-index: 2;
-}
-.search-input__voice-icon{
-    position: absolute;
-    top: 12px;
-    right: 12px;
     z-index: 2;
 }
 </style>

@@ -14,32 +14,39 @@
             :placeholder="'+3462361122'"
             class="profile__input"
          />
-         <CustomInput 
-            :label="'Change Password'"
-            :placeholder="'poshta@gmail.com'"
-            class="profile__input"
-         />
+         <CustomRadio v-model="gender"/>
 
          <CustomInput 
-            :label="'Change Password'"
-            :placeholder="'Current Password'"
-            class="profile__input"
+            :label="'Email'"
+            :placeholder="'poshta@gmail.com'"
+            class="profile__input profile__email"
          />
-         <CustomInput 
-            :label="''"
-            :placeholder="'New Password'"
-            class="profile__input"
-         />
-         <CustomInput 
-            :label="''"
-            :placeholder="'Replay Password'"
-            class="profile__input"
-         />
+         <div class="profile__switch">
+           <span>Email notifications</span>
+           <Switch v-model="emailNotificated" />
+         </div>
+
+         <div class="profile__change-password-section">
+           <CustomInput 
+              :label="'Change Password'"
+              :placeholder="'Current Password'"
+              class="profile__input"
+          />
+          <CustomInput 
+              :label="''"
+              :placeholder="'New Password'"
+              class="profile__input"
+          />
+          <CustomInput 
+              :label="''"
+              :placeholder="'Replay Password'"
+          />
+         </div>
 
          <CustomInput 
             :label="'Card'"
             :placeholder="'**** **** **** 4921'"
-            class="profile__input"
+            class="profile__input-card"
          />
 
          <div class="profile__btn-wrapper">
@@ -67,20 +74,31 @@
 </template>
 
 <script>
+import { ref } from 'vue'
 import IdLabel from '@/components/UIKit/IdLabel.vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
+import CustomRadio from '@/components/UIKit/CustomRadio.vue'
+import Switch from '@/components/UIKit/Switch.vue'
+
 export default {
   components: {
-        CustomInput, CustomButton, IdLabel
-    },
+        CustomInput, CustomButton, IdLabel, CustomRadio, Switch
+  },
+  setup(){
+    const gender = ref('Male'),
+          emailNotificated = ref(true)
+
+    return {
+      gender, emailNotificated
+    }
+  }
 }
 </script>
 
 <style scoped>
 .profile{
   width: 100%;
-  height: 85%;
   background-color: var(--section-background);
   padding: 30px 30px 55px 30px;
   display: flex;
@@ -118,5 +136,26 @@ export default {
   line-height: 170%;
   color: var(--gray-text-color);
   margin-bottom: 30px;
+}
+
+.profile__email{
+  margin-bottom: 38px;
+}
+.profile__switch{
+  margin-bottom: 58px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profile__switch span{
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;  
+  line-height: 120%;
+}
+.profile__change-password-section,
+.profile__input-card{
+  margin-bottom: 60px;
 }
 </style>
