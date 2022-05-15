@@ -4,6 +4,7 @@ import SignInUp from '../views/SignInUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import ResetPassword from '../views/ResetPassword.vue'
 import Profile from '../views/Profile.vue'
+import Transactions from '../views/Transactions.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,12 @@ const router = createRouter({
       name: 'profile',
       component: Profile,
       meta: { auth: true, title: 'Profile' }
+    },
+    {
+      path: '/transactions',
+      name: 'transactions',
+      component: Transactions,
+      meta: { auth: true, title: 'Transactions' }
     },
     // {
     //   path: '/about',
