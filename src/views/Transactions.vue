@@ -1,12 +1,40 @@
 <template>
   <table class="table no-spacing">
     <tr class="table__head head-text">
-        <th>ID</th>
-        <th>Date</th>
-        <th>Type</th>
-        <th>Amount</th>
-        <th>Type Game</th>
-        <th>Status</th>
+        <th>
+            <div class="table__head-cell">
+                <span>ID</span>
+            </div>
+        </th>
+        <th>
+            <div class="table__head-cell">
+                <span>Date</span>
+                <TableSortArrows @click="sortTableData('date')"/>
+            </div>
+        </th>
+        <th>
+            <div class="table__head-cell">
+                <span>Type</span>
+                <TableSortArrows @click="sortTableData('type')"/>
+            </div>
+        </th>
+        <th>
+            <div class="table__head-cell">
+                <span>Amount</span>
+                <TableSortArrows @click="sortTableData('amount')"/>
+            </div>
+        </th>
+        <th>
+            <div class="table__head-cell">
+                <span>Type Game</span>
+                <TableSortArrows @click="sortTableData('typeGame')"/>
+            </div>
+        </th>
+        <th>
+            <div class="table__head-cell table__head-center">
+                <span>Status</span>
+            </div>
+        </th>
     </tr>
     <tr v-for="item in currentPageArray" :key="item.id" class="table__body-row body-text">
         <td>{{item.id}}</td>
@@ -39,13 +67,20 @@
 import { reactive, computed } from 'vue'
 import StatusLabel from '@/components/UIKit/StatusLabel.vue'
 import PageArrow from '@/components/UIKit/PageArrow.vue'
+import TableSortArrows from '@/components/UIKit/TableSortArrows.vue'
 
 export default {
     components:{
-        StatusLabel, PageArrow
+        StatusLabel, PageArrow, TableSortArrows
     },
     setup(){
-        const transactionsData = [
+        const transactionsData = reactive([
+            {id: '000006241252', date: '000006241251', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
+            {id: '000006241252', date: '000006241252', type: 'Outcomming', amount: '200', typeGame: '3 x 3', status: 'Output'},
+            {id: '000006241252', date: '000006241253', type: 'Incoming', amount: '300', typeGame: '3 x 3', status: 'Mistake'},
+            {id: '000006241252', date: '000006241254', type: 'Incoming', amount: '400', typeGame: '3 x 3', status: 'Confirmed'},
+            {id: '000006241252', date: '000006241255', type: 'Incoming', amount: '500', typeGame: '4 x 4', status: 'Confirmed'},
+            {id: '000006241252', date: '000006241256', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
@@ -76,12 +111,6 @@ export default {
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
@@ -107,12 +136,18 @@ export default {
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-        ]
+        ])
 
         const pageSettings = reactive({
             perPage: 10,
             currentPage: 1,
         })
+        const sortVals = {
+            date: 1,
+            type: 1,
+            amount: 1,
+            typeGame: 1
+        }
 
         const currentPageArray = computed(() => {
             return transactionsData.slice((pageSettings.currentPage - 1) * pageSettings.perPage, pageSettings.currentPage * pageSettings.perPage)
@@ -157,18 +192,34 @@ export default {
                 pageSettings.currentPage = num;
         }
 
+        const sortTableData = (field) => {
+            transactionsData.sort( (a, b) => {
+                return (a[field] > b[field]) ? 1 * sortVals[field] : ((b[field] > a[field]) ? -1 * sortVals[field] : 0)
+            }) 
+            sortVals[field] *= -1;
+        }
 
         return {
             transactionsData, pageSettings, currentPageArray,
             pagesCount, isLeftArrowEnable, isRightArrowEnable,
             isPageItemShow, pageItemsArray,
-            nextPage, prevPage, goToPage
+            nextPage, prevPage, goToPage,
+            sortTableData
         }
     }
 }
 </script>
 
 <style scoped>
+.table__head-cell{
+    display: flex;
+}
+.table__head-center{
+    justify-content: center;
+}
+th span{
+    margin-right: 8px;
+}
 .table{
     width: 100%;
     background: var(--section-background);
