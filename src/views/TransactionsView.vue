@@ -47,7 +47,7 @@
         </td>
     </tr>
     </table>
-    <Pagination v-if="transactionsData && transactionsData.length"
+    <Pagination v-if="transactionsData && transactionsData.length && transactionsData.length > perPage"
                 v-model="currentPage"
                 :arrayLength="transactionsData.length"
                 :perPage="perPage"

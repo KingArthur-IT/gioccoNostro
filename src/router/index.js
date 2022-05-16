@@ -4,7 +4,8 @@ import SignInUp from '../views/SignInUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
 import ResetPassword from '../views/ResetPassword.vue'
 import Profile from '../views/Profile.vue'
-import Transactions from '../views/Transactions.vue'
+import TransactionsView from '../views/TransactionsView.vue'
+import MarketView from '../views/MarketView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,8 +43,14 @@ const router = createRouter({
     {
       path: '/transactions',
       name: 'transactions',
-      component: Transactions,
+      component: TransactionsView,
       meta: { auth: true, title: 'Transactions' }
+    },
+    {
+      path: '/market',
+      name: 'market',
+      component: MarketView,
+      meta: { auth: true, title: 'Market' }
     },
     // {
     //   path: '/about',
