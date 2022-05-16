@@ -1,5 +1,5 @@
 <template>
-  <table class="table no-spacing">
+    <table v-if="transactionsData && transactionsData.length" class="table no-spacing">
     <tr class="table__head head-text">
         <th>
             <div class="table__head-cell">
@@ -47,31 +47,22 @@
         </td>
     </tr>
     </table>
-    <div class="pagination">
-        <PageArrow :isLeft="true" :isEnable="isLeftArrowEnable" @click="prevPage"/>
-        <div class="page-nums-wrapper">
-            <div v-for="i in pageItemsArray" :key="i">
-                <span   :class="{'active-page': i === pageSettings.currentPage}" 
-                        class="page-item"
-                        @click="goToPage(i)"
-                >
-                    {{i}}
-                </span>
-            </div>
-        </div>
-        <PageArrow :isLeft="false" :isEnable="isRightArrowEnable" @click="nextPage"/>
-    </div>
+    <Pagination v-if="transactionsData && transactionsData.length"
+                v-model="currentPage"
+                :arrayLength="transactionsData.length"
+                :perPage="perPage"
+    />
 </template>
 
 <script>
-import { reactive, computed } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import StatusLabel from '@/components/UIKit/StatusLabel.vue'
-import PageArrow from '@/components/UIKit/PageArrow.vue'
 import TableSortArrows from '@/components/UIKit/TableSortArrows.vue'
+import Pagination from '@/components/Pagination.vue'
 
 export default {
     components:{
-        StatusLabel, PageArrow, TableSortArrows
+        StatusLabel, Pagination, TableSortArrows
     },
     setup(){
         const transactionsData = reactive([
@@ -138,10 +129,9 @@ export default {
             {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
         ])
 
-        const pageSettings = reactive({
-            perPage: 10,
-            currentPage: 1,
-        })
+        let currentPage = ref(1),
+              perPage = 10;
+        
         const sortVals = {
             date: 1,
             type: 1,
@@ -150,48 +140,9 @@ export default {
         }
 
         const currentPageArray = computed(() => {
-            return transactionsData.slice((pageSettings.currentPage - 1) * pageSettings.perPage, pageSettings.currentPage * pageSettings.perPage)
+            return transactionsData.slice((currentPage.value - 1) * perPage, currentPage.value * perPage)
         })
-        const pagesCount = computed(() => {
-            return Math.ceil(transactionsData.length / pageSettings.perPage)
-        })
-        const isLeftArrowEnable = computed(() => {
-            return pageSettings.currentPage > 1
-        })
-        const isRightArrowEnable = computed(() => {
-            return pageSettings.currentPage < pagesCount.value
-        })
-        const isPageItemShow = (index) => {
-            return index === 1 || index === pagesCount.value || Math.abs(index - pageSettings.currentPage) < 2
-        }
-        const pageItemsArray = computed(() => {
-            let hasDots = false,
-                arr = []
-            for(let i = 1; i <= pagesCount.value; i++ ){
-                if (isPageItemShow(i)) 
-                    arr.push(i)
-                else{
-                    if (!hasDots){
-                        arr.push('...');
-                        hasDots = true;
-                    }
-                }
-            }
-            return arr;
-        })
-        const nextPage = () => {
-            if (isRightArrowEnable)
-                pageSettings.currentPage ++;
-        }
-        const prevPage = () => {
-            if (isLeftArrowEnable)
-                pageSettings.currentPage --;
-        }
-        const goToPage = (num) => {
-            if (num !== '...')
-                pageSettings.currentPage = num;
-        }
-
+        
         const sortTableData = (field) => {
             transactionsData.sort( (a, b) => {
                 return (a[field] > b[field]) ? 1 * sortVals[field] : ((b[field] > a[field]) ? -1 * sortVals[field] : 0)
@@ -200,10 +151,8 @@ export default {
         }
 
         return {
-            transactionsData, pageSettings, currentPageArray,
-            pagesCount, isLeftArrowEnable, isRightArrowEnable,
-            isPageItemShow, pageItemsArray,
-            nextPage, prevPage, goToPage,
+            transactionsData, currentPage, perPage, 
+            currentPageArray,
             sortTableData
         }
     }
@@ -261,27 +210,5 @@ td:first-child{
 .no-spacing {
   border-spacing:0; 
   border-collapse: collapse;
-}
-.pagination{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
-}
-.page-nums-wrapper{
-    display: flex;
-}
-.page-item{
-    color: var(--gray-text-color);
-    cursor: pointer;
-     margin-right: 25px;
-}
-.page-item:first-child{
-    margin-left: 20px;
-}
-.page-item:last-child{
-    margin-right: 20px;
-}
-.active-page{
-    color: var(--primary-text-color)
 }
 </style>
