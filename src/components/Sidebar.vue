@@ -8,7 +8,6 @@
                     <p class="sidevar__username">{{userName}}</p>
                     <p class="sidebar__user-id">ID: {{id}}</p>
                 </div>
-                <MorePoints class="sidebar__more"/>
             </div>
             <ul class="siderbar__page-links">
                 <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Dashboard'}">
@@ -101,7 +100,6 @@ export default {
     padding: 22.5px 20px;
     background: var(--selected-background);
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: 27px;
 }
@@ -120,6 +118,7 @@ export default {
     font-weight: 400;
     font-size: 14px;
     line-height: 114%;
+    margin-right: 10px;
 }
 .sidebar__user{
 

@@ -6,6 +6,7 @@ import ResetPassword from '../views/ResetPassword.vue'
 import Profile from '../views/Profile.vue'
 import TransactionsView from '../views/TransactionsView.vue'
 import MarketView from '../views/MarketView.vue'
+import DashboardView from '../views/DashboardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,14 +53,12 @@ const router = createRouter({
       component: MarketView,
       meta: { auth: true, title: 'Market' }
     },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import('../views/AboutView.vue')
-    // }
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardView,
+      meta: { auth: true, title: 'Dashboard' }
+    },
   ]
 })
 
