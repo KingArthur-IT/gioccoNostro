@@ -30,6 +30,7 @@
 <script>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
@@ -53,8 +54,12 @@ export default {
         const goToResetPasswordPage = () => {
             router.push({name: 'resetPassword'})
         }
+
         const SignInEvent = () => {
+            axios.get('https://jsonplaceholder.typicode.com/posts/1')
+                .then((response) => console.log('success', response))
             console.log('Sign In', formData.email.value, formData.password.value, shouldRememberMe.value)
+            //localStorage.setItem('access_token', this.signIn_success.access_token);
         }
 
         return { formData, shouldRememberMe, goToSignUp, goToResetPasswordPage, SignInEvent }

@@ -2,33 +2,45 @@
     <div class="border-radius sidebar">
         <div class="sidebar__top-section">
             <div class="sidebar__title">Giocco Nostro</div>
-            <div class="sidebar__user-info">
-                <div class="sidebar__avatar">{{avatar}}</div>
-                <div class="sidebar__user">
-                    <p class="sidevar__username">{{userName}}</p>
-                    <p class="sidebar__user-id">ID: {{id}}</p>
+            <router-link to="/profile" class="router-link">
+                <div class="sidebar__user-info">
+                    <div class="sidebar__avatar">{{avatar}}</div>
+                    <div class="sidebar__user">
+                        <p class="sidevar__username">{{userName}}</p>
+                        <p class="sidebar__user-id">ID: {{id}}</p>
+                    </div>
                 </div>
-            </div>
+            </router-link>
             <ul class="siderbar__page-links">
-                <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Dashboard'}">
-                    <DashboardIcon class="sidebar__page-icon"/>
-                    <p>Dashboard</p>
-                </li>
-                <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Market'}">
-                    <MarketIcon class="sidebar__page-icon"/>
-                    <p>Market</p>
-                </li>
-                <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Transitions'}">
-                    <TransitionsIcon class="sidebar__page-icon"/>
-                    <p>Transitions</p>
-                </li>
+                <router-link to="/dashboard" class="router-link">
+                    <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Dashboard'}">
+                        <DashboardIcon class="sidebar__page-icon"/>
+                        <p>Dashboard</p>
+                    </li>
+                </router-link>
+                <router-link to="/market" class="router-link">
+                    <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Market'}">
+                        <MarketIcon class="sidebar__page-icon"/>
+                        <p>Market</p>
+                    </li>
+                </router-link>
+                <router-link to="/transactions" class="router-link">
+                    <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Transitions'}">
+                        <TransitionsIcon class="sidebar__page-icon"/>
+                        <p>Transactions</p>
+                    </li>
+                </router-link>
             </ul>
         </div>
         <div class="sidebar__bottom-section">
             <div class="sidebar__information-wrapper">
                 <p class="sidebar__information-title">Information</p>
-                <p class="sidebar__information-item">Game Rules</p>
-                <p class="sidebar__information-item">Terms of Use</p>
+                <a :href="`src/docs/rules/${locale}.pdf`" target="_blank">
+                    <p class="sidebar__information-item">Game Rules</p>
+                </a>
+                <a :href="`src/docs/Rules and Terms of Service-full text.pdf`" target="_blank">
+                    <p class="sidebar__information-item">Terms of Use</p>
+                </a>
             </div>
             <ul class="siderbar__settings-links">
                 <li class="sidebar__settings-link">
@@ -51,6 +63,7 @@ import MarketIcon from '@/components/Icons/MarketIcon.vue'
 import TransitionsIcon from '@/components/Icons/TransitionsIcon.vue'
 import SettingsIcon from '@/components/Icons/SettingsIcon.vue'
 import LogoutIcon from '@/components/Icons/LogoutIcon.vue'
+import { useI18n } from 'vue-i18n'
 
 export default {
     components: {
@@ -58,12 +71,13 @@ export default {
         SettingsIcon, LogoutIcon
     },
     setup(){
+        const { locale } = useI18n({ useScope: 'global' })
         const userName = 'Adam Simpson',
               avatar = 'AS',
               id = '64216342136133';
         
         return {
-            userName, avatar, id
+            userName, avatar, id, locale
         }
     }
 }

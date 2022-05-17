@@ -59,6 +59,7 @@ export default {
   padding: 0;
   margin: 0;
   margin-bottom: 30px;
+  cursor: pointer;
 }
 .sign__tab{
   text-align: center;

@@ -11,11 +11,14 @@
 
 <script>
 import { ref } from 'vue' 
+import { useI18n } from 'vue-i18n'
+
 export default {
     setup(){
+        const { locale } = useI18n({ useScope: 'global' })
         const   isSelectShown = ref(false),
-                currentLanguage = ref('Eng'),
-                languages = ['Eng', 'Rus', 'Ger', 'Ita']
+                currentLanguage = ref('eng'),
+                languages = ['eng', 'rus', 'ger', 'ita']
 
 
         const popupEvent = () => {
@@ -23,6 +26,7 @@ export default {
         }
         const selectLang = (lang) => {
             currentLanguage.value = lang;
+            locale.value = lang;
         }
 
         return {
@@ -72,10 +76,12 @@ export default {
     transform: translate(-20%, -10px);
     opacity: 0;
     transition: all .3s ease-out;
+    pointer-events: none;
 }
 .show.select-popup{
     transform: translate(-20%, 8px);
     opacity: 1;
+    pointer-events: all;
 }
 .select-popup li{
     padding: 6px 25px;

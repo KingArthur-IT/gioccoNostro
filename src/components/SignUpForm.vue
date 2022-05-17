@@ -6,44 +6,44 @@
         :isRequired="true"
         :showRequiredInfo="true"
         class="sign-up__input"
-        v-model="formData.userName.value"
+        v-model="userData.userName.value"
     />
     <CustomInput 
         :label="'Email'"
         :placeholder="'name@mail.com'"
         :isRequired="true"
         class="sign-up__input"
-        v-model="formData.email.value"
+        v-model="userData.email.value"
     />
     <CustomInput 
         :label="'Phone'"
         :placeholder="'+ xxx xxx xx xx'"
         class="sign-up__input"
-        v-model="formData.phone.value"
+        v-model="userData.phone.value"
     />
     <CustomInput 
         :label="'Card'"
         :placeholder="'**** **** **** ****'"
         :isRequired="true"
         class="sign-up__input"
-        v-model="formData.card.value"
+        v-model="userData.card.value"
     />
     <CustomInput 
         :label="'Password'"
         :placeholder="'Create the password'"
         class="sign-up__input"
-        v-model="formData.password.value"
+        v-model="userData.password.value"
     />
     <CustomInput 
         :label="'Confirm password'"
         :placeholder="'Confrim the password'"
         class="sign-up__input"
-        v-model="formData.confirmPassword.value"
+        v-model="userData.confirmPassword.value"
     />
     <div class="sign-up__checkbox-wrap">
-        <CustomCheckbox v-model="formData.isTermAgree.value">
+        <CustomCheckbox v-model="userData.isTermAgree.value">
             <p class="sign-up__text ml">
-                I agree with <a href="" target="_blank">Terms of Conditions</a>
+                I agree with <a href="src/docs/Terms introduction.pdf" target="_blank">Terms of Conditions</a>
             </p>
         </CustomCheckbox>
     </div>
@@ -59,6 +59,8 @@ import { ref } from 'vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
+import { useStore } from "vuex";
+import axios from 'axios'
 
 export default {
     components: {
@@ -66,7 +68,8 @@ export default {
     },
     emits: ['setSignInTabActive'],
     setup(props, { emit }){
-        const formData = {
+        const store = useStore();
+        const userData = {
             userName: ref(''),
             email: ref(''),
             phone: ref(''),
@@ -80,11 +83,30 @@ export default {
             emit('setSignInTabActive')
         }
 
-        const SignUpEvent = () => {
+        const SignUpEvent = async () => {
+            // await axios.post('https://api.gioconostro.com/api/v1/register', 
+            // {
+            //     'name': userData.userName.value,
+            //     'password': userData.password.value,
+            //     'email': userData.email.value,
+            //     "phone": userData.phone.value,
+            //     "card_number": userData.card.value
+            // }, {
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //             'Access-Control-Allow-Origin': '*',
+            //             'Accept': 'application/json'
+            //         }
+            // })
+            //     .then((response) => console.log('success', response))
+            //     .catch((error) => console.log('error', error, error.message))
+
             console.log('Sign UP', formData)
         }
 
-        return { formData, goToSignIn, SignUpEvent }
+        //store.commit("addCartItem", props.product);
+
+        return { userData, goToSignIn, SignUpEvent }
     }
 }
 </script>
