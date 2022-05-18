@@ -49,10 +49,12 @@ export default {
     background: transparent;
     border: 1px solid var(--primary-button-color);
 }
-.primary:hover{
+.primary:hover,
+.primary-outlined:hover{
     background: var(--primary-hover-button-color);
 }
-.primary:active{
+.primary:active,
+.primary-outlined:active{
     background: var(--primary-active-button-color);
 }
 .warning{
@@ -63,10 +65,12 @@ export default {
     background: transparent;
     border: 1px solid var(--warning-color);
 }
-.warning:hover{
+.warning:hover,
+.warning-outlined:hover{
     background: var(--warning-hover-color);
 }
-.warning:active{
+.warning:active,
+.warning-outlined:active{
     background: var(--warning-active-color);
 }
 </style>

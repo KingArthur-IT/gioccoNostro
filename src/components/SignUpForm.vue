@@ -156,30 +156,36 @@ export default {
             passwordValidate();
             if (Object.values(valid).some((item) => item === false))
                 return;
-            // await axios.post('https://api.gioconostro.com/api/v1/register', 
-            // {
-            //     'name': userData.userName.value,
-            //     'password': userData.password.value,
-            //     'email': userData.email.value,
-            //     "phone": userData.phone.value,
-            //     "card_number": userData.card.value
-            // }, {
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'Access-Control-Allow-Origin': '*',
-            //             'Accept': 'application/json'
-            //         }
-            // })
-            //     .then((response) => console.log('success', response))
-            //     .catch((error) => console.log('error', error, error.message))
-
-            isShowModal.value = true;
-            signUpText.value = 'Registration complited successfully';
-
+                
+            await axios.post('https://api.gioconostro.com/api/v1/register', 
+            {
+                'name': userData.userName.value,
+                'password': userData.password.value,
+                'email': userData.email.value,
+                "phone": userData.phone.value,
+                "card_number": userData.card.value
+            }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Accept': 'application/json'
+                    }
+            })
+                .then((response) => {
+                    if (response.status === 200){
+                        isShowModal.value = true;
+                        signUpText.value = 'Registration complited successfully';
+                    }
+                    else{
+                        isShowModal.value = true;
+                        signUpText.value = response.statusText;
+                    }
+                })
+                .catch(() => {
+                    isShowModal.value = true;
+                    signUpText.value = 'Registration error';
+                })
         }
-
-        //store.commit("addCartItem", props.product);
-
         return { 
             userData, valid, goToSignIn, SignUpEvent,
             userNameValidate, emailValidate, cardValidate, passwordValidate,
