@@ -3,12 +3,13 @@
         <div v-if="isHeadInfoShown()" class="custom-input__upper-info">
             <label v-if="label !== ''" class="custom-input__label">{{label}}<sup v-if="isRequired">*</sup> </label>
             <p class="custom-input__required" v-if="showRequiredInfo">Required fields<sup>*</sup></p>
-            <p class="custom-input__error" v-if="isError">Incorrect<sup>*</sup></p>
+            <p class="custom-input__error" v-if="isError">{{errorMessage}}<sup>*</sup></p>
         </div>
-        <input  type="text" 
+        <input  :type="isPassword ? 'password' : 'text'" 
                 :placeholder="placeholder" 
                 :value="maskedValue(modelValue)"
                 @input="(event) => $emit('update:modelValue', event.target.value)"
+                @blur="() => $emit('blur')"
         >
     </div>
 </template>
@@ -17,7 +18,7 @@
 import { mask } from 'maska'
 
 export default {
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'blur'],
     props: {
         label: {
             type: String,
@@ -51,6 +52,14 @@ export default {
             type: Boolean,
             default: false
         },
+        errorMessage:{
+            type: String,
+            default: 'Incorrect'
+        },
+        isPassword: {
+            type: Boolean,
+            default: false
+        }
     },
     setup(props){
         const isHeadInfoShown = () => {

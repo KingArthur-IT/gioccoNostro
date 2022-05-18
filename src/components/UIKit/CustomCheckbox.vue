@@ -2,7 +2,7 @@
   <div class="wrapper" @click="changeEvent(modelValue)">
     <input  type="checkbox"
             class="custom-checkbox"  
-            :class="{'checked': modelValue}"
+            :class="{'checked': modelValue, 'error': isError && !modelValue}"
             :value="modelValue"
             @input="(event) => $emit('update:modelValue', event.target.checked)"
     >
@@ -17,6 +17,10 @@ export default {
     modelValue: {
       type: Boolean,
       default: true
+    },
+    isError: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props, {emit}){
@@ -48,6 +52,9 @@ export default {
   border: 1px solid var(--primary-button-color);
   background-color: var(--background-color);
   cursor: pointer;
+}
+.custom-checkbox.error {
+  border: 1px solid #ff0000;
 }
 .custom-checkbox.checked::after{
   content: '';

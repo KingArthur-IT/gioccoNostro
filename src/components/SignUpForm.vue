@@ -4,9 +4,12 @@
         :label="'Name & Surname'"
         :placeholder="'Type here...'"
         :isRequired="true"
-        :showRequiredInfo="true"
+        :showRequiredInfo="valid.userName"
         class="sign-up__input"
         v-model="userData.userName.value"
+        :isError="!valid.userName"
+        @blur="userNameValidate"
+        :errorMessage="'Username is too short'"
     />
     <CustomInput 
         :label="'Email'"
@@ -14,6 +17,9 @@
         :isRequired="true"
         class="sign-up__input"
         v-model="userData.email.value"
+        :isError="!valid.email"
+        @blur="emailValidate"
+        :errorMessage="'Email is not valid'"
     />
     <CustomInput 
         :label="'Phone'"
@@ -29,21 +35,29 @@
         class="sign-up__input"
         v-model="userData.card.value"
         :isCard="true"
+        :isError="!valid.card"
+        @blur="cardValidate"
+        :errorMessage="'Card number is not valid'"
     />
     <CustomInput 
         :label="'Password'"
         :placeholder="'Create the password'"
         class="sign-up__input"
         v-model="userData.password.value"
+        :isPassword="true"
     />
     <CustomInput 
         :label="'Confirm password'"
         :placeholder="'Confrim the password'"
         class="sign-up__input"
         v-model="userData.confirmPassword.value"
+        :isError="!valid.password"
+        @blur="passwordValidate"
+        :errorMessage="'Incorrect'"
+        :isPassword="true"
     />
     <div class="sign-up__checkbox-wrap">
-        <CustomCheckbox v-model="userData.isTermAgree.value">
+        <CustomCheckbox v-model="userData.isTermAgree.value" :isError="!valid.isTermAgree">
             <p class="sign-up__text ml">
                 I agree with <a href="src/docs/Terms introduction.pdf" target="_blank">Terms of Conditions</a>
             </p>
@@ -57,13 +71,11 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
-import { useStore } from "vuex";
 import axios from 'axios'
-import { useRouter } from 'vue-router'
 
 export default {
     components: {
@@ -71,8 +83,6 @@ export default {
     },
     emits: ['setSignInTabActive'],
     setup(props, { emit }){
-        const store = useStore();
-        const router = useRouter()
         const userData = {
             userName: ref(''),
             email: ref(''),
@@ -82,12 +92,50 @@ export default {
             confirmPassword: ref(''),
             isTermAgree: ref(false),
         }
+        const valid = reactive({
+            userName: true,
+            email: true,
+            card: true,
+            password: true,
+            isTermAgree: true
+        })
 
         const goToSignIn = () => {
             emit('setSignInTabActive')
         }
+        const userNameValidate = () => {
+            if(userData.userName.value.length < 5)
+                valid.userName = false
+            else valid.userName = true;
+        }
+        const emailValidate = () => {
+            if(userData.email.value.length > 7 && userData.email.value.includes('@') && userData.email.value.includes('.'))
+                valid.email = true
+            else valid.email = false;
+        }
+        const cardValidate = () => {
+            if(userData.card.value.length === 19)
+                valid.card = true
+            else valid.card = false;
+        }
+        const passwordValidate = () => {
+            if (userData.password.value === userData.confirmPassword.value && userData.password.value.length > 0)
+                valid.password = true
+            else valid.password = false;
+        }
 
         const SignUpEvent = async () => {
+            if (!userData.isTermAgree.value){
+                valid.isTermAgree = false;
+                return
+            }
+            else valid.isTermAgree = true;
+            userNameValidate();
+            emailValidate();
+            cardValidate();
+            passwordValidate();
+            if (Object.values(valid).some((item) => item === false))
+                return;
             // await axios.post('https://api.gioconostro.com/api/v1/register', 
             // {
             //     'name': userData.userName.value,
@@ -105,14 +153,19 @@ export default {
             //     .then((response) => console.log('success', response))
             //     .catch((error) => console.log('error', error, error.message))
 
-            //
-            router.push({name: 'profile'})
-            console.log('Sign UP', formData)
+            console.log('Sign UP', 
+                userData.userName.value,
+                userData.phone.value.replaceAll(' ',''),
+                userData.card.value.replaceAll(' ','')
+            )
         }
 
         //store.commit("addCartItem", props.product);
 
-        return { userData, goToSignIn, SignUpEvent }
+        return { 
+            userData, valid, goToSignIn, SignUpEvent,
+            userNameValidate, emailValidate, cardValidate, passwordValidate
+        }
     }
 }
 </script>
