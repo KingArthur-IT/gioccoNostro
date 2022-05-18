@@ -68,6 +68,18 @@
         Do you already have an account? <span @click="goToSignIn">Sign In</span>
     </p>
   </div>
+  <transition name="modal">
+    <CustomModal v-if="isShowModal">
+        <template v-slot:header>
+            <div class="modal-header">
+                {{signUpText}}
+            </div>
+        </template>
+        <template v-slot:footer>
+            <CustomButton :isOutlined="true" :text="'OK'" @click="closeModal"/>
+        </template>
+    </CustomModal>
+  </transition>
 </template>
 
 <script>
@@ -76,10 +88,11 @@ import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
 import axios from 'axios'
+import CustomModal from '@/components/Modal.vue'
 
 export default {
     components: {
-        CustomInput, CustomButton, CustomCheckbox
+        CustomInput, CustomButton, CustomCheckbox, CustomModal
     },
     emits: ['setSignInTabActive'],
     setup(props, { emit }){
@@ -99,6 +112,8 @@ export default {
             password: true,
             isTermAgree: true
         })
+        var isShowModal = ref(false)
+        const signUpText = ref('')
 
         const goToSignIn = () => {
             emit('setSignInTabActive')
@@ -122,6 +137,11 @@ export default {
             if (userData.password.value === userData.confirmPassword.value && userData.password.value.length > 0)
                 valid.password = true
             else valid.password = false;
+        }
+
+        const closeModal = () => {
+            isShowModal = false;
+            goToSignIn();
         }
 
         const SignUpEvent = async () => {
@@ -153,18 +173,17 @@ export default {
             //     .then((response) => console.log('success', response))
             //     .catch((error) => console.log('error', error, error.message))
 
-            console.log('Sign UP', 
-                userData.userName.value,
-                userData.phone.value.replaceAll(' ',''),
-                userData.card.value.replaceAll(' ','')
-            )
+            isShowModal.value = true;
+            signUpText.value = 'Registration complited successfully';
+
         }
 
         //store.commit("addCartItem", props.product);
 
         return { 
             userData, valid, goToSignIn, SignUpEvent,
-            userNameValidate, emailValidate, cardValidate, passwordValidate
+            userNameValidate, emailValidate, cardValidate, passwordValidate,
+            isShowModal, signUpText, closeModal
         }
     }
 }
@@ -199,5 +218,11 @@ export default {
 }
 .ml{
     margin-left: 18px;
+}
+.modal-header{
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 14px;
+    line-height: 120%;
 }
 </style>
