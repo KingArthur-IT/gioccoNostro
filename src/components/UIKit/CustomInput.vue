@@ -7,13 +7,15 @@
         </div>
         <input  type="text" 
                 :placeholder="placeholder" 
-                :value="modelValue"
+                :value="maskedValue(modelValue)"
                 @input="(event) => $emit('update:modelValue', event.target.value)"
         >
     </div>
 </template>
 
 <script>
+import { mask } from 'maska'
+
 export default {
     emits: ['update:modelValue'],
     props: {
@@ -41,14 +43,30 @@ export default {
             type: String,
             default: ''
         },
+        isPhone: {
+            type: Boolean,
+            default: false
+        },
+        isCard: {
+            type: Boolean,
+            default: false
+        },
     },
     setup(props){
         const isHeadInfoShown = () => {
             return props.label !== '' || props.showRequiredInfo || props.isError
         }
 
+        const maskedValue = (value) => {
+            if (props.isPhone)
+                return mask(value, '+ ### ### ## ##')
+            if (props.isCard)
+                return mask(value, '#### #### #### ####')
+            return value
+        }
+
         return {
-            isHeadInfoShown
+            isHeadInfoShown, maskedValue
         }
     }
 }

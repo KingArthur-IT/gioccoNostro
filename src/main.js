@@ -6,6 +6,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { createI18n } from 'vue-i18n'
 import { localesTexts } from './locales/main.js'
+import Maska from 'maska'
 
 const i18n = createI18n({
     locale: 'eng',
@@ -19,5 +20,6 @@ app.use(router)
 app.use(store)
 app.use(VueAxios, axios)
 app.use(i18n)
+app.use(Maska);
 
 app.mount('#app')

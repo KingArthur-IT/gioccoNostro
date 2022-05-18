@@ -3,14 +3,14 @@
 }
 
 [data-theme="light"]{
-  --background-color: #ffffff;
-  --background-start-color: #ffffff;
-  --section-background: #1E1F25;
-  --selected-background: #282C38;
+  --background-color: #F2F8FF;
+  --background-start-color: #F2F8FF;
+  --section-background: #ffffff;
+  --selected-background: #F2FAFF;
 
   --input-border: #3C4254; 
 
-  --primary-text-color: #000000;
+  --primary-text-color: #303030;
   --secondary-text-color: #D7D7DA;
   --gray-text-color: #757B8C;
 
@@ -19,7 +19,7 @@
   --primary-hover-button-color: #185DE2;
   --primary-active-button-color: #0949C6;
 
-  --primary-svg-color: #fff;
+  --primary-svg-color: #303030;
 
   --warning-color: #FA2256;
   --warning-hover-color: #EE1448;

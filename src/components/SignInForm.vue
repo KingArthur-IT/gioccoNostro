@@ -56,8 +56,8 @@ export default {
         }
 
         const SignInEvent = () => {
-            axios.get('https://jsonplaceholder.typicode.com/posts/1')
-                .then((response) => console.log('success', response))
+            //
+            router.push({name: 'profile'})
             console.log('Sign In', formData.email.value, formData.password.value, shouldRememberMe.value)
             //localStorage.setItem('access_token', this.signIn_success.access_token);
         }

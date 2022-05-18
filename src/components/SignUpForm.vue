@@ -20,6 +20,7 @@
         :placeholder="'+ xxx xxx xx xx'"
         class="sign-up__input"
         v-model="userData.phone.value"
+        :isPhone="true"
     />
     <CustomInput 
         :label="'Card'"
@@ -27,6 +28,7 @@
         :isRequired="true"
         class="sign-up__input"
         v-model="userData.card.value"
+        :isCard="true"
     />
     <CustomInput 
         :label="'Password'"
@@ -61,6 +63,7 @@ import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
 import { useStore } from "vuex";
 import axios from 'axios'
+import { useRouter } from 'vue-router'
 
 export default {
     components: {
@@ -69,6 +72,7 @@ export default {
     emits: ['setSignInTabActive'],
     setup(props, { emit }){
         const store = useStore();
+        const router = useRouter()
         const userData = {
             userName: ref(''),
             email: ref(''),
@@ -101,6 +105,8 @@ export default {
             //     .then((response) => console.log('success', response))
             //     .catch((error) => console.log('error', error, error.message))
 
+            //
+            router.push({name: 'profile'})
             console.log('Sign UP', formData)
         }
 
