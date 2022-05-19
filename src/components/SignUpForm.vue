@@ -114,6 +114,11 @@ export default {
         })
         var isShowModal = ref(false)
         const signUpText = ref('')
+        const requestHeaders = {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Accept': 'application/json'
+                    };
 
         const goToSignIn = () => {
             emit('setSignInTabActive')
@@ -144,6 +149,10 @@ export default {
             if (signUpText.value === 'Registration complited successfully')
                 goToSignIn();
         }
+        const openModal = (text) => {
+            isShowModal.value = true;
+            signUpText.value = text;
+        }
 
         const SignUpEvent = async () => {
             if (!userData.isTermAgree.value){
@@ -165,29 +174,33 @@ export default {
                 'email': userData.email.value,
                 "phone": userData.phone.value.replaceAll(' ', ''),
                 "card_number": userData.card.value.replaceAll(' ', '')
-            }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                        'Accept': 'application/json'
-                    }
-            })
+            }, { headers: requestHeaders })
                 .then((response) => {
                     console.log(response)
                     if (response && response.data && response.data.status === 'success'){
-                        isShowModal.value = true;
-                        signUpText.value = 'Registration complited successfully';
+                        const confirmLink = response.data.data.link;
+                        console.log(confirmLink)
+                        axios.get(confirmLink)
+                            .then((res) => {
+                                console.log('res', res)
+                                if (res && res.data & res.data.status === 'success')
+                                    openModal('Registration complited successfully')
+                                else
+                                     openModal(res.data.message)
+                            })
+                            .catch((e) => {
+                                console.log('e', e)
+                                openModal(e.message)
+                            })
                     }
                     else{
                         console.log(response, response.data, Object.values(response.data.error), Object.values(response.data.error)[0])
-                        isShowModal.value = true;
-                        signUpText.value = 'Registration error. ' + Object.values(response.data.error)[0];
+                        openModal('Registration error. ' + Object.values(response.data.error)[0])
                     }
                 })
                 .catch((error) => {
                     console.log('error', error)
-                    isShowModal.value = true;
-                    signUpText.value = 'Registration error. ' + error.message;
+                    openModal('Registration error. ' + error.message)
                 })
         }
         return { 
