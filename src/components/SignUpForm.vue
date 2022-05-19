@@ -140,8 +140,9 @@ export default {
         }
 
         const closeModal = () => {
-            isShowModal = false;
-            goToSignIn();
+            isShowModal.value = false;
+            if (signUpText.value === 'Registration complited successfully')
+                goToSignIn();
         }
 
         const SignUpEvent = async () => {
@@ -162,8 +163,8 @@ export default {
                 'name': userData.userName.value,
                 'password': userData.password.value,
                 'email': userData.email.value,
-                "phone": userData.phone.value,
-                "card_number": userData.card.value
+                "phone": userData.phone.value.replaceAll(' ', ''),
+                "card_number": userData.card.value.replaceAll(' ', '')
             }, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -172,18 +173,19 @@ export default {
                     }
             })
                 .then((response) => {
-                    if (response.status === 200){
+                    if (response && response.status && response.status === 'success'){
                         isShowModal.value = true;
                         signUpText.value = 'Registration complited successfully';
+                        isRegisterSuccess = true;
                     }
                     else{
                         isShowModal.value = true;
-                        signUpText.value = response.statusText;
+                        signUpText.value = response.error;
                     }
                 })
-                .catch(() => {
+                .catch((error) => {
                     isShowModal.value = true;
-                    signUpText.value = 'Registration error';
+                    signUpText.value = 'Registration error. ' + error.message;
                 })
         }
         return { 

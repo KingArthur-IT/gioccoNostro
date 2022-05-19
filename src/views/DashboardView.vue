@@ -44,12 +44,34 @@
 import EarningIcon from '@/components/Icons/EarningIcon.vue'
 import GamesIcon from '@/components/Icons/GamesIcon.vue'
 import OutputIcon from '@/components/Icons/OutputIcon.vue'
+import axios from 'axios'
 
 export default {
     components:{
         EarningIcon, GamesIcon, OutputIcon
     },
-    setup(){
+    async setup(){
+        const games = [];
+
+        await axios.get('https://api.gioconostro.com/api/v1/game/list', 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
+            .then((response) => {
+                if (response && response.status && response.status === 'success'){
+                    console.log(response)
+                    games = response.data;
+                }
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+/*
         const games = [
             {type: '3x3', price: '100'},
             {type: '3x3', price: '100'},
@@ -73,7 +95,7 @@ export default {
             {type: '3x3', price: '100'},
             {type: '3x3', price: '100'},
         ]
-
+*/
         return {
             games
         }

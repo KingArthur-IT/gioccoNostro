@@ -7,7 +7,7 @@
         v-model="formData.email.value"
         :isError="!valid.email"
         @blur="emailValidate"
-        :errorMessage="'Username is too short'"
+        :errorMessage="'Email is not valid'"
     />
     <CustomInput 
         :label="'Password'"
@@ -32,6 +32,18 @@
         Don't have an account? <span @click="goToSignUp">Sign Up</span>
     </p>
   </div>
+  <transition name="modal">
+    <CustomModal v-if="isShowModal">
+        <template v-slot:header>
+            <div class="modal-header">
+                {{signInText}}
+            </div>
+        </template>
+        <template v-slot:footer>
+            <CustomButton :isOutlined="true" :text="'OK'" @click="isShowModal = false"/>
+        </template>
+    </CustomModal>
+  </transition>
 </template>
 
 <script>
@@ -41,10 +53,11 @@ import axios from 'axios'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
+import CustomModal from '@/components/Modal.vue'
 
 export default {
     components: {
-        CustomInput, CustomButton, CustomCheckbox
+        CustomInput, CustomButton, CustomCheckbox, CustomModal
     },
     emits: ['setSignUpTabActive'],
     setup(props, { emit }){
@@ -58,6 +71,8 @@ export default {
             password: true,
         })
         let shouldRememberMe = ref(true)
+        var isShowModal = ref(false)
+        const signInText = ref('')
 
         const emailValidate = () => {
             if(formData.email.value.length > 7 && formData.email.value.includes('@') && formData.email.value.includes('.'))
@@ -77,17 +92,44 @@ export default {
             router.push({name: 'resetPassword'})
         }
 
-        const SignInEvent = () => {
-            //
-            router.push({name: 'profile'})
-            console.log('Sign In', formData.email.value, formData.password.value, shouldRememberMe.value)
-            //localStorage.setItem('access_token', this.signIn_success.access_token);
+        const SignInEvent = async () => {
+            emailValidate();
+            passwordValidate();
+            if (!(valid.email && valid.password))
+                return
+
+            await axios.post('https://api.gioconostro.com/api/v1/login', 
+            {
+                'password': formData.password.value,
+                'email': formData.email.value
+            }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*',
+                        'Accept': 'application/json'
+                    }
+            })
+                .then((response) => {
+                    if (response && response.status && response.status === 'success'){
+                        localStorage.setItem('access_token', response.data.token);
+                        router.push({name: 'profile'})
+                    }
+                    else{
+                        isShowModal.value = true;
+                        signInText.value = response.message;
+                    }
+                })
+                .catch((error) => {
+                    isShowModal.value = true;
+                    signInText.value = error.message;
+                })
         }
 
         return { 
             formData, shouldRememberMe, valid,
             goToSignUp, goToResetPasswordPage, SignInEvent,
-            emailValidate, passwordValidate
+            emailValidate, passwordValidate,
+            isShowModal, signInText
         }
     }
 }
@@ -131,5 +173,11 @@ export default {
 }
 .ml{
     margin-left: 15px;
+}
+.modal-header{
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 14px;
+    line-height: 120%;
 }
 </style>

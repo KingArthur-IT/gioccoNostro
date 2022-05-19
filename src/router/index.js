@@ -63,7 +63,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const currentUser = 'token'
+  const currentUser = 'f'//localStorage.getItem('access_token')
   const requireAuth = to.matched.some(record => record.meta.auth)
 
   if (requireAuth && !currentUser){
