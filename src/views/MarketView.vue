@@ -80,7 +80,7 @@
                 </div>
             </th>
         </tr>
-        <tr v-for="item in filteredMarketData" :key="item.id" class="table__body-row body-text">
+        <tr v-for="item in currentPageArray" :key="item.id" class="table__body-row body-text">
             <td>{{item.id}}</td>
             <td>{{item.owner_email}}</td>
             <td>{{item.is_finished}}</td>
@@ -102,6 +102,7 @@
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import TableSortArrows from '@/components/UIKit/TableSortArrows.vue'
 import Pagination from '@/components/Pagination.vue'
+import axios from 'axios'
 
 export default {
     components:{
@@ -122,114 +123,222 @@ export default {
             }
         }
     },
-    mounted(){
-        this.marketData = [
+    async mounted(){
+        await axios.get('https://api.gioconostro.com/api/v1/game/list', 
             {
-                "id": 1, "ident": "G-000000000001", "price_code": 100, "game_type": 3,
-                "level_1_count": 2, "level_2_count": 1, "parent_ident": null, "is_finished": 0,
-                "game_type_name": "3x3", "price_value": 101, "owner_email": "*****system.com",
-                "sub_owner_email": ""
-            },
-            {
-                "id": 2,
-                "ident": "G-000000000002",
-                "price_code": 100,
-                "game_type": 4,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": null,
-                "is_finished": 0,
-                "game_type_name": "4x4",
-                "price_value": 101,
-                "owner_email": "*****system.com",
-                "sub_owner_email": ""
-            },
-            {
-                "id": 3,
-                "ident": "G-000000000003",
-                "price_code": 100,
-                "game_type": 5,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": null,
-                "is_finished": 0,
-                "game_type_name": "5x5",
-                "price_value": 101,
-                "owner_email": "*****system.com",
-                "sub_owner_email": ""
-            },
-            {
-                "id": 4,
-                "ident": "G-000000000004",
-                "price_code": 200,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": null,
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 201,
-                "owner_email": "*****system.com",
-                "sub_owner_email": ""
-            },
-            {
-                "id": 5,
-                "ident": "G-000000000005",
-                "price_code": 200,
-                "game_type": 4,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": null,
-                "is_finished": 0,
-                "game_type_name": "4x4",
-                "price_value": 201,
-                "owner_email": "*****system.com",
-                "sub_owner_email": ""
-            },
-            {
-                "id": 6,
-                "ident": "G-000000000006",
-                "price_code": 200,
-                "game_type": 5,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": null,
-                "is_finished": 0,
-                "game_type_name": "5x5",
-                "price_value": 201,
-                "owner_email": "*****system.com",
-                "sub_owner_email": ""
-            },
-            {
-                "id": 7,
-                "ident": "G-000000000007",
-                "price_code": 300,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": null,
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 301,
-                "owner_email": "*****system.com",
-                "sub_owner_email": ""
-            },
-            {
-                "id": 8,
-                "ident": "G-000000000008",
-                "price_code": 300,
-                "game_type": 4,
-                "level_1_count": 1,
-                "level_2_count": 0,
-                "parent_ident": null,
-                "is_finished": 0,
-                "game_type_name": "4x4",
-                "price_value": 301,
-                "owner_email": "*****system.com",
-                "sub_owner_email": ""
-            },
-        ];
-        this.filteredMarketData = [...this.marketData];
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
+            .then((response) => {
+                if (response && response.status && response.data.status === 'success'){
+                    this.marketData = [...response.data.data.data];
+                }
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+        // this.marketData = [
+        //     {
+        //         "id": 2,
+        //         "ident": "G-000000000002",
+        //         "price_code": 100,
+        //         "game_type": 4,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "4x4",
+        //         "price_value": 101,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 3,
+        //         "ident": "G-000000000003",
+        //         "price_code": 100,
+        //         "game_type": 5,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "5x5",
+        //         "price_value": 101,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 4,
+        //         "ident": "G-000000000004",
+        //         "price_code": 200,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 201,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 5,
+        //         "ident": "G-000000000005",
+        //         "price_code": 200,
+        //         "game_type": 4,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "4x4",
+        //         "price_value": 201,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 6,
+        //         "ident": "G-000000000006",
+        //         "price_code": 200,
+        //         "game_type": 5,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "5x5",
+        //         "price_value": 201,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 7,
+        //         "ident": "G-000000000007",
+        //         "price_code": 300,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 301,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 8,
+        //         "ident": "G-000000000008",
+        //         "price_code": 300,
+        //         "game_type": 4,
+        //         "level_1_count": 1,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "4x4",
+        //         "price_value": 301,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 2,
+        //         "ident": "G-000000000002",
+        //         "price_code": 100,
+        //         "game_type": 4,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "4x4",
+        //         "price_value": 101,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 3,
+        //         "ident": "G-000000000003",
+        //         "price_code": 100,
+        //         "game_type": 5,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "5x5",
+        //         "price_value": 101,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 4,
+        //         "ident": "G-000000000004",
+        //         "price_code": 200,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 201,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 5,
+        //         "ident": "G-000000000005",
+        //         "price_code": 200,
+        //         "game_type": 4,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "4x4",
+        //         "price_value": 201,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 6,
+        //         "ident": "G-000000000006",
+        //         "price_code": 200,
+        //         "game_type": 5,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "5x5",
+        //         "price_value": 201,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 7,
+        //         "ident": "G-000000000007",
+        //         "price_code": 300,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 301,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        //     {
+        //         "id": 8,
+        //         "ident": "G-000000000008",
+        //         "price_code": 300,
+        //         "game_type": 4,
+        //         "level_1_count": 1,
+        //         "level_2_count": 0,
+        //         "parent_ident": null,
+        //         "is_finished": 0,
+        //         "game_type_name": "4x4",
+        //         "price_value": 301,
+        //         "owner_email": "*****system.com",
+        //         "sub_owner_email": ""
+        //     },
+        // ]
     },
     computed:{
         currentPageArray(){
@@ -259,6 +368,9 @@ export default {
         priceGameSelectorValue(){
             this.filteredMarketData = this.filtering();
         },
+        marketData(){
+            this.filteredMarketData = [...this.marketData];
+        }
     }
 }
 </script>
