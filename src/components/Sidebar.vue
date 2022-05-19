@@ -35,10 +35,10 @@
         <div class="sidebar__bottom-section">
             <div class="sidebar__information-wrapper">
                 <p class="sidebar__information-title">Information</p>
-                <a :href="`src/docs/rules/${locale}.pdf`" target="_blank">
+                <a :href="`docs/rules/${locale}.pdf`" target="_blank">
                     <p class="sidebar__information-item">Game Rules</p>
                 </a>
-                <a :href="`src/docs/Rules and Terms of Service-full text.pdf`" target="_blank">
+                <a :href="`docs/Rules and Terms of Service-full text.pdf`" target="_blank">
                     <p class="sidebar__information-item">Terms of Use</p>
                 </a>
             </div>

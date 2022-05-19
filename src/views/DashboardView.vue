@@ -1,13 +1,13 @@
 <template>
   <div class="dashboard">
-      <div class="games">
+      <div class="games" v-if="games && games.length">
         <div class="games__title">
             <span>Your Games</span>
             <div class="games__hide">Hide</div>
         </div>
-        <div v-for="(game, i) in games" :key="i" class="game__item">
-            <span class="game__type">{{game.type}}</span>
-            <span class="game__price">${{game.price}}</span>
+        <div v-for="game in games" :key="game.id" class="game__item">
+            <span class="game__type">{{game.game_type_name}}</span>
+            <span class="game__price">${{game.price_code}}</span>
         </div>
     </div>
     <div class="dashboard__hero">
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
 import EarningIcon from '@/components/Icons/EarningIcon.vue'
 import GamesIcon from '@/components/Icons/GamesIcon.vue'
 import OutputIcon from '@/components/Icons/OutputIcon.vue'
@@ -50,9 +51,12 @@ export default {
     components:{
         EarningIcon, GamesIcon, OutputIcon
     },
-    async setup(){
-        const games = [];
-
+    data(){
+        return{
+            games: []
+        }
+    },
+    async mounted(){
         await axios.get('https://api.gioconostro.com/api/v1/game/list', 
             {
                 headers: {
@@ -63,42 +67,14 @@ export default {
                 }
             })
             .then((response) => {
-                if (response && response.status && response.status === 'success'){
-                    console.log(response)
-                    games = response.data;
+                if (response && response.status && response.data.status === 'success'){
+                    this.games = [...response.data.data.data];
+                    console.log(this.games)
                 }
             })
             .catch((error) => {
                 console.log(error.message)
             })
-/*
-        const games = [
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-            {type: '3x3', price: '100'},
-        ]
-*/
-        return {
-            games
-        }
     }
 }
 </script>

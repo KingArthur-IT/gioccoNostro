@@ -110,18 +110,18 @@ export default {
                     }
             })
                 .then((response) => {
-                    if (response && response.status && response.status === 'success'){
-                        localStorage.setItem('access_token', response.data.token);
+                    if (response && response.data && response.data.status === 'success'){
+                        localStorage.setItem('access_token', response.data.data.token);
                         router.push({name: 'profile'})
                     }
                     else{
                         isShowModal.value = true;
-                        signInText.value = response.message;
+                        signInText.value = response.data.message;
                     }
                 })
                 .catch((error) => {
                     isShowModal.value = true;
-                    signInText.value = error.message;
+                    signInText.value = error.response.data.message;
                 })
         }
 

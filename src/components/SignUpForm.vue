@@ -59,7 +59,7 @@
     <div class="sign-up__checkbox-wrap">
         <CustomCheckbox v-model="userData.isTermAgree.value" :isError="!valid.isTermAgree">
             <p class="sign-up__text ml">
-                I agree with <a href="src/docs/Terms introduction.pdf" target="_blank">Terms of Conditions</a>
+                I agree with <a href="docs/Terms introduction.pdf" target="_blank">Terms of Conditions</a>
             </p>
         </CustomCheckbox>
     </div>
@@ -173,17 +173,19 @@ export default {
                     }
             })
                 .then((response) => {
-                    if (response && response.status && response.status === 'success'){
+                    console.log(response)
+                    if (response && response.data && response.data.status === 'success'){
                         isShowModal.value = true;
                         signUpText.value = 'Registration complited successfully';
-                        isRegisterSuccess = true;
                     }
                     else{
+                        console.log(response, response.data, Object.values(response.data.error), Object.values(response.data.error)[0])
                         isShowModal.value = true;
-                        signUpText.value = response.error;
+                        signUpText.value = 'Registration error. ' + Object.values(response.data.error)[0];
                     }
                 })
                 .catch((error) => {
+                    console.log('error', error)
                     isShowModal.value = true;
                     signUpText.value = 'Registration error. ' + error.message;
                 })
