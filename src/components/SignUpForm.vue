@@ -182,11 +182,11 @@ export default {
                         console.log(confirmLink)
                         axios.get(confirmLink)
                             .then((res) => {
-                                console.log('res', res)
-                                if (res && res.data & res.data.status === 'success')
+                                console.log('res', res.data, res.data.status, res.data.status === 'success')
+                                if (res && res.data && res.data.status === 'success')
                                     openModal('Registration complited successfully')
                                 else
-                                     openModal(res.data.message)
+                                    openModal(res.data.message)
                             })
                             .catch((e) => {
                                 console.log('e', e)
