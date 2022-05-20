@@ -29,6 +29,12 @@ export default {
 .confirmed span{
     color: #30E0A1;
 }
+.success{
+    background: rgba(48, 224, 161, 0.2);
+}
+.success span{
+    color: #30E0A1;
+}
 .output{
     background: rgba(36, 108, 249, 0.2);
 }

@@ -9,13 +9,13 @@
         <th>
             <div class="table__head-cell">
                 <span>Date</span>
-                <TableSortArrows @click="sortTableData('date')"/>
+                <TableSortArrows @click="sortTableData('created_at')"/>
             </div>
         </th>
         <th>
             <div class="table__head-cell">
                 <span>Type</span>
-                <TableSortArrows @click="sortTableData('type')"/>
+                <TableSortArrows @click="sortTableData('type_name')"/>
             </div>
         </th>
         <th>
@@ -38,12 +38,12 @@
     </tr>
     <tr v-for="item in currentPageArray" :key="item.id" class="table__body-row body-text">
         <td>{{item.id}}</td>
-        <td>{{item.date}}</td>
-        <td class="type-text">{{item.type}}</td>
+        <td>{{getDate(item.created_at)}}</td>
+        <td class="type-text">{{item.type_name}}</td>
         <td>$ {{item.amount}}</td>
-        <td>{{item.typeGame}}</td>
+        <td>{{item.game.game_type_name}}</td>
         <td>
-            <StatusLabel :status="item.status"/>
+            <StatusLabel :status="item.status_name"/>
         </td>
     </tr>
     </table>
@@ -55,107 +55,189 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from 'vue'
 import StatusLabel from '@/components/UIKit/StatusLabel.vue'
 import TableSortArrows from '@/components/UIKit/TableSortArrows.vue'
 import Pagination from '@/components/Pagination.vue'
+import axios from 'axios'
 
 export default {
     components:{
         StatusLabel, Pagination, TableSortArrows
     },
-    setup(){
-        const transactionsData = reactive([
-            {id: '000006241252', date: '000006241251', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Outcomming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241253', type: 'Incoming', amount: '300', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241254', type: 'Incoming', amount: '400', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241255', type: 'Incoming', amount: '500', typeGame: '4 x 4', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241256', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Confirmed'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Output'},
-            {id: '000006241252', date: '000006241252', type: 'Incoming', amount: '200', typeGame: '3 x 3', status: 'Mistake'},
-        ])
-
-        let currentPage = ref(1),
-              perPage = 10;
-        
-        const sortVals = {
-            date: 1,
-            type: 1,
-            amount: 1,
-            typeGame: 1
+    data(){
+        return{
+            transactionsData: [],
+            currentPage: 1,
+            perPage: 10,
+            sortVals: {
+                created_at: 1,
+                type_name: 1,
+                amount: 1,
+                typeGame: 1
+            }
         }
-
-        const currentPageArray = computed(() => {
-            return transactionsData.slice((currentPage.value - 1) * perPage, currentPage.value * perPage)
-        })
-        
-        const sortTableData = (field) => {
-            transactionsData.sort( (a, b) => {
-                return (a[field] > b[field]) ? 1 * sortVals[field] : ((b[field] > a[field]) ? -1 * sortVals[field] : 0)
-            }) 
-            sortVals[field] *= -1;
+    },
+    async mounted(){
+        await axios.get('https://api.gioconostro.com/api/v1/user/transactions', 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
+            .then((response) => {
+                console.log(response)
+                if (response && response.statusText === 'OK'){
+                    this.transactionsData = [...response.data.page.data];
+                }
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+        // this.transactionsData = [
+        //     {
+        //         "id": 5,
+        //         "type": 2,
+        //         "amount": 600,
+        //         "game_id": 10,
+        //         "user_id": 12,
+        //         "order_id": 5,
+        //         "status": 1,
+        //         "message": null,
+        //         "created_at": "2022-05-15T16:38:17.000000Z",
+        //         "updated_at": "2022-05-15T16:38:17.000000Z",
+        //         "type_name": "Outgoing",
+        //         "status_name": "Success",
+        //         "game_ident": "G-HXMR7GLhhIFQ",
+        //         "user_email": "email@aa.aa",
+        //         "payment_code": "2344655868",
+        //         "game": {
+        //             "id": 10,
+        //             "ident": "G-HXMR7GLhhIFQ",
+        //             "price_code": 100,
+        //             "game_type": 3,
+        //             "level_1_count": 1,
+        //             "level_2_count": 0,
+        //             "parent_ident": "G-000000000001",
+        //             "is_finished": 0,
+        //             "game_type_name": "3x3",
+        //             "price_value": 101,
+        //             "owner_email": "*****on43@example.org",
+        //             "sub_owner_email": "*****system.com"
+        //         },
+        //         "user": {
+        //             "id": 12,
+        //             "name": "name",
+        //             "phone": "123356664",
+        //             "email": "email@aa.aa",
+        //             "email_verified_at": "2022-05-10T18:19:33.000000Z",
+        //             "card_number": "4441114454427277",
+        //             "blocked": 0,
+        //             "deleted": 0,
+        //             "finished_games": 0,
+        //             "created_at": "2022-05-10T18:19:16.000000Z",
+        //             "updated_at": "2022-05-18T13:19:15.000000Z",
+        //             "email_part": "*****@aa.aa"
+        //         },
+        //         "order": {
+        //             "id": 5,
+        //             "buyer_id": 12,
+        //             "owner_id": 2,
+        //             "sub_owner_id": 1,
+        //             "game_id": 10,
+        //             "total_amount": 600,
+        //             "payment_id": "2344655868",
+        //             "status": 4,
+        //             "message": null,
+        //             "created_at": "2022-05-15T16:38:17.000000Z",
+        //             "updated_at": "2022-05-15T16:38:17.000000Z"
+        //         }
+        //     },
+        //     {
+        //         "id": 7,
+        //         "type": 2,
+        //         "amount": 903,
+        //         "game_id": 8,
+        //         "user_id": 12,
+        //         "order_id": 6,
+        //         "status": 1,
+        //         "message": null,
+        //         "created_at": "2022-05-15T18:08:30.000000Z",
+        //         "updated_at": "2022-05-15T18:08:30.000000Z",
+        //         "type_name": "Outgoing",
+        //         "status_name": "Success",
+        //         "game_ident": "G-000000000008",
+        //         "user_email": "email@aa.aa",
+        //         "payment_code": "23446558681",
+        //         "game": {
+        //             "id": 8,
+        //             "ident": "G-000000000008",
+        //             "price_code": 300,
+        //             "game_type": 4,
+        //             "level_1_count": 1,
+        //             "level_2_count": 0,
+        //             "parent_ident": null,
+        //             "is_finished": 0,
+        //             "game_type_name": "4x4",
+        //             "price_value": 301,
+        //             "owner_email": "*****system.com",
+        //             "sub_owner_email": ""
+        //         },
+        //         "user": {
+        //             "id": 12,
+        //             "name": "name",
+        //             "phone": "123356664",
+        //             "email": "email@aa.aa",
+        //             "email_verified_at": "2022-05-10T18:19:33.000000Z",
+        //             "card_number": "4441114454427277",
+        //             "blocked": 0,
+        //             "deleted": 0,
+        //             "finished_games": 0,
+        //             "created_at": "2022-05-10T18:19:16.000000Z",
+        //             "updated_at": "2022-05-18T13:19:15.000000Z",
+        //             "email_part": "*****@aa.aa"
+        //         },
+        //         "order": {
+        //             "id": 6,
+        //             "buyer_id": 12,
+        //             "owner_id": 1,
+        //             "sub_owner_id": null,
+        //             "game_id": 8,
+        //             "total_amount": 903,
+        //             "payment_id": "23446558681",
+        //             "status": 4,
+        //             "message": null,
+        //             "created_at": "2022-05-15T18:08:30.000000Z",
+        //             "updated_at": "2022-05-15T18:08:30.000000Z"
+        //         }
+        //     }
+        // ]
+    },
+    methods:{
+        sortTableData(field){
+            if (field !== 'typeGame'){
+                this.transactionsData.sort( (a, b) => {
+                    return (a[field] > b[field]) ? 1 * this.sortVals[field] : ((b[field] > a[field]) ? -1 * this.sortVals[field] : 0)
+                }) 
+                this.sortVals[field] *= -1;
+            } else{
+                this.transactionsData.sort( (a, b) => {
+                    return (a.game.game_type_name > b.game.game_type_name) ? 1 * this.sortVals[field] : ((b.game.game_type_name > a.game.game_type_name) ? -1 * this.sortVals[field] : 0)
+                }) 
+                this.sortVals[field] *= -1;
+            }
+        },
+        getDate(date){
+            return date.slice(8, 10) + '/' + date.slice(5,7) + '/' + date.slice(0,4) + ' (' + date.slice(11,16) + ')'
+         }
+    },
+    computed:{
+        currentPageArray(){
+            return this.transactionsData.slice((this.currentPage - 1) * this.perPage, this.currentPage * this.perPage)
         }
-
-        return {
-            transactionsData, currentPage, perPage, 
-            currentPageArray,
-            sortTableData
-        }
-    }
+    },
 }
 </script>
 
