@@ -16,21 +16,21 @@
                 <EarningIcon />
                 <div class="dashboard__item-content">
                     <p class="dashboard__item-title">Current Earnings:</p>
-                    <span class="dashboard__item-num">$3 567</span>
+                    <span class="dashboard__item-num">${{dashboardInfo.earning}}</span>
                 </div>
             </div>
             <div class="dashboard__head-item">
                 <OutputIcon />
                 <div class="dashboard__item-content">
                     <p class="dashboard__item-title">Next Output:</p>
-                    <span class="dashboard__item-num">$100</span>
+                    <span class="dashboard__item-num">${{dashboardInfo.expected}}</span>
                 </div>
             </div>
             <div class="dashboard__head-item">
                 <GamesIcon />
                 <div class="dashboard__item-content">
                     <p class="dashboard__item-title">Completed Games</p>
-                    <span class="dashboard__item-num">23</span>
+                    <span class="dashboard__item-num">{{dashboardInfo.finished}}</span>
                 </div>
             </div>
         </div>
@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
 import EarningIcon from '@/components/Icons/EarningIcon.vue'
 import GamesIcon from '@/components/Icons/GamesIcon.vue'
 import OutputIcon from '@/components/Icons/OutputIcon.vue'
@@ -53,11 +52,16 @@ export default {
     },
     data(){
         return{
-            games: []
+            games: [],
+            dashboardInfo: {
+                earning: 0,
+                expected: 0,
+                finished: 0
+            }
         }
     },
     async mounted(){
-        await axios.get('https://api.gioconostro.com/api/v1/game/list', 
+        await axios.get('https://api.gioconostro.com/api/v1/user/games', 
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -67,9 +71,25 @@ export default {
                 }
             })
             .then((response) => {
-                if (response && response.status && response.data.status === 'success'){
-                    this.games = [...response.data.data.data];
-                    console.log(this.games)
+                if (response && response.statusText === 'OK'){
+                    this.games = [...response.data.page.data];
+                }
+            })
+            .catch((error) => {
+                console.log(error.message)
+            });
+        await axios.get('https://api.gioconostro.com/api/v1/user/dashboard', 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
+            .then((response) => {
+                if (response && response.statusText === 'OK'){
+                    this.dashboardInfo = Object.assign({}, response.data.data)
                 }
             })
             .catch((error) => {
@@ -123,6 +143,7 @@ export default {
     border-radius: 10px;
     padding: 14px 16px;
     margin-bottom: 5px;
+    cursor: pointer;
 }
 .game__type, 
 .game__price{
