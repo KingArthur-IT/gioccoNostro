@@ -5,20 +5,26 @@
             <p class="custom-input__required" v-if="showRequiredInfo">Required fields<sup>*</sup></p>
             <p class="custom-input__error" v-if="isError">{{errorMessage}}<sup>*</sup></p>
         </div>
-        <input  :type="isPassword ? 'password' : 'text'" 
+        <input  :type="isPassword && !idPasswordVisible ? 'password' : 'text'" 
                 :placeholder="placeholder" 
                 :value="maskedValue(modelValue)"
                 @input="(event) => $emit('update:modelValue', event.target.value)"
                 @blur="() => $emit('blur')"
         >
+        <EyeIcon v-if="isPassword" :isOpened="idPasswordVisible" @click="idPasswordVisible = !idPasswordVisible" class="password-eye" />
     </div>
 </template>
 
 <script>
+import { ref } from 'vue'
 import { mask } from 'maska'
+import EyeIcon from '@/components/Icons/EyeIcon.vue'
 
 export default {
     emits: ['update:modelValue', 'blur'],
+    components:{
+        EyeIcon
+    },
     props: {
         label: {
             type: String,
@@ -65,6 +71,7 @@ export default {
         const isHeadInfoShown = () => {
             return props.label !== '' || props.showRequiredInfo || props.isError
         }
+        const idPasswordVisible =  ref(false)
 
         const maskedValue = (value) => {
             if (props.isPhone)
@@ -75,7 +82,7 @@ export default {
         }
 
         return {
-            isHeadInfoShown, maskedValue
+            isHeadInfoShown, maskedValue, idPasswordVisible
         }
     }
 }
@@ -125,5 +132,8 @@ export default {
     line-height: 17px;
     text-align: right;
     color: #FF0000;
+}
+.password-eye{
+    position: absolute;
 }
 </style>
