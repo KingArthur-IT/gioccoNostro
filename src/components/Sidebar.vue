@@ -47,16 +47,32 @@
                     <SettingsIcon class="sidebar__page-icon"/>
                     <p>Settings</p>
                 </li>
-                <li class="sidebar__settings-link">
+                <li class="sidebar__settings-link" @click="logoutEvent">
                     <LogoutIcon class="sidebar__page-icon"/>
                     <p>Exit</p>
                 </li>
             </ul>
         </div>
     </div>
+    <transition name="modal">
+    <CustomModal v-if="isShowModal">
+        <template v-slot:header>
+            <div class="modal-header">
+                {{modalText}}
+            </div>
+        </template>
+        <template v-slot:footer>
+            <div class="modal-btns">
+              <CustomButton :isPrimary="false" :text="'Yes'" @click="yesBtnEvent" class="mr-2"/>
+              <CustomButton :isOutlined="true" :text="'No'" @click="isShowModal = false" />
+            </div>
+        </template>
+    </CustomModal>
+  </transition>
 </template>
 
 <script>
+import { ref } from 'vue'
 import MorePoints from '@/components/Icons/MorePoints.vue'
 import DashboardIcon from '@/components/Icons/DashboardIcon.vue'
 import MarketIcon from '@/components/Icons/MarketIcon.vue'
@@ -64,20 +80,38 @@ import TransitionsIcon from '@/components/Icons/TransitionsIcon.vue'
 import SettingsIcon from '@/components/Icons/SettingsIcon.vue'
 import LogoutIcon from '@/components/Icons/LogoutIcon.vue'
 import { useI18n } from 'vue-i18n'
+import CustomModal from '@/components/Modal.vue'
+import { useRouter } from 'vue-router'
+import CustomButton from '@/components/UIKit/CustomButton.vue'
 
 export default {
     components: {
         MorePoints, DashboardIcon, MarketIcon, TransitionsIcon,
-        SettingsIcon, LogoutIcon
+        SettingsIcon, LogoutIcon, CustomModal, CustomButton
     },
     setup(){
+        const router = useRouter()
         const { locale } = useI18n({ useScope: 'global' })
         const userName = 'Adam Simpson',
               avatar = 'AS',
               id = '64216342136133';
+        const isShowModal = ref(false);
+        const modalText = ref('');
+
+        const logoutEvent = () => {
+            isShowModal.value = true;
+            modalText.value = 'Logout?'
+        }
+
+        const yesBtnEvent = () => {
+            isShowModal.value = false;
+            localStorage.removeItem('access_token');
+            router.push({name: 'signIn'})
+        };
         
         return {
-            userName, avatar, id, locale
+            userName, avatar, id, locale, isShowModal, modalText,
+            yesBtnEvent, logoutEvent
         }
     }
 }
@@ -229,5 +263,14 @@ export default {
 }
 .sidebar__settings-link:hover p{
     color: var(--primary-text-color)
+}
+.modal-btns{
+  display: flex;
+}
+.mr-2{
+  margin-right: 30px;
+}
+.modal-header{
+  text-align: center;
 }
 </style>
