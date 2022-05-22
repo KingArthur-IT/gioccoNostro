@@ -2,17 +2,20 @@
     <div class="border-radius profile">
       <div class="profile__left-side">
         <div class="profile__id-label">
-          <IdLabel />
+          <IdLabel :id="userData.id"/>
         </div>
          <CustomInput 
             :label="'User Info'"
             :placeholder="'John Doe'"
             class="profile__input"
+            v-model="newUserData.name"
          />
          <CustomInput 
             :label="''"
             :placeholder="'+3462361122'"
             class="profile__input"
+            v-model="newUserData.phone"
+            :isPhone="true"
          />
          <CustomRadio v-model="gender"/>
 
@@ -20,6 +23,7 @@
             :label="'Email'"
             :placeholder="'poshta@gmail.com'"
             class="profile__input profile__email"
+            v-model="newUserData.email"
          />
          <div class="profile__switch">
            <span>Email notifications</span>
@@ -31,30 +35,41 @@
               :label="'Change Password'"
               :placeholder="'Current Password'"
               class="profile__input"
+              :isPassword="true"
+              v-model="password.current"
           />
           <CustomInput 
               :label="''"
               :placeholder="'New Password'"
               class="profile__input"
+              :isPassword="true"
+              v-model="password.new"
+              :isError="!passwordValid.new"
           />
           <CustomInput 
               :label="''"
               :placeholder="'Replay Password'"
+              :isPassword="true"
+              v-model="password.reply"
+              :isError="!passwordValid.reply"
+              :errorMessage="'Password is not match'"
           />
          </div>
 
          <CustomInput 
             :label="'Card'"
-            :placeholder="'**** **** **** 4921'"
+            :placeholder="'**** **** **** ****'"
             class="profile__input-card"
+            v-model="newUserData.card_number"
+            :isCard="true"
          />
 
          <div class="profile__btn-wrapper">
-           <CustomButton class="prodile__btn" :text="'Save'"/>
-           <CustomButton class="prodile__btn" :text="'Cancel'" :isPrimary="false"/>
-           <CustomButton class="prodile__btn" :text="'Exit'" :isOutlined="true"/>
+           <CustomButton class="prodile__btn" :text="'Save'" @click="saveUserInfo"/>
+           <CustomButton class="prodile__btn" :text="'Cancel'" :isPrimary="false" @click="cancelChanges"/>
+           <CustomButton class="prodile__btn" :text="'Exit'" :isOutlined="true" @click="exit"/>
          </div>
-         <CustomButton class="prodile__btn" :text="'Delete Account'" :isPrimary="false" :isOutlined="true"/>
+         <CustomButton class="prodile__btn" :text="'Delete Account'" :isPrimary="false" :isOutlined="true" @click="preDeleteAccount"/>
       </div>
       <div class="profile__right-side">
         <p>
@@ -71,26 +86,136 @@
         </p>
       </div>
     </div>
+    <transition name="modal">
+    <CustomModal v-if="isShowModal" :width="modalOnlyOkBtn ? 300 : 500">
+        <template v-slot:header>
+            <div class="modal-header">
+                {{modalText}}
+            </div>
+        </template>
+        <template v-slot:footer>
+            <div v-if="modalOnlyOkBtn">
+              <CustomButton :isOutlined="true" :text="'OK'" @click="closeModal"/>
+            </div>
+            <div v-else class="modal-btns">
+              <CustomButton :isPrimary="false" :text="'Yes'" @click="yesBtnEvent" class="mr-2"/>
+              <CustomButton :isOutlined="true" :text="'No'" @click="closeModal" />
+            </div>
+        </template>
+    </CustomModal>
+  </transition>
 </template>
 
 <script>
-import { ref } from 'vue'
 import IdLabel from '@/components/UIKit/IdLabel.vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomRadio from '@/components/UIKit/CustomRadio.vue'
 import Switch from '@/components/UIKit/Switch.vue'
+import CustomModal from '@/components/Modal.vue'
 
 export default {
   components: {
-        CustomInput, CustomButton, IdLabel, CustomRadio, Switch
+        CustomInput, CustomButton, IdLabel, CustomRadio, Switch,
+        CustomModal
   },
-  setup(){
-    const gender = ref('Male'),
-          emailNotificated = ref(true)
+  data(){
+    return{
+      userData: {},
+      newUserData: {},
+      gender: 'Male',
+      emailNotificated: true,
+      password: {
+        current: '',
+        new: '',
+        reply: ''
+      },
+      passwordValid:{
+        new: true,
+        reply: true
+      },
+      isShowModal: false,
+      modalText: '',
+      modalOnlyOkBtn: true,
+      isShouldLogout: false
+    }
+  },
+  mounted(){
+    this.userData = {
+        "id": 12,
+        "name": "name",
+        "phone": "123356664",
+        "email": "email@aa.aa",
+        "email_verified_at": "2022-05-10T18:19:33.000000Z",
+        "card_number": "4441114454427277",
+        "blocked": 0,
+        "deleted": 0,
+        "finished_games": 0,
+        "created_at": "2022-05-10T18:19:16.000000Z",
+        "updated_at": "2022-05-22T15:20:20.000000Z",
+        "email_part": "*****@aa.aa"
+    };
+    this.newUserData = Object.assign({}, this.userData);
+  },
+  methods:{
+    saveUserInfo(){
+      this.changePassword();
+    },
+    changePassword(){
+      this.passwordValid.new = true;
+      this.passwordValid.reply = true;
 
-    return {
-      gender, emailNotificated
+      if (this.password.current !== ''){
+        if (this.password.new.length < 7){
+          this.passwordValid.new = false;
+          return
+        }
+        if (this.password.new !== this.password.reply){
+          this.passwordValid.reply = false;
+          return
+        }
+
+        this.modalOnlyOkBtn = true;
+        this.modalText = "Password changed successfully";
+        this.isShowModal = true;
+      }
+    },
+    cancelChanges(){
+      this.newUserData = Object.assign({}, this.userData);
+    },
+    closeModal(){
+        this.isShowModal = false;
+        this.modalText = "";
+    },
+    yesBtnEvent(){
+      this.closeModal();
+      if (this.isShouldLogout){
+        localStorage.removeItem('access_token');
+        this.$router.push({name: 'signIn'})
+      }
+      else {
+        this.deleteAccount();
+      }
+    },
+    exit(){
+      this.isShowModal = true;
+      this.modalText = "Logout?";
+      this.modalOnlyOkBtn = false;
+      this.isShouldLogout = true;
+    },
+    preDeleteAccount(){
+      this.isShowModal = true;
+      this.modalText = "Are you sure you want to delete account?";
+      this.modalOnlyOkBtn = false;
+      this.isShouldLogout = false;
+    },
+    deleteAccount(){
+      //axios
+      this.modalText = "The account will be deleted after the completion of all current games";
+      this.modalOnlyOkBtn = true;
+      setTimeout(() => {
+        this.isShowModal = true;
+      }, 1000);
     }
   }
 }
@@ -105,7 +230,7 @@ export default {
   justify-content: space-between;
 }
 .profile__id-label{
-  width: 239px;
+  width: 100%;
   margin-bottom: 30px;
 }
 .profile__input{
@@ -113,6 +238,7 @@ export default {
 }
 .profile__left-side{
   width: 330px;
+  margin-right: 30px;
 }
 .profile__btn-wrapper{
   display: flex;
@@ -126,7 +252,7 @@ export default {
 }
 
 .profile__right-side{
-  max-width: 560px;
+  flex-basis: 60%;
 }
 .profile__right-side p{
   margin: 0;
@@ -157,5 +283,14 @@ export default {
 .profile__change-password-section,
 .profile__input-card{
   margin-bottom: 60px;
+}
+.modal-btns{
+  display: flex;
+}
+.mr-2{
+  margin-right: 30px;
+}
+.modal-header{
+  text-align: center;
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
     <div class="custom-input">
-        <div v-if="isHeadInfoShown()" class="custom-input__upper-info">
+        <div v-if="isHeadInfoShown()" class="custom-input__upper-info" :class="{'w-100': label === ''}">
             <label v-if="label !== ''" class="custom-input__label">{{label}}<sup v-if="isRequired">*</sup> </label>
             <p class="custom-input__required" v-if="showRequiredInfo">Required fields<sup>*</sup></p>
-            <p class="custom-input__error" v-if="isError">{{errorMessage}}<sup>*</sup></p>
+            <p class="custom-input__error" v-if="isError" :class="{'w-100': label === ''}">{{errorMessage}}<sup>*</sup></p>
         </div>
         <input  :type="isPassword && !idPasswordVisible ? 'password' : 'text'" 
                 :placeholder="placeholder" 
@@ -98,6 +98,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    width: 100%;
 }
 .custom-input__label{
     font-style: normal;
@@ -135,5 +136,8 @@ export default {
 }
 .password-eye{
     position: absolute;
+}
+.w-100{
+    width: 100%;
 }
 </style>

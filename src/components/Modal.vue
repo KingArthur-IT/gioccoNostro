@@ -1,7 +1,7 @@
 <template>
     <div class="modal-mask" id="modal-template">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <div class="modal-container" :style="`width: ${width}px`">
 
           <div class="modal-header">
             <slot name="header">
@@ -22,6 +22,17 @@
     </div>
 </template>
 
+<script>
+export default {
+  props:{
+    width:{
+      type: Number,
+      default: 300
+    }
+  }
+}
+</script>
+
 <style scoped>
 .modal-mask {
   position: fixed;
@@ -41,7 +52,6 @@
 }
 
 .modal-container {
-  width: 300px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: var(--section-background);

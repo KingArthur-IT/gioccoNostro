@@ -4,9 +4,9 @@
       <div class="start-main__hero">
         <img src="@/assets/img/earth.png" class="start-main__bg-image">
         <div class="start-main__content">
-          <h1 class="primary-text-color start-main__title">Hello, my Friend!</h1>
+          <h1 class="primary-text-color start-main__title">A POSTERIORI: ABDUCET PRAEDAM, QUI ACCURRIT PRIOR</h1>
           <p class="primary-text-color start-main__subtitle">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            
           </p>
           <div class="start-main__btn">
             <CustomButton :text="'Start Now'" @click="startEvent"/>

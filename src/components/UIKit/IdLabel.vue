@@ -1,6 +1,6 @@
 <template>
-  <div class="id-label" :class="{'after': afterLabel}">
-        <p>ID: 64216342136133</p>
+  <div class="id-label" :class="{'showPopup': afterLabel}">
+        <p>ID: {{id}}</p>
         <CopyToClipboardIcon @click="copyToClipboard" class="icon"/>
   </div>
 </template>
@@ -12,6 +12,12 @@ import { ref } from 'vue'
 export default {
     components: {
         CopyToClipboardIcon
+    },
+    props:{
+        id:{
+            type: Number,
+            default: 0
+        }
     },
     setup(){
         var afterLabel = ref(false);
@@ -44,7 +50,7 @@ export default {
     display: flex;
     justify-content: space-between;
 }
-.after:after{
+.id-label:after{
     content: 'Copied to clipboard';
     position: absolute;
     right: 0;
@@ -53,9 +59,29 @@ export default {
     border-radius: 7px;
     background: var(--selected-background);
     color: var(--primary-text-color);
-    transform: translate(102%, -25%);
+    transform: translate(104%, -25%);
     display: flex;
     align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s ease-out;
+}
+.id-label::before{
+    content: '';
+    position: absolute;
+    right: 0;
+    height: 0px;
+    width: 0;
+    transform: translate(102%, -25%);
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-right: 10px solid var(--selected-background);
+    opacity: 0;
+    transition: opacity 0.1s ease-out;
+}
+.showPopup.id-label:after,
+.showPopup.id-label:before{
+    opacity: 1;
 }
 .id-label p{
     margin: 0;
