@@ -113,6 +113,7 @@ import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomRadio from '@/components/UIKit/CustomRadio.vue'
 import Switch from '@/components/UIKit/Switch.vue'
 import CustomModal from '@/components/Modal.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -140,45 +141,93 @@ export default {
       isShouldLogout: false
     }
   },
-  mounted(){
-    this.userData = {
-        "id": 12,
-        "name": "name",
-        "phone": "123356664",
-        "email": "email@aa.aa",
-        "email_verified_at": "2022-05-10T18:19:33.000000Z",
-        "card_number": "4441114454427277",
-        "blocked": 0,
-        "deleted": 0,
-        "finished_games": 0,
-        "created_at": "2022-05-10T18:19:16.000000Z",
-        "updated_at": "2022-05-22T15:20:20.000000Z",
-        "email_part": "*****@aa.aa"
-    };
-    this.newUserData = Object.assign({}, this.userData);
+  async mounted(){
+    // this.userData = {
+    //     "id": 12,
+    //     "name": "name",
+    //     "phone": "123356664",
+    //     "email": "email@aa.aa",
+    //     "email_verified_at": "2022-05-10T18:19:33.000000Z",
+    //     "card_number": "4441114454427277",
+    //     "blocked": 0,
+    //     "deleted": 0,
+    //     "finished_games": 0,
+    //     "created_at": "2022-05-10T18:19:16.000000Z",
+    //     "updated_at": "2022-05-22T15:20:20.000000Z",
+    //     "email_part": "*****@aa.aa"
+    // };
+    await axios.get('https://api.gioconostro.com/api/v1/user/show', 
+      {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+        .then((response) => {
+          if (response && response.data && response.statusText === 'OK'){
+            this.userData = Object.assign({}, response.data.item);
+            this.newUserData = Object.assign({}, response.data.item);
+          }
+          else {
+              this.isShowModal = true;
+              this.modalText = 'Error while get user info.';
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+            this.isShowModal = true;
+            this.modalText = 'Error while get user info. ' + error.message;
+        })
   },
   methods:{
     saveUserInfo(){
       this.changePassword();
     },
-    changePassword(){
+    async changePassword(){
+      
       this.passwordValid.new = true;
       this.passwordValid.reply = true;
+      this.modalOnlyOkBtn = true;
 
-      if (this.password.current !== ''){
-        if (this.password.new.length < 7){
-          this.passwordValid.new = false;
-          return
-        }
-        if (this.password.new !== this.password.reply){
-          this.passwordValid.reply = false;
-          return
-        }
-
-        this.modalOnlyOkBtn = true;
-        this.modalText = "Password changed successfully";
-        this.isShowModal = true;
+      if (this.password.new.length < 7){
+        this.passwordValid.new = false;
+        return
       }
+      if (this.password.new !== this.password.reply){
+        this.passwordValid.reply = false;
+        return
+      }
+        
+      await axios.post('https://api.gioconostro.com/api/v1/user/password', 
+        {
+          password: this.password.new
+        },
+        {
+          headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          }
+        })
+          .then((response) => {
+            console.log(response)
+            if (response && response.data && response.data.status === 'success'){
+              this.modalText = "Password changed successfully";
+              this.isShowModal = true;
+            }
+            else{
+                this.isShowModal = true;
+                this.modalText = response.data.message;
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+              this.isShowModal = true;
+              this.modalText = error.response.data.message;
+          })
     },
     cancelChanges(){
       this.newUserData = Object.assign({}, this.userData);

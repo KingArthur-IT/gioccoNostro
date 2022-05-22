@@ -176,25 +176,22 @@ export default {
                 "card_number": userData.card.value.replaceAll(' ', '')
             }, { headers: requestHeaders })
                 .then((response) => {
-                    console.log(response)
                     if (response && response.data && response.data.status === 'success'){
                         const confirmLink = response.data.data.link;
-                        console.log(confirmLink)
                         axios.get(confirmLink)
                             .then((res) => {
-                                console.log('res', res.data, res.data.status, res.data.status === 'success')
                                 if (res && res.data && res.data.status === 'success')
                                     openModal('Registration complited successfully')
                                 else
                                     openModal(res.data.message)
                             })
                             .catch((e) => {
-                                console.log('e', e)
+                                console.log('error', e)
                                 openModal(e.message)
                             })
                     }
                     else{
-                        console.log(response, response.data, Object.values(response.data.error), Object.values(response.data.error)[0])
+                        console.log(response)
                         openModal('Registration error. ' + Object.values(response.data.error)[0])
                     }
                 })

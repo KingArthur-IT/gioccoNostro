@@ -89,7 +89,7 @@ export default {
             emit('setSignUpTabActive')
         }
         const goToResetPasswordPage = () => {
-            router.push({name: 'resetPassword'})
+            router.push({name: 'forgotPassword'})
         }
 
         const SignInEvent = async () => {

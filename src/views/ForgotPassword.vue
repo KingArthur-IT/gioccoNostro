@@ -14,31 +14,89 @@
                 :placeholder="'name@mail.com'"
                 class="forgot__input"
                 v-model="email"
+                :isError="!emailValid"
           />
           <CustomButton class="forgot__btn" :text="'Reset Password'" @click="ResetEvent"/>
-          <a href="" class="forgot__link">I remember the password</a>
+          <p class="forgot__link" @click="goToSignIn">I remember the password</p>
         </div>
       </div>
     </div>
   </div>
+  <transition name="modal">
+    <CustomModal v-if="isShowModal">
+        <template v-slot:header>
+            <div class="modal-header">
+                {{modalText}}
+            </div>
+        </template>
+        <template v-slot:footer>
+            <CustomButton :isOutlined="true" :text="'OK'" @click="isShowModal = false"/>
+        </template>
+    </CustomModal>
+  </transition>
 </template>
 
 <script>
 import { ref } from 'vue'
 import CustomInput from '@/components/UIKit/CustomInput.vue'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
+import CustomModal from '@/components/Modal.vue'
 
 export default {
     components: {
-        CustomInput, CustomButton
+        CustomInput, CustomButton, CustomModal
     },
     setup(){
-        const email = ref('');
-        const ResetEvent = () => {
-            console.log('Reset', email.value)
+      const router = useRouter()
+      const email = ref('');
+      const emailValid = ref(true)
+      const isShowModal = ref(false)
+      const modalText = ref('')
+      
+      const emailValidate = () => {
+          if(email.value.length > 7 && email.value.includes('@') && email.value.includes('.'))
+              emailValid.value = true
+          else emailValid.value = false;
+      }
+
+      const ResetEvent = () => {
+        emailValidate();
+        if (!emailValid.value) return;
+        console.log('Reset', email.value)
+        resetPassword();
+      }
+      const goToSignIn = () => {
+        router.push({name: 'signIn'})
+      }
+
+      const resetPassword = async () => {
+        await axios.post('https://api.gioconostro.com/api/v1/send_link', 
+        { 'email': email.value }, 
+        {
+          headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*',
+              'Accept': 'application/json'
+          }
+        })
+          .then((response) => {
+            console.log(response)
+            isShowModal.value = true;
+            modalText.value = response.data.message
+          })
+          .catch((error) => {
+            console.log(error)
+            isShowModal.value = true;
+            modalText.value = error.response.data.error;
+          })
         }
 
-        return { email, ResetEvent }
+      return { 
+        email, emailValid, emailValidate,
+        ResetEvent, goToSignIn, isShowModal, modalText, 
+      }
     }
 }
 </script>
@@ -79,15 +137,23 @@ export default {
     color: var(--primary-text-color);
 }
 .forgot__link{
+    margin: 0;
     text-decoration: none;
     color: var(--primary-button-color);
     font-size: 14px;
     line-height: 160%;
+    cursor: pointer;
 }
 .forgot__input{
     margin-bottom: 30px;
 }
 .forgot__btn{
     margin-bottom: 20px;
+}
+.modal-header{
+    text-align: center;
+    font-family: 'Inter';
+    font-size: 14px;
+    line-height: 120%;
 }
 </style>
