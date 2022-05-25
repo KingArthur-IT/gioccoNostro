@@ -58,7 +58,7 @@
     />
     <div class="sign-up__checkbox-wrap">
         <CustomCheckbox v-model="userData.isTermAgree.value" :isError="!valid.isTermAgree">
-            <p class="sign-up__text ml">
+            <p class="sign-up__agree-text ml">
                 I agree with <a href="docs/Terms introduction.pdf" target="_blank">Terms of Conditions</a>
             </p>
         </CustomCheckbox>
@@ -221,14 +221,15 @@ export default {
 .sign-up__btn{
     margin-bottom: 20px;
 }
+.sign-up__agree-text,
 .sign-up__text{
     margin: 0;
     font-size: 14px;
-    line-height: 17px;
+    line-height: 120%;
     color: var(--primary-text-color);
 }
-.sign-up__text a,
-.sign-up__text a:visited,
+.sign-up__agree-text a,
+.sign-up__agree-text a:visited,
 .sign-up__text span{
     text-decoration: none;
     color: var(--primary-button-color);
@@ -244,5 +245,11 @@ export default {
     font-family: 'Inter';
     font-size: 14px;
     line-height: 120%;
+}
+
+@media screen and (max-width: 425px) {
+    .sign-up__agree-text{
+        font-size: 12px;
+    }
 }
 </style>

@@ -50,7 +50,8 @@ export default {
 .sign__hero{
   display: flex;
   flex-direction: column;
-  width: 358px;
+  width: 400px;
+  padding: 0 20px;
 }
 .sign__tabs{
   list-style: none;
@@ -71,5 +72,11 @@ export default {
 }
 .tab-active{
   color: var(--primary-text-color)
+}
+
+@media screen and (max-width: 425px) {
+  .sign__tabs{
+    margin-bottom: 25px;
+  }
 }
 </style>

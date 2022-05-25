@@ -104,7 +104,7 @@ export default {
     font-style: normal;
     font-weight: 500;
     font-size: 14px;
-    line-height: 17px;
+    line-height: 120%;
     color: var(--primary-text-color);
 }
 .custom-input__required{
@@ -112,7 +112,7 @@ export default {
     color: var(--gray-text-color);
     font-weight: 400;
     font-size: 14px;
-    line-height: 17px;
+    line-height: 120%;
 }
 .custom-input input{
     position: relative;
@@ -130,7 +130,7 @@ export default {
 .custom-input__error{
     margin: 0;
     font-size: 14px;
-    line-height: 17px;
+    line-height: 120%;
     text-align: right;
     color: #FF0000;
 }
@@ -139,5 +139,19 @@ export default {
 }
 .w-100{
     width: 100%;
+}
+
+@media screen and (max-width: 425px) {
+    .custom-input__label,
+    .custom-input__required,
+    .custom-input__error{
+        font-size: 12px;
+    }
+    .custom-input__upper-info{
+        margin-bottom: 10px;
+    }
+    .custom-input input{
+        font-size: 12px;
+    }
 }
 </style>
