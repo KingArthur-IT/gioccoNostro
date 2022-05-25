@@ -117,7 +117,8 @@ export default {
 .forgot__hero{
   display: flex;
   flex-direction: column;
-  width: 358px;
+  width: 450px;
+  padding: 0 20px;
 }
 .forgot__title{
     margin: 0;
@@ -155,5 +156,18 @@ export default {
     font-family: 'Inter';
     font-size: 14px;
     line-height: 120%;
+}
+
+@media screen and (max-width: 425px) {
+  .forgot__text{
+      font-size: 12px;
+      margin-bottom: 20px;
+  }
+  .forgot__input{
+      margin-bottom: 20px;
+  }
+  .forgot__btn{
+      margin-bottom: 15px;
+  }
 }
 </style>

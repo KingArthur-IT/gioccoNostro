@@ -63,7 +63,7 @@
             </p>
         </CustomCheckbox>
     </div>
-    <CustomButton class="sign-up__btn" :text="'Sign Up'" @click="SignUpEvent"/>
+    <CustomButton class="sign-up__btn" :text="'Sign Up'" @click.prevent="SignUpEvent"/>
     <p class="sign-up__text">
         Do you already have an account? <span @click="goToSignIn">Sign In</span>
     </p>

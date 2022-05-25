@@ -64,7 +64,8 @@ export default {
 .reset__hero{
   display: flex;
   flex-direction: column;
-  width: 358px;
+  width: 400px;
+  padding: 0 20px;
 }
 .reset__title{
     margin: 0;
@@ -88,5 +89,15 @@ export default {
 }
 .reset__btn{
     margin-top: 15px;
+}
+
+@media screen and (max-width: 425px) {
+  .reset__text{
+      font-size: 12px;
+      margin-bottom: 20px;
+  }
+  .reset__btn{
+      margin-top: 5px;
+  }
 }
 </style>

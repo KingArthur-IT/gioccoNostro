@@ -27,7 +27,7 @@
         </div>
         <p class="sign-in__text sign-in__forgot" @click="goToResetPasswordPage">Forgot Password?</p>
     </div>
-    <CustomButton class="sign-in__btn" :text="'Sign In'" @click="SignInEvent"/>
+    <CustomButton class="sign-in__btn" :text="'Sign In'" @click.prevent="SignInEvent"/>
     <p class="sign-in__text">
         Don't have an account? <span @click="goToSignUp">Sign Up</span>
     </p>

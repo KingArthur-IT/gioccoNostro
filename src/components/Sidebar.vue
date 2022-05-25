@@ -43,10 +43,6 @@
                 </a>
             </div>
             <ul class="siderbar__settings-links">
-                <li class="sidebar__settings-link">
-                    <SettingsIcon class="sidebar__page-icon"/>
-                    <p>Settings</p>
-                </li>
                 <li class="sidebar__settings-link" @click="logoutEvent">
                     <LogoutIcon class="sidebar__page-icon"/>
                     <p>Exit</p>

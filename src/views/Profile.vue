@@ -17,7 +17,7 @@
             v-model="newUserData.phone"
             :isPhone="true"
          />
-         <CustomRadio v-model="gender"/>
+         <CustomRadio v-model="newUserData.gender"/>
 
          <CustomInput 
             :label="'Email'"
@@ -143,18 +143,21 @@ export default {
   },
   async mounted(){
     // this.userData = {
-    //     "id": 12,
-    //     "name": "name",
+    //     "id": 37,
+    //     "name": "NDCtest",
+    //     "last_name": null,
+    //     "year": null,
+    //     "gender": null,
     //     "phone": "123356664",
-    //     "email": "email@aa.aa",
-    //     "email_verified_at": "2022-05-10T18:19:33.000000Z",
+    //     "email": "vlook.reg@gmail.co",
+    //     "email_verified_at": "2022-05-25T22:51:59.000000Z",
     //     "card_number": "4441114454427277",
     //     "blocked": 0,
     //     "deleted": 0,
     //     "finished_games": 0,
-    //     "created_at": "2022-05-10T18:19:16.000000Z",
-    //     "updated_at": "2022-05-22T15:20:20.000000Z",
-    //     "email_part": "*****@aa.aa"
+    //     "created_at": "2022-05-25T22:51:46.000000Z",
+    //     "updated_at": "2022-05-25T22:51:59.000000Z",
+    //     "email_part": "*****.reg@gmail.co"
     // };
     await axios.get('https://api.gioconostro.com/api/v1/user/show', 
       {
