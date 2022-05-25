@@ -10,6 +10,7 @@
                 :value="maskedValue(modelValue)"
                 @input="(event) => inputEvent(event.target.value)"
                 @blur="() => $emit('blur')"
+                autocomplete="off"
         >
         <EyeIcon v-if="isPassword" :isOpened="idPasswordVisible" @click="idPasswordVisible = !idPasswordVisible" class="password-eye" />
     </div>
