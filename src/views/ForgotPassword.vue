@@ -68,7 +68,7 @@ export default {
         resetPassword();
       }
       const goToSignIn = () => {
-        router.push({name: 'signIn'})
+        router.push({name: 'signIn', params: {page: 'login'}})
       }
 
       const resetPassword = async () => {

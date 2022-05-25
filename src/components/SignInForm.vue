@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-in">
+  <form class="sign-in" autocomplete="off">
     <CustomInput 
         :label="'Email'"
         :placeholder="'name@mail.com'"
@@ -22,7 +22,7 @@
     <div class="sign-in__checkbox-wrap">
         <div class="sign-in__checkbox-hero">
             <CustomCheckbox v-model="shouldRememberMe">
-                <p class="sign-in__text ml">Remember me</p>
+                <p class="sign-in__remember-text ml">Remember me</p>
             </CustomCheckbox>
         </div>
         <p class="sign-in__text sign-in__forgot" @click="goToResetPasswordPage">Forgot Password?</p>
@@ -31,7 +31,7 @@
     <p class="sign-in__text">
         Don't have an account? <span @click="goToSignUp">Sign Up</span>
     </p>
-  </div>
+  </form>
   <transition name="modal">
     <CustomModal v-if="isShowModal">
         <template v-slot:header>
@@ -59,7 +59,6 @@ export default {
     components: {
         CustomInput, CustomButton, CustomCheckbox, CustomModal
     },
-    emits: ['setSignUpTabActive'],
     setup(props, { emit }){
         const router = useRouter()
         const formData = {
@@ -86,7 +85,7 @@ export default {
         }
 
         const goToSignUp = () => {
-            emit('setSignUpTabActive')
+            router.push({name: 'signIn', params: {page: 'register'}})
         }
         const goToResetPasswordPage = () => {
             router.push({name: 'forgotPassword'})
@@ -152,6 +151,7 @@ export default {
 .sign-in__btn{
     margin-bottom: 20px;
 }
+.sign-in__remember-text,
 .sign-in__text{
     margin: 0;
     font-size: 14px;
@@ -179,5 +179,15 @@ export default {
     font-family: 'Inter';
     font-size: 14px;
     line-height: 120%;
+}
+
+@media screen and (max-width: 425px) {
+    .sign-in__remember-text,
+    .sign-in__forgot{
+       font-size: 12px;
+    }
+    .sign-in__checkbox-wrap{
+        margin-bottom: 25px;
+    }
 }
 </style>

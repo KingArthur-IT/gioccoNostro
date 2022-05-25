@@ -8,7 +8,7 @@
         <input  :type="isPassword && !idPasswordVisible ? 'password' : 'text'" 
                 :placeholder="placeholder" 
                 :value="maskedValue(modelValue)"
-                @input="(event) => $emit('update:modelValue', event.target.value)"
+                @input="(event) => inputEvent(event.target.value)"
                 @blur="() => $emit('blur')"
         >
         <EyeIcon v-if="isPassword" :isOpened="idPasswordVisible" @click="idPasswordVisible = !idPasswordVisible" class="password-eye" />
@@ -67,7 +67,7 @@ export default {
             default: false
         }
     },
-    setup(props){
+    setup(props, {emit}){
         const isHeadInfoShown = () => {
             return props.label !== '' || props.showRequiredInfo || props.isError
         }
@@ -75,14 +75,22 @@ export default {
 
         const maskedValue = (value) => {
             if (props.isPhone)
-                return mask(value, '+ ### ### ## ##')
+                return mask(value, '+##(###) ### ## ##')
             if (props.isCard)
                 return mask(value, '#### #### #### ####')
             return value
         }
+        const inputEvent = (value) => {
+            let val = value;
+            if (props.isCard && value.length > 19){
+                val = value.slice(0, 18)
+            }
+
+            emit('update:modelValue', val)
+        }
 
         return {
-            isHeadInfoShown, maskedValue, idPasswordVisible
+            isHeadInfoShown, maskedValue, inputEvent, idPasswordVisible
         }
     }
 }

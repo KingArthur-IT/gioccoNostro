@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-up">
+  <form class="sign-up" autocomplete="off">
     <CustomInput 
         :label="'Name & Surname'"
         :placeholder="'Type here...'"
@@ -23,7 +23,7 @@
     />
     <CustomInput 
         :label="'Phone'"
-        :placeholder="'+ xxx xxx xx xx'"
+        :placeholder="'+xx(xxx) xxx xx xx'"
         class="sign-up__input"
         v-model="userData.phone.value"
         :isPhone="true"
@@ -67,7 +67,7 @@
     <p class="sign-up__text">
         Do you already have an account? <span @click="goToSignIn">Sign In</span>
     </p>
-  </div>
+  </form>
   <transition name="modal">
     <CustomModal v-if="isShowModal">
         <template v-slot:header>
@@ -89,13 +89,14 @@ import CustomButton from '@/components/UIKit/CustomButton.vue'
 import CustomCheckbox from '@/components/UIKit/CustomCheckbox.vue'
 import axios from 'axios'
 import CustomModal from '@/components/Modal.vue'
+import { useRouter } from 'vue-router'
 
 export default {
     components: {
         CustomInput, CustomButton, CustomCheckbox, CustomModal
     },
-    emits: ['setSignInTabActive'],
-    setup(props, { emit }){
+    setup(){
+        const router = useRouter();
         const userData = {
             userName: ref(''),
             email: ref(''),
@@ -121,7 +122,7 @@ export default {
                     };
 
         const goToSignIn = () => {
-            emit('setSignInTabActive')
+            router.push({name: 'signIn', params: {page: 'login'}})
         }
         const userNameValidate = () => {
             if(userData.userName.value.length < 5)
@@ -134,7 +135,7 @@ export default {
             else valid.email = false;
         }
         const cardValidate = () => {
-            if(userData.card.value.length === 19)
+            if(userData.card.value.replaceAll(' ','').length === 16)
                 valid.card = true
             else valid.card = false;
         }
@@ -172,7 +173,7 @@ export default {
                 'name': userData.userName.value,
                 'password': userData.password.value,
                 'email': userData.email.value,
-                "phone": userData.phone.value.replaceAll(' ', ''),
+                "phone": userData.phone.value.replaceAll(' ', '').replace('(','').replace(')',''),
                 "card_number": userData.card.value.replaceAll(' ', '')
             }, { headers: requestHeaders })
                 .then((response) => {

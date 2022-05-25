@@ -4,11 +4,11 @@
       <div class="sign__wrapper">
         <div class="sign__hero">
           <ul class="sign__tabs">
-            <li class="sign__tab" :class="{'tab-active': isSignUpTabActive}" @click="isSignUpTabActive = true">Sign Up</li>
-            <li class="sign__tab" :class="{'tab-active': !isSignUpTabActive}" @click="isSignUpTabActive = false">Sign In</li>
+            <li class="sign__tab" :class="{'tab-active': isSignUpTabActive}" @click="$router.push({name: 'signIn', params: {page: 'register'}})">Sign Up</li>
+            <li class="sign__tab" :class="{'tab-active': !isSignUpTabActive}" @click="$router.push({name: 'signIn', params: {page: 'login'}})">Sign In</li>
           </ul>
-          <SignUpForm v-if="isSignUpTabActive" @setSignInTabActive="isSignUpTabActive = false"/>
-          <SignInForm v-else @setSignUpTabActive="isSignUpTabActive = true" />
+          <SignUpForm v-if="isSignUpTabActive"/>
+          <SignInForm v-else/>
         </div>
       </div>
     </div>
@@ -18,14 +18,19 @@
 <script>
 import SignUpForm from '@/components/SignUpForm.vue'
 import SignInForm from '@/components/SignInForm.vue'
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
     components: {
         SignUpForm, SignInForm
     },
     setup(){
-      const isSignUpTabActive = ref(true);
+      const route = useRouter();
+
+      const isSignUpTabActive = computed(() => {
+        return route.currentRoute.value.params.page === 'register' || route.currentRoute.value.params.page === ''
+      })
 
       return {
         isSignUpTabActive
