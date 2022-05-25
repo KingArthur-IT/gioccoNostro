@@ -38,4 +38,37 @@
 .header__logo{
     text-decoration: none;
 }
+
+@media screen and (max-width: 1020px) {
+    .header__title{
+        font-size: 24px;
+        padding: 42px 60px;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .header__title{
+        font-size: 24px;
+        padding: 36px 40px;
+    }
+}
+
+@media screen and (max-width: 525px) {
+    .header__title{
+        font-size: 18px;
+        padding: 26px 20px;
+    }
+}
+@media screen and (max-width: 480px) {
+    .header__title{
+        font-size: 16px;
+        padding: 26px 20px;
+    }
+}
+@media screen and (max-width: 425px) {
+    .header__title{
+        font-size: 14px;
+        padding: 26px 20px;
+    }
+}
 </style>

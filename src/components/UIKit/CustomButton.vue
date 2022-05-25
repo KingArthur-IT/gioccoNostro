@@ -40,6 +40,7 @@ export default {
     appearance: none;
     cursor: pointer;
     width: 100%;
+    font-size: 14px;
 }
 .primary{
     background: var(--primary-button-color);

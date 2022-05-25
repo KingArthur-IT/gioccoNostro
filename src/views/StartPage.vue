@@ -65,6 +65,7 @@ export default {
   margin-bottom: 40px;
 }
 .start-main__subtitle{
+  display: none;
   margin: 0;
   font-weight: 400;
   font-size: 15px;
@@ -81,5 +82,93 @@ export default {
   transform: translateX(-50%);
   z-index: 0;
   height: 97%;
+}
+
+@media screen and (max-width: 1260px) {
+  .start-main{
+    overflow: hidden;
+  }
+  .start-main__laptop{
+    right: auto;
+    left: 500px;
+  }
+}
+
+@media screen and (max-width: 1020px) {
+  .start-main__content{
+    padding-left: 60px;
+  }
+  .start-main__laptop{
+    left: 475px;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .start-main__content{
+    padding-left: 40px;
+  }
+  .start-main__title{
+    font-size: 36px;
+    width: 80%;
+  }
+  .start-main__laptop{
+    left: 370px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .start-main__hero{
+    flex-direction: column-reverse;
+  }
+  .start-main__laptop{
+    position: relative;
+    width: 100vw;
+    left: 50px;
+    margin-top: 120px;
+    margin-bottom: 60px;
+  }
+  .start-main__content{
+    margin-bottom: 150px;
+  }
+  .start-main__bg-image{
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .start-main__content{
+    padding-left: 20px;
+  }
+  .start-main__title{
+    font-size: 32px;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .start-main__bg-image{
+    width: 110%;
+  }
+  .start-main__title{
+    font-size: 28px;
+    width: 90%;
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .start-main__title{
+    font-size: 24px;
+  }
+  .start-main__laptop{
+    margin-top: 110px;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .start-main__laptop{
+    margin-top: 100px;
+  }
 }
 </style>
