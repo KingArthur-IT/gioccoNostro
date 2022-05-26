@@ -10,16 +10,20 @@
       <div class="game-board__legend">
           <BoardLegend />
       </div>
+      <div class="game-board__hero">
+          <GamesView :level="5"/>
+      </div>
   </div>
 </template>
 
 <script>
 import IdLabel from '@/components/UIKit/IdLabel.vue'
 import BoardLegend from '@/components/BoardLegend.vue'
+import GamesView from '@/components/GamesView.vue'
 
 export default {
     components: {
-        IdLabel, BoardLegend
+        IdLabel, BoardLegend, GamesView
     },
     props:{
         gameType:{
@@ -80,5 +84,12 @@ export default {
     left: 20px;
     bottom: 0px;
 }
-
+.game-board__hero{
+    height: calc(100vh - 80px - 26px - 119px - 26px - 120px);
+    width: calc(100vh - 80px - 26px - 119px - 26px - 120px);
+    margin: auto;
+    background: url('@/assets/img/games-bg.png') no-repeat;
+    background-size: 100% 100%;
+    margin-top: 25px
+}
 </style>
