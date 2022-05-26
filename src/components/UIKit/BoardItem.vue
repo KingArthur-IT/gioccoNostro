@@ -10,8 +10,13 @@
             class="item-img" 
             :style="`filter: drop-shadow(0px 0px ${glowSize}px ${itemColor})`"
       >
-      <img  v-if="color === 'red'"
+      <img  v-if="color === 'red' && !showText"
             src="@/assets/img/red-sphere.svg" :alt="color" 
+            class="item-img" 
+            :style="`filter: drop-shadow(0px 0px ${glowSize}px ${itemColor})`"
+      >
+      <img  v-if="color === 'red' && showText"
+            src="@/assets/img/red-sphere-text.svg" :alt="color" 
             class="item-img" 
             :style="`filter: drop-shadow(0px 0px ${glowSize}px ${itemColor})`"
       >
@@ -33,6 +38,10 @@ export default {
         glowSize: {
             type: Number,
             default: 7
+        },
+        showText:{
+            type: Boolean,
+            default: false
         }
     },
     computed:{

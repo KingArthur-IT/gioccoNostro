@@ -1,11 +1,11 @@
 <template>
   <div class="screen">
     <div class="screen-center">
-      <BoardItem :color="level === 5 ? 'red' : 'blue'" :glowSize="10"/>
+      <BoardItem :color="level === 5 ? 'red' : 'blue'" :glowSize="10" :showText="true"/>
     </div>
 
     <div class="second-rind-1">
-      <BoardItem :color="level === 4 ? 'red' : 'green'" :glowSize="5"/>
+      <BoardItem :color="level === 4 ? 'red' : 'green'" :glowSize="5" :showText="true"/>
     </div>
     <div class="second-rind-2">
       <BoardItem :color="'green'" :glowSize="5"/>
@@ -15,7 +15,7 @@
     </div>
 
     <div class="third-rind-1">
-      <BoardItem :color="level === 3 ? 'red' : 'yellow'" :glowSize="3"/>
+      <BoardItem :color="level === 3 ? 'red' : 'yellow'" :glowSize="3" :showText="true"/>
     </div>
     <div class="third-rind-2">
       <BoardItem :color="'yellow'" :glowSize="3"/>

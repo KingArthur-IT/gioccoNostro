@@ -1,23 +1,23 @@
 <template>
   <div class="game-board">
       <div class="game-board__info">
-          <p class="game-board__game-type">{{gameType}}</p>
-          <p class="game-board__game-price">${{gamePrice}}</p>
+          <p v-if="gameType" class="game-board__game-type">{{gameType}}x{{gameType}}</p>
+          <p v-if="gamePrice > 0" class="game-board__game-price">${{gamePrice}}</p>
       </div>
-      <div class="game-board__id">
+      <div v-if="gameId > 0" class="game-board__id">
           <IdLabel :id="gameId"/>
       </div>
       <div class="game-board__legend">
           <BoardLegend />
       </div>
       <div class="game-board__hero">
-          <GamesView :level="5"/>
+          <GamesView :level="gameType === '' ? 0 : gameType"/>
       </div>
   </div>
 </template>
 
 <script>
-import IdLabel from '@/components/UIKit/IdLabel.vue'
+import IdLabel from '@/components/UIKit/IdLabelDashboard.vue'
 import BoardLegend from '@/components/BoardLegend.vue'
 import GamesView from '@/components/GamesView.vue'
 
@@ -27,16 +27,16 @@ export default {
     },
     props:{
         gameType:{
-            type: String,
-            default: '4x4'
+            type: Number,
+            default: 0
         },
         gamePrice:{
             type: Number,
-            default: 100
+            default: -1
         },
         gameId:{
             type: Number,
-            default: 0
+            default: -1
         }
     }
 }
