@@ -35,6 +35,8 @@
             </div>
         </div>
         <div v-if="isGamesShown" class="dashboard__views">
+            <SelectedGameDashboard 
+            />
         </div>
     </div>
   </div>
@@ -47,11 +49,13 @@
 import EarningIcon from '@/components/Icons/EarningIcon.vue'
 import GamesIcon from '@/components/Icons/GamesIcon.vue'
 import OutputIcon from '@/components/Icons/OutputIcon.vue'
+import SelectedGameDashboard from '@/components/SelectedGameDashboard.vue'
 import axios from 'axios'
 
 export default {
     components:{
-        EarningIcon, GamesIcon, OutputIcon
+        EarningIcon, GamesIcon, OutputIcon,
+        SelectedGameDashboard
     },
     data(){
         return{
@@ -422,24 +426,6 @@ export default {
     border-radius: 20px;
     height: 100vh;
     position: relative;
-}
-.dashboard__views:after{
-    content: '';
-    position: absolute;
-    background: url('@/assets/img/games-bg.png') no-repeat;
-    top: 5%;
-    bottom: 0;
-    left: 20%;
-    right: 0;
-}
-.dashboard-view-full:after{
-    content: '';
-    position: absolute;
-    background: url('@/assets/img/games-bg.png') no-repeat;
-    top: 15%;
-    bottom: 0;
-    left: 25%;
-    right: 0;
 }
 .games-hidden{
     max-height: 119px;
