@@ -54,7 +54,7 @@ export default {
 .modal-container {
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: var(--section-background);
+  background-color: var(--background-color);
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;

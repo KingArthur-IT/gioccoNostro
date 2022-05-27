@@ -88,7 +88,7 @@
             <td>{{item.game_type_name}}</td>
             <td>
                 <div class="mr-20">
-                    <CustomButton :text="'Buy'" />
+                    <CustomButton :text="'Buy'" @click="isShowModal = true"/>
                 </div>
             </td>
         </tr>
@@ -98,17 +98,40 @@
                 :arrayLength="filteredMarketData.length"
                 :perPage="perPage"
     />
+
+    <BuyModal :isShown="isShowModal" @closeBuyModal="isShowModal = false" @PaymentEvent="isShowModal = false; isShowAlertModal = true;"/>
+
+    <transition name="modal">
+        <CustomModal v-if="isShowAlertModal">
+            <template v-slot:header>
+                <div class="modal-header">
+                    <p class="alert-modal__text">
+                        Here will be redirect to payment system page
+                    </p>
+                </div>
+            </template>
+            <template v-slot:footer>
+                <CustomButton :isOutlined="true" :text="'OK'" @click="isShowAlertModal = false"/>
+            </template>
+        </CustomModal>
+    </transition>
 </template>
 
 <script>
 import CustomButton from '@/components/UIKit/CustomButton.vue'
 import TableSortArrows from '@/components/UIKit/TableSortArrows.vue'
 import Pagination from '@/components/Pagination.vue'
+import BuyModal from '@/components/BuyModal.vue'
+import CustomModal from '@/components/Modal.vue'
 import axios from 'axios'
 
 export default {
     components:{
-        CustomButton, Pagination, TableSortArrows
+        CustomButton, 
+        Pagination, 
+        TableSortArrows, 
+        BuyModal,
+        CustomModal
     },
     data(){
         return{
@@ -122,7 +145,9 @@ export default {
                 finished_games: null,
                 price_code: null,
                 game_type_name: null
-            }
+            },
+            isShowModal: false,
+            isShowAlertModal: false
         }
     },
     async mounted(){
@@ -442,5 +467,9 @@ td:first-child{
 }
 .mr-20{
     margin-right: 20px;
+}
+
+.alert-modal__text{
+    text-align: center;
 }
 </style>
