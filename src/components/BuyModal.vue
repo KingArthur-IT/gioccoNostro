@@ -34,7 +34,7 @@
                     <p>$600</p>
                   </div>
                   <div class="modal-body__terms-wrapper">
-                    <CustomCheckbox v-model="isTermAccepred">
+                    <CustomCheckbox v-model="isTermAccepred" :isError="!isTermAgreeValid">
                       <p class="modal-body__agree-text">
                           I accept all the <a href="docs/Terms introduction.pdf" target="_blank">terms of</a> the public offer
                       </p>
@@ -45,7 +45,7 @@
 
             <template v-slot:footer>
                 <div class="modal-footer">
-                  <CustomButton :text="'Payment'" @click="$emit('PaymentEvent')"/>
+                  <CustomButton :text="'Payment'" @click="paymentEvent"/>
                 </div>
             </template>
         </CustomModal>
@@ -73,7 +73,18 @@ export default {
   },
   data(){
     return{
-      isTermAccepred: false
+      isTermAccepred: false,
+      isTermAgreeValid: true
+    }
+  },
+  methods:{
+    paymentEvent(){
+      if (!this.isTermAccepred) {
+        this.isTermAgreeValid = false;
+        return
+      }
+      else this.isTermAgreeValid = true;
+      this.$emit('PaymentEvent');
     }
   }
 }

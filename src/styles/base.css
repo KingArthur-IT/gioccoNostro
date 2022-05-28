@@ -2,6 +2,12 @@
   --offset: 26px
 }
 
+@media screen and (max-width: 425px) {
+  :root {
+    --offset: 20px
+  }
+}
+
 [data-theme="light"]{
   --background-color: #F2F8FF;
   --background-start-color: #F2F8FF;

@@ -117,4 +117,6 @@ export default {
 .active-page{
     color: var(--primary-text-color)
 }
+
+
 </style>

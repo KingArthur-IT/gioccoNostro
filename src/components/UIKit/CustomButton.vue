@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .button{
-    color: var(--primary-text-color);
+    color: #fff;
     border-radius: 10px;
     padding-top: 11px;
     padding-bottom: 12px;

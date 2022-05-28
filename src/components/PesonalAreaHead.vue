@@ -28,9 +28,11 @@
         <div class="mobile-head__right">
             <BellIcon class="mobile-head__bell" />
             <LightSchemeIcon class="mobile-head__theme" @click="toggleColorTheme"/>
-            <div class="mobile-head__user">
-                AS
-            </div>
+            <router-link to="/profile" class="router-link">
+                <div class="mobile-head__user">
+                    AS
+                </div>
+            </router-link>
         </div>
     </div>
     <div class="mobile-page-title">
@@ -108,15 +110,19 @@ export default {
 }
 
 .mobile-head{
+    position: fixed;
+    width: 100%;
     display: none;
     height: 68px;
     padding: 22px var(--offset);
     justify-content: space-between;
     align-items: center;
     background: var(--section-background);
+    z-index: 10;
 }
 .mobile-head__left{
     display: flex;
+    align-items: center;
 }
 .mobile-head__menu{
     margin-right: 19px;
@@ -137,7 +143,7 @@ export default {
 }
 .mobile-head__bell,
 .mobile-head__theme{
-    margin-right: 14px;
+    margin-right: 20px;
 }
 .mobile-head__user{
     height: 24px;
@@ -159,6 +165,7 @@ export default {
     display: none;
     margin-top: var(--offset);
     padding: 0 var(--offset);
+    padding-top: 68px;
 }
 
 @media screen and (max-width: 860px) {
@@ -181,6 +188,10 @@ export default {
 @media screen and (max-width: 480px) {
     .mobile-head__title{
         font-size: 16px;
+    }
+    .mobile-head__bell,
+    .mobile-head__theme{
+        margin-right: 10px;
     }
 }
 @media screen and (max-width: 425px) {

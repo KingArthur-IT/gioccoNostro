@@ -258,6 +258,7 @@ th span{
     width: 100%;
     background: var(--section-background);
     border-radius: 20px;
+    position: relative;
 }
 .table__head{
     height: 60px;
@@ -301,5 +302,12 @@ td:first-child{
 }
 .mr-20{
     margin-right: 20px;
+}
+
+@media screen and (max-width: 750px) {
+    .table{
+        width: 698px !important;
+        border-radius: 20px 20px 0 0;
+    }
 }
 </style>

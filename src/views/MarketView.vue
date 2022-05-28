@@ -58,7 +58,7 @@
             </th>
             <th>
                 <div class="table__head-cell cell-pointer" @click="sortTableData('finished_games')">
-                    <span>Finished Games</span>
+                    <span class="finished-games-td">Finished Games</span>
                     <TableSortArrows :sortVal="sortVals.finished_games" />
                 </div>
             </th>
@@ -416,6 +416,7 @@ export default {
 
 .table__head-cell{
     display: flex;
+    align-items: center;
 }
 .cell-pointer{
     cursor: pointer;
@@ -430,6 +431,7 @@ th span{
     width: 100%;
     background: var(--section-background);
     border-radius: 20px;
+    position: relative;
 }
 .table__head{
     height: 60px;
@@ -471,5 +473,40 @@ td:first-child{
 
 .alert-modal__text{
     text-align: center;
+}
+
+@media screen and (max-width: 1200px) {
+    .finished-games-td{
+        width: 60px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .table{
+        width: 698px !important;
+        border-radius: 20px 20px 0 0;
+    }
+    .filters-wrapper{
+        flex-direction: column;
+    }
+    .filter{
+        flex-basis: 100%;
+    }
+    .filter:first-child{
+        margin-right: 0px;
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .filter{
+        padding: 0 10px;
+    }
+    .filter__item:first-child{
+        border-radius: 4px 0 0 4px;
+    }
+    .filter__item:last-child{
+        border-radius: 0 4px 4px 0;
+    }
 }
 </style>

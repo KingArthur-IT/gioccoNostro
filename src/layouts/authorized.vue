@@ -49,4 +49,10 @@ export default{
     padding: var(--offset);
   }
 }
+
+@media screen and (max-width: 750px) {
+  .hero{
+    overflow-x: scroll;
+  }
+}
 </style>
