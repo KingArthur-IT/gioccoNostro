@@ -71,8 +71,12 @@
           />
          </div>
 
+        <div class="card-label-wrapper">
+          <p class="card-label">Card</p>
+          <p class="card-change">Change</p>
+        </div>
          <CustomInput 
-            :label="'Card'"
+            :label="''"
             :placeholder="'**** **** **** ****'"
             class="profile__input-card"
             v-model="newUserData.card_number"
@@ -153,7 +157,6 @@ export default {
       isShowModal: false,
       modalText: '',
       modalOnlyOkBtn: true,
-      isShouldLogout: false,
       isShowAllText: false
     }
   },
@@ -257,25 +260,15 @@ export default {
     },
     yesBtnEvent(){
       this.closeModal();
-      if (this.isShouldLogout){
-        localStorage.removeItem('access_token');
-        this.$router.push({name: 'signIn'})
-      }
-      else {
-        this.deleteAccount();
-      }
+      this.deleteAccount();
     },
     exit(){
-      this.isShowModal = true;
-      this.modalText = "Logout?";
-      this.modalOnlyOkBtn = false;
-      this.isShouldLogout = true;
+      this.$router.push({name: 'dashboard'})
     },
     preDeleteAccount(){
       this.isShowModal = true;
       this.modalText = "Are you sure you want to delete account?";
       this.modalOnlyOkBtn = false;
-      this.isShouldLogout = false;
     },
     deleteAccount(){
       //axios
@@ -364,6 +357,28 @@ export default {
 .profile__mobile-text{
   display: none;
 }
+.card-label-wrapper{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-label{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 120%;
+  color: var(--primary-text-color);
+}
+.card-change{
+  text-decoration: underline;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 120%;
+  color: var(--gray-text-color);
+}
 
 @media screen and (max-width: 1020px) {
   .profile__right-side p{
@@ -403,6 +418,10 @@ export default {
 
 @media screen and (max-width: 425px) {
   .profile__mobile-text p{
+    font-size: 12px;
+  }
+  .card-label,
+  .card-change{
     font-size: 12px;
   }
 }

@@ -1,7 +1,11 @@
 <template>
     <div class="border-radius sidebar">
-        <div class="sidebar__top-section">
-            <div class="sidebar__title">Giocco Nostro</div>
+        <div class="sidebar__top-section">  
+            <router-link to="/">
+                <div class="sidebar__title">
+                    Giocco Nostro
+                </div>
+            </router-link>    
             <router-link to="/profile" class="router-link">
                 <div class="sidebar__user-info">
                     <div class="sidebar__avatar">{{avatar}}</div>
