@@ -16,17 +16,38 @@
             </div>
         </div>
     </div>
+    <div class="mobile-head">
+        <div class="mobile-head__left">
+            <MenuIcon class="mobile-head__menu" />
+            <p class="mobile-head__title">
+                <router-link to="/" class="primary-text-color mobile-head__link">
+                    Giocco Nostro
+                </router-link>
+            </p>
+        </div>
+        <div class="mobile-head__right">
+            <BellIcon class="mobile-head__bell" />
+            <LightSchemeIcon class="mobile-head__theme" @click="toggleColorTheme"/>
+            <div class="mobile-head__user">
+                AS
+            </div>
+        </div>
+    </div>
+    <div class="mobile-page-title">
+        <p class="head__title primary-text-color">{{$route.meta.title}}</p>
+    </div>
 </template>
 
 <script>
 import BellIcon from '@/components/Icons/BellIcon.vue'
+import MenuIcon from '@/components/Icons/MenuIcon.vue'
 import LightSchemeIcon from '@/components/Icons/LightSchemeIcon.vue'
 import SearchInput from '@/components/UIKit/SearchInput.vue'
 import Select from '@/components/UIKit/Select.vue'
 
 export default {
     components: {
-        LightSchemeIcon, BellIcon,
+        LightSchemeIcon, BellIcon, MenuIcon,
         SearchInput,
         Select
     },
@@ -84,5 +105,87 @@ export default {
 }
 .head-icon{
     cursor: pointer;
+}
+
+.mobile-head{
+    display: none;
+    height: 68px;
+    padding: 22px var(--offset);
+    justify-content: space-between;
+    align-items: center;
+    background: var(--section-background);
+}
+.mobile-head__left{
+    display: flex;
+}
+.mobile-head__menu{
+    margin-right: 19px;
+}
+.mobile-head__title{
+    font-family: 'Gilroy';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 117%;
+    margin: 0;
+}
+.mobile-link{
+    text-decoration: none;
+}
+.mobile-head__right{
+    display: flex;
+}
+.mobile-head__bell,
+.mobile-head__theme{
+    margin-right: 14px;
+}
+.mobile-head__user{
+    height: 24px;
+    width: 24px;
+    background: #F2521D;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 120%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mobile-page-title{
+    display: none;
+    margin-top: var(--offset);
+    padding: 0 var(--offset);
+}
+
+@media screen and (max-width: 860px) {
+    .mobile-head{
+        display: flex;
+    }
+    .head{
+        display: none;
+    }
+    .mobile-page-title{
+        display: block;
+    }
+}
+
+@media screen and (max-width: 525px) {
+    .mobile-head__title{
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 480px) {
+    .mobile-head__title{
+        font-size: 16px;
+    }
+}
+@media screen and (max-width: 425px) {
+    .mobile-head__title{
+        font-size: 14px;
+    }
 }
 </style>

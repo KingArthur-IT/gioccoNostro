@@ -3,7 +3,9 @@
    <Sidebar />
     <div class="hero">
       <PesonalAreaHead />
-      <router-view/>
+      <div class="page-content">
+        <router-view/>
+      </div>
     </div>
   </main>
 </template>
@@ -31,5 +33,20 @@ export default{
 .hero{
     width: 100%;
     margin-left: var(--offset);
+}
+.page-content{
+
+}
+
+@media screen and (max-width: 860px) {
+  .main{
+    padding: 0;
+  }
+  .hero{
+    margin-left: 0;
+  }
+  .page-content{
+    padding: var(--offset);
+  }
 }
 </style>

@@ -90,7 +90,7 @@ export default {
         const { locale } = useI18n({ useScope: 'global' })
         const userName = 'Adam Simpson',
               avatar = 'AS',
-              id = '64216342136133';
+              id = '64';
         const isShowModal = ref(false);
         const modalText = ref('');
 
@@ -268,5 +268,21 @@ export default {
 }
 .modal-header{
   text-align: center;
+}
+
+@media screen and (max-width: 1020px) {
+    .sidebar{
+        min-width: auto;
+        width: 200px;
+    }
+    .sidebar__user{
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .sidebar{
+        display: none;
+    }
 }
 </style>

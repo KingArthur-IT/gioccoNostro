@@ -55,4 +55,16 @@ export default {
     left: 12px;
     z-index: 2;
 }
+
+@media screen and (max-width: 1100px) {
+    .search-input input{
+        width: 200px;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .search-input{
+        display: none;
+    }
+}
 </style>
