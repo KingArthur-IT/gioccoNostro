@@ -273,7 +273,7 @@ export default {
 @media screen and (max-width: 1020px) {
     .sidebar{
         min-width: auto;
-        width: 200px;
+        width: 250px;
     }
     .sidebar__user{
         width: 50%;

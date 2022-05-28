@@ -4,6 +4,21 @@
         <div class="profile__id-label">
           <IdLabel :id="userData.id"/>
         </div>
+        <div class="profile__mobile-text">
+            <p>
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+              <span class="show-all" v-if="!isShowAllText" @click="isShowAllText = true">Show all</span>
+            </p>
+            <p v-if="isShowAllText">
+              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+            </p>
+            <p v-if="isShowAllText">
+              Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
+            </p>
+            <p v-if="isShowAllText">
+              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+            </p>
+        </div>
          <CustomInput 
             :label="'User Info'"
             :placeholder="'John Doe'"
@@ -138,7 +153,8 @@ export default {
       isShowModal: false,
       modalText: '',
       modalOnlyOkBtn: true,
-      isShouldLogout: false
+      isShouldLogout: false,
+      isShowAllText: false
     }
   },
   async mounted(){
@@ -344,5 +360,50 @@ export default {
 }
 .modal-header{
   text-align: center;
+}
+.profile__mobile-text{
+  display: none;
+}
+
+@media screen and (max-width: 1020px) {
+  .profile__right-side p{
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .profile__right-side{
+    display: none;
+  }
+  .profile__left-side{
+    width: 100%;
+    margin-right: 0px;
+  }
+  .profile__mobile-text{
+    display: block;
+    color: var(--gray-text-color);
+  }
+  .profile__mobile-text p{
+    margin: 0;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 170%;
+    color: var(--gray-text-color);
+    margin-bottom: 20px;
+  }
+  .profile__id-label{
+    max-width: 240px;
+  }
+  .show-all{
+    color: var(--primary-text-color);
+    text-decoration: underline;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .profile__mobile-text p{
+    font-size: 12px;
+  }
 }
 </style>

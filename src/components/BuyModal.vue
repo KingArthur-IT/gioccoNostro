@@ -1,6 +1,6 @@
 <template>
     <transition name="modal">
-        <CustomModal v-if="isShown" :width="450">
+        <CustomModal v-if="isShown" :width="modalWidth">
             <template v-slot:header>
                 <div class="modal-header">
                     <CloseIcon @click="$emit('closeBuyModal')"/>
@@ -74,8 +74,14 @@ export default {
   data(){
     return{
       isTermAccepred: false,
-      isTermAgreeValid: true
+      isTermAgreeValid: true,
+      windowWidth: 0
     }
+  },
+  mounted(){
+    window.addEventListener('resize', () => {
+      this.windowWidth = window.innerWidth;
+    });
   },
   methods:{
     paymentEvent(){
@@ -85,6 +91,11 @@ export default {
       }
       else this.isTermAgreeValid = true;
       this.$emit('PaymentEvent');
+    }
+  },
+  computed:{
+    modalWidth: function(){
+      return this.windowWidth > 475 ? 450 : this.windowWidth > 360 ? 350 : 300
     }
   }
 }
