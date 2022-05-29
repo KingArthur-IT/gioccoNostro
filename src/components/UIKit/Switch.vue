@@ -1,6 +1,7 @@
 <template>
     <label class="switch">
         <input  type="checkbox"
+                :checked="modelValue"
                 :value="modelValue"
                 @input="(event) => $emit('update:modelValue', !modelValue)"
         >

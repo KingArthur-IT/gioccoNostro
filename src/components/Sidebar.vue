@@ -10,8 +10,8 @@
                 <div class="sidebar__user-info">
                     <div class="sidebar__avatar">{{avatar}}</div>
                     <div class="sidebar__user">
-                        <p class="sidevar__username">{{userName}}</p>
-                        <p class="sidebar__user-id">ID: {{id}}</p>
+                        <p class="sidevar__username">{{getUserData.userName}}</p>
+                        <p class="sidebar__user-id">ID: {{getUserData.userId}}</p>
                     </div>
                 </div>
             </router-link>
@@ -83,6 +83,8 @@ import { useI18n } from 'vue-i18n'
 import CustomModal from '@/components/Modal.vue'
 import { useRouter } from 'vue-router'
 import CustomButton from '@/components/UIKit/CustomButton.vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
     components: {
@@ -90,11 +92,10 @@ export default {
         SettingsIcon, LogoutIcon, CustomModal, CustomButton
     },
     setup(){
-        const router = useRouter()
+        const router = useRouter();
+        const store = useStore();
         const { locale } = useI18n({ useScope: 'global' })
-        const userName = 'Adam Simpson',
-              avatar = 'AS',
-              id = '64';
+
         const isShowModal = ref(false);
         const modalText = ref('');
 
@@ -108,10 +109,28 @@ export default {
             localStorage.removeItem('access_token');
             router.push({name: 'signIn'})
         };
-        
+
+        const getUserData = computed(() => {
+            return {
+                userName: store.state.userName,
+                userLastName: store.state.userLastName,
+                userId: store.state.userId
+            }
+        })
+
+        const getFirstLetter = (value) => {
+            if (value == null)
+                return ''
+            else return String(value).slice(0,1).toUpperCase()
+        }
+
+        const avatar = computed(() => {
+            return getFirstLetter(store.state.userName) + getFirstLetter(store.state.userLastName)
+        });
+ 
         return {
-            userName, avatar, id, locale, isShowModal, modalText,
-            yesBtnEvent, logoutEvent
+            avatar, locale, isShowModal, modalText,
+            yesBtnEvent, logoutEvent, getUserData
         }
     }
 }

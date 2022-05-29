@@ -73,7 +73,7 @@
 
         <div class="card-label-wrapper">
           <p class="card-label">Card</p>
-          <p class="card-change">Change</p>
+          <p class="card-change" @click="isShowCardNumber = true">Change</p>
         </div>
          <CustomInput 
             :label="''"
@@ -81,6 +81,8 @@
             class="profile__input-card"
             v-model="newUserData.card_number"
             :isCard="true"
+            :isCardNumberHidden="!isShowCardNumber"
+            :disabled="!isShowCardNumber"
          />
 
          <div class="profile__btn-wrapper">
@@ -133,6 +135,7 @@ import CustomRadio from '@/components/UIKit/CustomRadio.vue'
 import Switch from '@/components/UIKit/Switch.vue'
 import CustomModal from '@/components/Modal.vue'
 import axios from 'axios'
+import { mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -143,8 +146,7 @@ export default {
     return{
       userData: {},
       newUserData: {},
-      gender: 'Male',
-      emailNotificated: true,
+      emailNotificated: false,
       password: {
         current: '',
         new: '',
@@ -157,53 +159,59 @@ export default {
       isShowModal: false,
       modalText: '',
       modalOnlyOkBtn: true,
-      isShowAllText: false
+      isShowAllText: false,
+      isShowCardNumber: false
     }
   },
   async mounted(){
-    // this.userData = {
-    //     "id": 37,
-    //     "name": "NDCtest",
-    //     "last_name": null,
-    //     "year": null,
-    //     "gender": null,
-    //     "phone": "123356664",
-    //     "email": "vlook.reg@gmail.co",
-    //     "email_verified_at": "2022-05-25T22:51:59.000000Z",
-    //     "card_number": "4441114454427277",
-    //     "blocked": 0,
-    //     "deleted": 0,
-    //     "finished_games": 0,
-    //     "created_at": "2022-05-25T22:51:46.000000Z",
-    //     "updated_at": "2022-05-25T22:51:59.000000Z",
-    //     "email_part": "*****.reg@gmail.co"
-    // };
-    await axios.get('https://api.gioconostro.com/api/v1/user/show', 
-      {
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        }
-      })
-        .then((response) => {
-          if (response && response.data && response.statusText === 'OK'){
-            this.userData = Object.assign({}, response.data.item);
-            this.newUserData = Object.assign({}, response.data.item);
-          }
-          else {
-              this.isShowModal = true;
-              this.modalText = 'Error while get user info.';
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-            this.isShowModal = true;
-            this.modalText = 'Error while get user info. ' + error.message;
-        })
+    this.userData = {
+        "id": 37,
+        "name": "NDCtest",
+        "last_name": null,
+        "year": null,
+        "gender": null,
+        "phone": "123356664",
+        "email": "vlook.reg@gmail.co",
+        "email_verified_at": "2022-05-25T22:51:59.000000Z",
+        "card_number": "4441114454427277",
+        "blocked": 0,
+        "deleted": 0,
+        "finished_games": 0,
+        "created_at": "2022-05-25T22:51:46.000000Z",
+        "updated_at": "2022-05-25T22:51:59.000000Z",
+        "email_part": "*****.reg@gmail.co"
+    };
+    this.newUserData = Object.assign({}, this.userData);
+
+    // await axios.get('https://api.gioconostro.com/api/v1/user/show', 
+    //   {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Access-Control-Allow-Origin': '*',
+    //         'Accept': 'application/json',
+    //         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+    //     }
+    //   })
+    //     .then((response) => {
+    //       if (response && response.data && response.statusText === 'OK'){
+    //         this.userData = Object.assign({}, response.data.item);
+    //         this.newUserData = Object.assign({}, response.data.item);
+    //       }
+    //       else {
+    //           this.isShowModal = true;
+    //           this.modalText = 'Error while get user info.';
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //         this.isShowModal = true;
+    //         this.modalText = 'Error while get user info. ' + error.message;
+    //     })
+
+    this.addUserData({userName: this.userData.name, userLastName: this.userData.last_name, userId: this.userData.id});
   },
   methods:{
+    ...mapMutations(['addUserData']),
     saveUserInfo(){
       this.changePassword();
     },
@@ -253,6 +261,13 @@ export default {
     },
     cancelChanges(){
       this.newUserData = Object.assign({}, this.userData);
+      this.emailNotificated = false;
+      this.password.current = '';
+      this.password.new = '';
+      this.password.reply = '';
+      this.passwordValid.new = true;
+      this.passwordValid.reply = true;
+      this.isShowCardNumber = false;
     },
     closeModal(){
         this.isShowModal = false;
@@ -277,6 +292,15 @@ export default {
       setTimeout(() => {
         this.isShowModal = true;
       }, 1000);
+    }
+  },
+  computed: {
+    getUserData () {
+      return {
+        userName: this.$store.state.userName,
+        userLastName: this.$store.state.userLastName,
+        userId: this.$store.state.userId
+      }
     }
   }
 }

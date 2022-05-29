@@ -30,7 +30,7 @@
             <LightSchemeIcon class="mobile-head__theme" @click="toggleColorTheme"/>
             <router-link to="/profile" class="router-link">
                 <div class="mobile-head__user">
-                    AS
+                    {{avatar}}
                 </div>
             </router-link>
         </div>
@@ -46,6 +46,8 @@ import MenuIcon from '@/components/Icons/MenuIcon.vue'
 import LightSchemeIcon from '@/components/Icons/LightSchemeIcon.vue'
 import SearchInput from '@/components/UIKit/SearchInput.vue'
 import Select from '@/components/UIKit/Select.vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 
 export default {
     components: {
@@ -54,13 +56,32 @@ export default {
         Select
     },
     setup(){
-       const toggleColorTheme = () => {
-           const currentTheme = document.getElementById('app').getAttribute('data-theme');
-           document.getElementById('app').setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
-       }
+        const store = useStore();
+        const toggleColorTheme = () => {
+            const currentTheme = document.getElementById('app').getAttribute('data-theme');
+            document.getElementById('app').setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+        }
+
+        const getUserData = computed(() => {
+            return {
+                userName: store.state.userName,
+                userLastName: store.state.userLastName,
+                userId: store.state.userId
+            }
+        })
+
+        const getFirstLetter = (value) => {
+            if (value == null)
+                return ''
+            else return String(value).slice(0,1).toUpperCase()
+        }
+
+        const avatar = computed(() => {
+            return getFirstLetter(store.state.userName) + getFirstLetter(store.state.userLastName)
+        });
 
        return {
-           toggleColorTheme
+           toggleColorTheme, getUserData, avatar
        }
     }
 }

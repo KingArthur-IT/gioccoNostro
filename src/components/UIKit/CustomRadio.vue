@@ -5,10 +5,10 @@
                     :id="item.id" 
                     :value="item.value" 
                     name="radio-male-group"
-                    v-model="selectedVal"
+                    v-model="modelValue"
                     @input="(event) => $emit('update:modelValue', event.target.value)"
             >
-            <label :for="item.id">{{item.value}}</label>
+            <label :for="item.id">{{item.value === '1' ? 'Male' : 'Female'}}</label>
         </div>
     </div>
 </template>
@@ -19,13 +19,13 @@ export default {
     props: {
         modelValue: {
             type: String,
-            default: 'Male'
+            default: '1'
         },
     },
     setup(props){
         const radioList = [
-            { id: 'male', value: 'Male' },
-            { id: 'femail', value: 'Female' },
+            { id: 'male', value: 1 },
+            { id: 'femail', value: 2 },
         ]
 
         const selectedVal = props.modelValue;

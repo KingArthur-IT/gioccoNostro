@@ -2,12 +2,15 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    
+    userName: '',
+    userLastName: '',
+    userId: ''
   },
   mutations: {
-    // addCartItem(state, item) {
-    //   item.quantity = 1;
-    //   state.cart.push(item);
-    // },
+    addUserData(state, data) {
+      state.userName = data.userName;
+      state.userLastName = data.userLastName;
+      state.userId = data.userId;
+    },
   }
 });

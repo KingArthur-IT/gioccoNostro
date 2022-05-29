@@ -11,6 +11,7 @@
                 @input="(event) => inputEvent(event.target.value)"
                 @blur="() => $emit('blur')"
                 autocomplete="off"
+                :disabled="disabled"
         >
         <EyeIcon v-if="isPassword" :isOpened="idPasswordVisible" @click="idPasswordVisible = !idPasswordVisible" class="password-eye" />
     </div>
@@ -59,11 +60,19 @@ export default {
             type: Boolean,
             default: false
         },
+        isCardNumberHidden: {
+            type: Boolean,
+            default: false
+        },
         errorMessage:{
             type: String,
             default: 'Incorrect'
         },
         isPassword: {
+            type: Boolean,
+            default: false
+        },
+        disabled:{
             type: Boolean,
             default: false
         }
@@ -77,8 +86,11 @@ export default {
         const maskedValue = (value) => {
             if (props.isPhone)
                 return mask(value, '+##(###) ### ## ##')
-            if (props.isCard)
-                return mask(value, '#### #### #### ####')
+            if (props.isCard){
+                if (props.isCardNumberHidden)
+                    return '**** **** **** ' + String(value).slice(12, 16);
+                else return mask(value, '#### #### #### ####')
+            }
             return value
         }
         const inputEvent = (value) => {
