@@ -77,245 +77,245 @@ export default {
         }
     },
     async mounted(){
-        // await axios.get('https://api.gioconostro.com/api/v1/user/games', 
-        //     {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Access-Control-Allow-Origin': '*',
-        //             'Accept': 'application/json',
-        //             'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        //         }
-        //     })
-        //     .then((response) => {
-        //         if (response && response.statusText === 'OK'){
-        //             this.games = [...response.data.page.data];
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error.message)
-        //     });
+        await axios.get('https://api.gioconostro.com/api/v1/user/games', 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
+            .then((response) => {
+                if (response && response.statusText === 'OK'){
+                    this.games = [...response.data.page.data];
+                }
+            })
+            .catch((error) => {
+                console.log(error.message)
+            });
 
-        // await axios.get('https://api.gioconostro.com/api/v1/user/dashboard', 
-        //     {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Access-Control-Allow-Origin': '*',
-        //             'Accept': 'application/json',
-        //             'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        //         }
-        //     })
-        //     .then((response) => {
-        //         if (response && response.statusText === 'OK'){
-        //             this.dashboardInfo = Object.assign({}, response.data.data)
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error.message)
-        //     })
+        await axios.get('https://api.gioconostro.com/api/v1/user/dashboard', 
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
+            .then((response) => {
+                if (response && response.statusText === 'OK'){
+                    this.dashboardInfo = Object.assign({}, response.data.data)
+                }
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
         
-        this.games = [
-            {
-                "id": 11,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-            {
-                "id": 14,
-                "ident": "G-1dBJjMtPbABg",
-                "price_code": 100,
-                "game_type": 3,
-                "level_1_count": 0,
-                "level_2_count": 0,
-                "parent_ident": "G-000000000001",
-                "is_finished": 0,
-                "game_type_name": "3x3",
-                "price_value": 101,
-                "owner_email": "*****@aa.bb",
-                "sub_owner_email": "*****system.com",
-                "finished_games": 0
-            },
-        ]
+        // this.games = [
+        //     {
+        //         "id": 11,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        //     {
+        //         "id": 14,
+        //         "ident": "G-1dBJjMtPbABg",
+        //         "price_code": 100,
+        //         "game_type": 3,
+        //         "level_1_count": 0,
+        //         "level_2_count": 0,
+        //         "parent_ident": "G-000000000001",
+        //         "is_finished": 0,
+        //         "game_type_name": "3x3",
+        //         "price_value": 101,
+        //         "owner_email": "*****@aa.bb",
+        //         "sub_owner_email": "*****system.com",
+        //         "finished_games": 0
+        //     },
+        // ]
 
-        this.dashboardInfo = {
-            "earning": 0,
-            "expected": 1212,
-            "finished": 0
-        }
+        // this.dashboardInfo = {
+        //     "earning": 0,
+        //     "expected": 1212,
+        //     "finished": 0
+        // }
     },
     methods:{
         gamesShownToggle(){

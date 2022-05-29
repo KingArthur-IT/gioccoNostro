@@ -181,8 +181,11 @@ export default {
                         const confirmLink = response.data.data.link;
                         axios.get(confirmLink)
                             .then((res) => {
-                                if (res && res.data && res.data.status === 'success')
-                                    openModal('Registration complited successfully')
+                                if (res && res.data && res.data.status === 'success'){
+                                    openModal('Registration complited successfully');
+                                    localStorage.setItem('access_token', response.data.data.token);
+                                    router.push({name: 'profile'})
+                                }
                                 else
                                     openModal(res.data.message)
                             })

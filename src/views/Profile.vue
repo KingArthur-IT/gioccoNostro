@@ -32,7 +32,7 @@
             v-model="newUserData.phone"
             :isPhone="true"
          />
-         <CustomRadio v-model="newUserData.gender"/>
+         <CustomRadio v-model="newUserData.gender"/> 
 
          <CustomInput 
             :label="'Email'"
@@ -52,6 +52,7 @@
               class="profile__input"
               :isPassword="true"
               v-model="password.current"
+              :isError="!passwordValid.current"
           />
           <CustomInput 
               :label="''"
@@ -153,6 +154,7 @@ export default {
         reply: ''
       },
       passwordValid:{
+        current: true,
         new: true,
         reply: true
       },
@@ -164,64 +166,61 @@ export default {
     }
   },
   async mounted(){
-    this.userData = {
-        "id": 37,
-        "name": "NDCtest",
-        "last_name": null,
-        "year": null,
-        "gender": null,
-        "phone": "123356664",
-        "email": "vlook.reg@gmail.co",
-        "email_verified_at": "2022-05-25T22:51:59.000000Z",
-        "card_number": "4441114454427277",
-        "blocked": 0,
-        "deleted": 0,
-        "finished_games": 0,
-        "created_at": "2022-05-25T22:51:46.000000Z",
-        "updated_at": "2022-05-25T22:51:59.000000Z",
-        "email_part": "*****.reg@gmail.co"
-    };
-    this.newUserData = Object.assign({}, this.userData);
+    // this.userData = {
+    //     "id": 37,
+    //     "name": "NDCtest",
+    //     "last_name": null,
+    //     "year": null,
+    //     "gender": null,
+    //     "phone": "123356664",
+    //     "email": "vlook.reg@gmail.co",
+    //     "email_verified_at": "2022-05-25T22:51:59.000000Z",
+    //     "card_number": "4441114454427277",
+    //     "blocked": 0,
+    //     "deleted": 0,
+    //     "finished_games": 0,
+    //     "created_at": "2022-05-25T22:51:46.000000Z",
+    //     "updated_at": "2022-05-25T22:51:59.000000Z",
+    //     "email_part": "*****.reg@gmail.co"
+    // };
+    // this.newUserData = Object.assign({}, this.userData);
 
-    // await axios.get('https://api.gioconostro.com/api/v1/user/show', 
-    //   {
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         'Access-Control-Allow-Origin': '*',
-    //         'Accept': 'application/json',
-    //         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-    //     }
-    //   })
-    //     .then((response) => {
-    //       if (response && response.data && response.statusText === 'OK'){
-    //         this.userData = Object.assign({}, response.data.item);
-    //         this.newUserData = Object.assign({}, response.data.item);
-    //       }
-    //       else {
-    //           this.isShowModal = true;
-    //           this.modalText = 'Error while get user info.';
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //         this.isShowModal = true;
-    //         this.modalText = 'Error while get user info. ' + error.message;
-    //     })
+    await axios.get('https://api.gioconostro.com/api/v1/user/show', 
+      {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+        .then((response) => {
+          if (response && response.data && response.statusText === 'OK'){
+            this.userData = Object.assign({}, response.data.item);
+            this.newUserData = Object.assign({}, response.data.item);
+          }
+          else {
+              this.isShowModal = true;
+              this.modalText = 'Error while get user info.';
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+            this.isShowModal = true;
+            this.modalText = 'Error while get user info. ' + error.message;
+        })
 
     this.addUserData({userName: this.userData.name, userLastName: this.userData.last_name, userId: this.userData.id});
   },
   methods:{
     ...mapMutations(['addUserData']),
-    saveUserInfo(){
-      this.changePassword();
-    },
-    async changePassword(){
-      
+    async saveUserInfo(){
+      this.passwordValid.current = true;
       this.passwordValid.new = true;
       this.passwordValid.reply = true;
       this.modalOnlyOkBtn = true;
 
-      if (this.password.new.length < 7){
+      if (this.password.new.length > 0 && this.password.new.length < 7){
         this.passwordValid.new = false;
         return
       }
@@ -229,10 +228,23 @@ export default {
         this.passwordValid.reply = false;
         return
       }
-        
-      await axios.post('https://api.gioconostro.com/api/v1/user/password', 
+      if (this.password.current.length > 0 && this.password.current.length < 7){
+        this.passwordValid.current = false;
+        return
+      }
+      if (this.password.current.length > 6 && this.password.new.length < 7){
+        this.passwordValid.new = false;
+        return
+      }
+
+      await axios.post('https://api.gioconostro.com/api/v1/user/update', 
         {
-          password: this.password.new
+          name: this.newUserData.name,
+          gender: this.newUserData.gender,
+          phone: this.newUserData.phone,
+          card_number: this.newUserData.card_number,
+          new_password: this.password.new,
+          old_password: this.password.current
         },
         {
           headers: {
@@ -243,20 +255,19 @@ export default {
           }
         })
           .then((response) => {
-            console.log(response)
-            if (response && response.data && response.data.status === 'success'){
-              this.modalText = "Password changed successfully";
-              this.isShowModal = true;
+            if (response && response.data && response.statusText === 'OK'){
+              this.userData = Object.assign({}, response.data.item);
+              this.newUserData = Object.assign({}, response.data.item);
             }
-            else{
+            else {
                 this.isShowModal = true;
-                this.modalText = response.data.message;
+                this.modalText = 'Error while updating user info.';
             }
           })
           .catch((error) => {
             console.log(error)
               this.isShowModal = true;
-              this.modalText = error.response.data.message;
+              this.modalText = 'Error while updating user info. ' + error.message;
           })
     },
     cancelChanges(){
@@ -294,15 +305,6 @@ export default {
       }, 1000);
     }
   },
-  computed: {
-    getUserData () {
-      return {
-        userName: this.$store.state.userName,
-        userLastName: this.$store.state.userLastName,
-        userId: this.$store.state.userId
-      }
-    }
-  }
 }
 </script>
 
