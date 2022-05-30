@@ -1,5 +1,5 @@
 <template>
-    <div class="search-input">
+    <div class="search-input" :class="{'desctop': !isForMobileMenu}">
         <SearchIcon class="search-input__search-icon"/>
         <input  type="text" 
                 :placeholder="placeholder" 
@@ -26,6 +26,10 @@ export default {
         modelValue: {
             type: String,
             default: ''
+        },
+        isForMobileMenu:{
+            type: Boolean,
+            default: false
         }
     }
 }
@@ -57,13 +61,13 @@ export default {
 }
 
 @media screen and (max-width: 1100px) {
-    .search-input input{
+    .desctop input{
         width: 200px;
     }
 }
 
 @media screen and (max-width: 950px) {
-    .search-input{
+    .desctop{
         display: none;
     }
 }

@@ -16,9 +16,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Mobile header -->
     <div class="mobile-head">
         <div class="mobile-head__left">
-            <MenuIcon class="mobile-head__menu" />
+            <MenuIcon class="mobile-head__menu" @click="isMobileMenuShow = !isMobileMenuShow"/>
             <p class="mobile-head__title">
                 <router-link to="/" class="primary-text-color mobile-head__link">
                     Giocco Nostro
@@ -38,6 +40,9 @@
     <div class="mobile-page-title">
         <p class="head__title primary-text-color">{{$route.meta.title}}</p>
     </div>
+    <transition name="slide">
+        <MobileMenu v-if="!isMobileMenuShow" @closeMobileMenuEvent="isMobileMenuShow = true"/>
+    </transition>
 </template>
 
 <script>
@@ -46,14 +51,16 @@ import MenuIcon from '@/components/Icons/MenuIcon.vue'
 import LightSchemeIcon from '@/components/Icons/LightSchemeIcon.vue'
 import SearchInput from '@/components/UIKit/SearchInput.vue'
 import Select from '@/components/UIKit/Select.vue'
-import { computed } from 'vue'
+import MobileMenu from '@/components/MobileMenu.vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
     components: {
         LightSchemeIcon, BellIcon, MenuIcon,
         SearchInput,
-        Select
+        Select,
+        MobileMenu
     },
     setup(){
         const store = useStore();
@@ -80,8 +87,10 @@ export default {
             return getFirstLetter(store.state.userName) + getFirstLetter(store.state.userLastName)
         });
 
+        const isMobileMenuShow = ref('false')
+
        return {
-           toggleColorTheme, getUserData, avatar
+           toggleColorTheme, getUserData, avatar, isMobileMenuShow
        }
     }
 }
@@ -219,5 +228,20 @@ export default {
     .mobile-head__title{
         font-size: 14px;
     }
+}
+
+.slide-enter-active {
+  animation: slide 0.5s;
+}
+.slide-leave-active {
+  animation: slide 0.5s reverse;
+}
+@keyframes slide {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 </style>

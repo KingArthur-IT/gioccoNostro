@@ -39,6 +39,7 @@ export default {
 .wrapper{
   display: flex;
   cursor: pointer;
+  align-items: center;
 }
 .custom-checkbox {
   position: relative;

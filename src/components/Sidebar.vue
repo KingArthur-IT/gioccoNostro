@@ -6,133 +6,24 @@
                     Giocco Nostro
                 </div>
             </router-link>    
-            <router-link to="/profile" class="router-link">
-                <div class="sidebar__user-info">
-                    <div class="sidebar__avatar">{{avatar}}</div>
-                    <div class="sidebar__user">
-                        <p class="sidevar__username">{{getUserData.userName}}</p>
-                        <p class="sidebar__user-id">ID: {{getUserData.userId}}</p>
-                    </div>
-                </div>
-            </router-link>
-            <ul class="siderbar__page-links">
-                <router-link to="/dashboard" class="router-link">
-                    <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Dashboard'}">
-                        <DashboardIcon class="sidebar__page-icon"/>
-                        <p>Dashboard</p>
-                    </li>
-                </router-link>
-                <router-link to="/market" class="router-link">
-                    <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Market'}">
-                        <MarketIcon class="sidebar__page-icon"/>
-                        <p>Market</p>
-                    </li>
-                </router-link>
-                <router-link to="/transactions" class="router-link">
-                    <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Transitions'}">
-                        <TransitionsIcon class="sidebar__page-icon"/>
-                        <p>Transactions</p>
-                    </li>
-                </router-link>
-            </ul>
+            <UserInfo />
+            <PageLinks />
         </div>
         <div class="sidebar__bottom-section">
-            <div class="sidebar__information-wrapper">
-                <p class="sidebar__information-title">Information</p>
-                <a :href="`docs/rules/${locale}.pdf`" target="_blank">
-                    <p class="sidebar__information-item">Game Rules</p>
-                </a>
-                <a :href="`docs/Rules and Terms of Service-full text.pdf`" target="_blank">
-                    <p class="sidebar__information-item">Terms of Use</p>
-                </a>
-            </div>
-            <ul class="siderbar__settings-links">
-                <li class="sidebar__settings-link" @click="logoutEvent">
-                    <LogoutIcon class="sidebar__page-icon"/>
-                    <p>Exit</p>
-                </li>
-            </ul>
+            <InformationSection />
         </div>
     </div>
-    <transition name="modal">
-    <CustomModal v-if="isShowModal">
-        <template v-slot:header>
-            <div class="modal-header">
-                {{modalText}}
-            </div>
-        </template>
-        <template v-slot:footer>
-            <div class="modal-btns">
-              <CustomButton :isPrimary="false" :text="'Yes'" @click="yesBtnEvent" class="mr-2"/>
-              <CustomButton :isOutlined="true" :text="'No'" @click="isShowModal = false" />
-            </div>
-        </template>
-    </CustomModal>
-  </transition>
 </template>
 
 <script>
-import { ref } from 'vue'
-import MorePoints from '@/components/Icons/MorePoints.vue'
-import DashboardIcon from '@/components/Icons/DashboardIcon.vue'
-import MarketIcon from '@/components/Icons/MarketIcon.vue'
-import TransitionsIcon from '@/components/Icons/TransitionsIcon.vue'
-import SettingsIcon from '@/components/Icons/SettingsIcon.vue'
-import LogoutIcon from '@/components/Icons/LogoutIcon.vue'
-import { useI18n } from 'vue-i18n'
-import CustomModal from '@/components/Modal.vue'
-import { useRouter } from 'vue-router'
-import CustomButton from '@/components/UIKit/CustomButton.vue'
-import { computed } from 'vue'
-import { useStore } from 'vuex'
+import PageLinks from '@/components/PageLinks.vue'
+import UserInfo from '@/components/UserInfo.vue'
+import InformationSection from '@/components/InformationSection.vue'
 
 export default {
     components: {
-        MorePoints, DashboardIcon, MarketIcon, TransitionsIcon,
-        SettingsIcon, LogoutIcon, CustomModal, CustomButton
+        PageLinks, UserInfo, InformationSection
     },
-    setup(){
-        const router = useRouter();
-        const store = useStore();
-        const { locale } = useI18n({ useScope: 'global' })
-
-        const isShowModal = ref(false);
-        const modalText = ref('');
-
-        const logoutEvent = () => {
-            isShowModal.value = true;
-            modalText.value = 'Logout?'
-        }
-
-        const yesBtnEvent = () => {
-            isShowModal.value = false;
-            localStorage.removeItem('access_token');
-            router.push({name: 'signIn'})
-        };
-
-        const getUserData = computed(() => {
-            return {
-                userName: store.state.userName,
-                userLastName: store.state.userLastName,
-                userId: store.state.userId
-            }
-        })
-
-        const getFirstLetter = (value) => {
-            if (value == null)
-                return ''
-            else return String(value).slice(0,1).toUpperCase()
-        }
-
-        const avatar = computed(() => {
-            return getFirstLetter(store.state.userName) + getFirstLetter(store.state.userLastName)
-        });
- 
-        return {
-            avatar, locale, isShowModal, modalText,
-            yesBtnEvent, logoutEvent, getUserData
-        }
-    }
 }
 </script>
 
@@ -162,135 +53,6 @@ export default {
     line-height: 120%;
     color: var(--primary-text-color);
     padding: 27px 0 29px 26px;
-}
-.sidebar__user-info{
-    padding: 22.5px 20px;
-    background: var(--selected-background);
-    display: flex;
-    align-items: center;
-    margin-bottom: 27px;
-}
-.sidebar__avatar{
-    width: 42px;
-    height: 42px;
-    left: 0px;
-    top: 0px;
-    background: #F2521D;
-    border: 1px solid #FFFFFF;
-    color: #fff;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 114%;
-    margin-right: 10px;
-}
-.sidebar__user{
-
-}
-.sidevar__username{
-    margin: 0;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 120%;
-    color: var(--primary-text-color);
-    margin-bottom: 5px;
-}
-.sidebar__user-id{
-    margin: 0;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 125%;
-    color: #646A7D;
-}
-.sidebar__more{
-    cursor: pointer;
-}
-.siderbar__page-links{
-    padding: 0;
-    margin: 0;
-}
-.sidebar__page-link{
-    padding: 17px 28px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-.active-link.sidebar__page-link,
-.sidebar__page-link:hover{
-    background: var(--selected-background)
-}
-.sidebar__page-icon{
-    margin-right: 17px;
-}
-.sidebar__page-link p{
-    margin: 0;
-    color: var(--gray-text-color);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 120%;
-}
-.active-link.sidebar__page-link p,
-.sidebar__page-link:hover p{
-    color: var(--primary-text-color);
-}
-.sidebar__information-wrapper{
-    
-}
-.sidebar__information-title{
-    margin: 0;
-    margin-bottom: 14px;
-    padding-left: 26px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 120%;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #3C4254;
-}
-.sidebar__information-item{
-    margin: 0;
-    padding: 14px 26px;
-    color: var(--gray-text-color);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 120%;
-    cursor: pointer;
-}
-.siderbar__settings-links{
-    padding: 0;
-    margin: 0;
-    margin-bottom: 18px;
-}
-.sidebar__settings-link{
-    padding: 0;
-    padding: 18px 28px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-.sidebar__settings-link p{
-    margin: 0;
-    color: var(--gray-text-color);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 120%;
-}
-.sidebar__settings-link:hover p{
-    color: var(--primary-text-color)
-}
-.modal-btns{
-  display: flex;
-}
-.mr-2{
-  margin-right: 30px;
-}
-.modal-header{
-  text-align: center;
 }
 
 @media screen and (max-width: 1020px) {

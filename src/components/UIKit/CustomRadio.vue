@@ -8,7 +8,7 @@
                     v-model="modelValue"
                     @input="(event) => $emit('update:modelValue', item.value)"
             >
-            <label :for="item.id">{{item.value == '1' ? 'Male' : 'Female'}}</label>
+            <label :for="item.id" class="label">{{item.value == '1' ? 'Male' : 'Female'}}</label>
         </div>
     </div>
 </template>
@@ -58,7 +58,7 @@ export default {
     font-weight: 500;
     font-size: 14px;
     line-height: 120%;
-    color: #fff;
+    color: var(--primary-text-color);
 }
 [type="radio"]:not(:checked) + label:before {
     content: '';
@@ -67,7 +67,7 @@ export default {
     top: 0;
     width: 13px;
     height: 13px;
-    border: 1px solid #fff;
+    border: 1px solid var(--primary-text-color);
     border-radius: 50%;
     background: transparent;
 }
@@ -104,5 +104,8 @@ export default {
     opacity: 1;
     -webkit-transform: scale(1);
     transform: scale(1);
+}
+.label{
+    color: var(--primary-text-color)
 }
 </style>

@@ -362,7 +362,7 @@ export default {
   align-items: center;
 }
 .profile__switch span{
-  color: #fff;
+  color: var(--primary-text-color);
   font-weight: 500;
   font-size: 14px;  
   line-height: 120%;

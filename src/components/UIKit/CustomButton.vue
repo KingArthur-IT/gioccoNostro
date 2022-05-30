@@ -49,6 +49,7 @@ export default {
 .primary-outlined{
     background: transparent;
     border: 1px solid var(--primary-button-color);
+    color: var(--primary-text-color)
 }
 .primary:hover,
 .primary-outlined:hover{
@@ -65,6 +66,7 @@ export default {
 .warning-outlined{
     background: transparent;
     border: 1px solid var(--warning-color);
+    color: var(--primary-text-color)
 }
 .warning:hover,
 .warning-outlined:hover{

@@ -87,8 +87,9 @@ export default {
             if (props.isPhone)
                 return mask(value, '+##(###) ### ## ##')
             if (props.isCard){
-                if (props.isCardNumberHidden)
+                if (props.isCardNumberHidden && value.length > 0){
                     return '**** **** **** ' + String(value).slice(12, 16);
+                }
                 else return mask(value, '#### #### #### ####')
             }
             return value
