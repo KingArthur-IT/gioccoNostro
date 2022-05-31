@@ -4,7 +4,7 @@
             <li class="filter__item" 
                 :class="{'active': typeGameSelectorValue === 'All'}"
                 @click="typeGameSelectorValue = 'All'" 
-            >All</li>
+            >{{$t('All')}}</li>
             <li class="filter__item" 
                 :class="{'active': typeGameSelectorValue === '3'}"
                 @click="typeGameSelectorValue='3'"
@@ -22,7 +22,7 @@
             <li class="filter__item" 
                 :class="{'active': priceGameSelectorValue === 'All'}"
                 @click="priceGameSelectorValue='All'"
-            >All</li>
+            >{{$t('All')}}</li>
             <li class="filter__item" 
                 :class="{'active': priceGameSelectorValue === '100'}"
                 @click="priceGameSelectorValue='100'"
@@ -53,30 +53,30 @@
             </th>
             <th>
                 <div class="table__head-cell">
-                    <span>Email</span>
+                    <span>{{$t('Email')}}</span>
                 </div>
             </th>
             <th>
                 <div class="table__head-cell cell-pointer" @click="sortTableData('finished_games')">
-                    <span class="finished-games-td">Finished Games</span>
+                    <span class="finished-games-td">{{$t('finished_games')}}</span>
                     <TableSortArrows :sortVal="sortVals.finished_games" />
                 </div>
             </th>
             <th>
                 <div class="table__head-cell cell-pointer" @click="sortTableData('price_code')">
-                    <span>Price</span>
+                    <span>{{$t('Price')}}</span>
                     <TableSortArrows :sortVal="sortVals.price_code"/>
                 </div>
             </th>
             <th>
                 <div class="table__head-cell cell-pointer" @click="sortTableData('game_type_name')">
-                    <span>Type Game</span>
+                    <span>{{$t('type_game')}}</span>
                     <TableSortArrows :sortVal="sortVals.game_type_name"/>
                 </div>
             </th>
             <th>
                 <div class="table__head-cell table__head-center">
-                    <span>Buy</span>
+                    <span>{{$t('Buy')}}</span>
                 </div>
             </th>
         </tr>
@@ -88,7 +88,7 @@
             <td>{{item.game_type_name}}</td>
             <td>
                 <div class="mr-20">
-                    <CustomButton :text="'Buy'" @click="isShowModal = true"/>
+                    <CustomButton :text="$t('Buy')" @click="isShowModal = true"/>
                 </div>
             </td>
         </tr>
@@ -111,7 +111,7 @@
                 </div>
             </template>
             <template v-slot:footer>
-                <CustomButton :isOutlined="true" :text="'OK'" @click="isShowAlertModal = false"/>
+                <CustomButton :isOutlined="true" :text="$t('OK')" @click="isShowAlertModal = false"/>
             </template>
         </CustomModal>
     </transition>

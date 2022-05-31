@@ -3,19 +3,19 @@
         <router-link to="/dashboard" class="router-link" @click="$emit('closeMobileMenu')">
             <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Dashboard'}">
                 <DashboardIcon class="sidebar__page-icon"/>
-                <p>Dashboard</p>
+                <p>{{$t('Dashboard')}}</p>
             </li>
         </router-link>
         <router-link to="/market" class="router-link" @click="$emit('closeMobileMenu')">
             <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Market'}">
                 <MarketIcon class="sidebar__page-icon"/>
-                <p>Market</p>
+                <p>{{$t('Market')}}</p>
             </li>
         </router-link>
         <router-link to="/transactions" class="router-link" @click="$emit('closeMobileMenu')">
             <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Transitions'}">
                 <TransitionsIcon class="sidebar__page-icon"/>
-                <p>Transactions</p>
+                <p>{{$t('Transactions')}}</p>
             </li>
         </router-link>
     </ul>

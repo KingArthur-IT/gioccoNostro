@@ -2,8 +2,8 @@
   <div class="dashboard">
     <div class="games" :class="{'games-hidden': !isGamesShown}">
         <div class="games__title">
-            <span>Your Games</span>
-            <div class="games__hide" @click="gamesShownToggle">{{isGamesShown ? 'Hide' : 'Show'}}</div>
+            <span>{{$t('your_games')}}</span>
+            <div class="games__hide" @click="gamesShownToggle">{{isGamesShown ? $t('Hide') : $t('Show')}}</div>
         </div>
         <div v-for="game in games" :key="game.id">
             <div @click="selectGame(game)" class="game__item" :class="{'selected-game': selectedGame !== null && selectedGame.id === game.id}">
@@ -17,21 +17,21 @@
             <div class="dashboard__head-item">
                 <EarningIcon />
                 <div class="dashboard__item-content">
-                    <p class="dashboard__item-title">Current Earnings:</p>
+                    <p class="dashboard__item-title">{{$t('current_earning')}}:</p>
                     <span class="dashboard__item-num">${{dashboardInfo.earning}}</span>
                 </div>
             </div>
             <div class="dashboard__head-item">
                 <OutputIcon />
                 <div class="dashboard__item-content">
-                    <p class="dashboard__item-title">Next Output:</p>
+                    <p class="dashboard__item-title">{{$t('next_output')}}:</p>
                     <span class="dashboard__item-num">${{dashboardInfo.expected}}</span>
                 </div>
             </div>
             <div class="dashboard__head-item">
                 <GamesIcon />
                 <div class="dashboard__item-content">
-                    <p class="dashboard__item-title">Completed Games</p>
+                    <p class="dashboard__item-title">{{$t('complete_games')}}</p>
                     <span class="dashboard__item-num">{{dashboardInfo.finished}}</span>
                 </div>
             </div>

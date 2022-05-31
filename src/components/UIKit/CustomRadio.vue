@@ -8,7 +8,7 @@
                     v-model="modelValue"
                     @input="(event) => $emit('update:modelValue', item.value)"
             >
-            <label :for="item.id" class="label">{{item.value == '1' ? 'Male' : 'Female'}}</label>
+            <label :for="item.id" class="label">{{item.value == '1' ? $t('Male') : $t('Female')}}</label>
         </div>
     </div>
 </template>

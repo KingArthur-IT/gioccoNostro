@@ -2,7 +2,7 @@
     <div class="search-input" :class="{'desctop': !isForMobileMenu}">
         <SearchIcon class="search-input__search-icon"/>
         <input  type="text" 
-                :placeholder="placeholder" 
+                :placeholder=$t(placeholder) 
                 class="primary-text-color"
                 :value="modelValue"
                 @input="(event) => $emit('update:modelValue', event.target.value)"
@@ -21,7 +21,7 @@ export default {
     props: {
         placeholder: {
             type: String,
-            default: 'Type to search...'
+            default: 'type_to_search'
         },
         modelValue: {
             type: String,

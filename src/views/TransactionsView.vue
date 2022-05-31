@@ -8,31 +8,31 @@
         </th>
         <th>
             <div class="table__head-cell cell-pointer" @click="sortTableData('created_at')">
-                <span>Date</span>
+                <span>{{$t('Date')}}</span>
                 <TableSortArrows :sortVal="sortVals.created_at"/>
             </div>
         </th>
         <th>
             <div class="table__head-cell cell-pointer" @click="sortTableData('type_name')">
-                <span>Type</span>
+                <span>{{$t('Type')}}</span>
                 <TableSortArrows :sortVal="sortVals.type_name"/>
             </div>
         </th>
         <th>
             <div class="table__head-cell cell-pointer" @click="sortTableData('amount')">
-                <span>Amount</span>
+                <span>{{$t('Amount')}}</span>
                 <TableSortArrows :sortVal="sortVals.amount"/>
             </div>
         </th>
         <th>
             <div class="table__head-cell cell-pointer" @click="sortTableData('typeGame')">
-                <span>Type Game</span>
+                <span>{{$t('type_game')}}</span>
                 <TableSortArrows :sortVal="sortVals.typeGame"/>
             </div>
         </th>
         <th>
             <div class="table__head-cell table__head-center">
-                <span>Status</span>
+                <span>{{$t('Status')}}</span>
             </div>
         </th>
     </tr>

@@ -1,17 +1,17 @@
 <template>
     <div class="sidebar__information-wrapper">
-        <p class="sidebar__information-title">Information</p>
+        <p class="sidebar__information-title">{{$t('Information')}}</p>
         <a :href="`docs/rules/${locale}.pdf`" target="_blank">
-            <p class="sidebar__information-item">Game Rules</p>
+            <p class="sidebar__information-item">{{$t('game_rules')}}</p>
         </a>
         <a :href="`docs/Rules and Terms of Service-full text.pdf`" target="_blank">
-            <p class="sidebar__information-item">Terms of Use</p>
+            <p class="sidebar__information-item">{{$t('term_of_use')}}</p>
         </a>
     </div>
     <ul class="siderbar__settings-links">
         <li class="sidebar__settings-link" @click="logoutEvent">
             <LogoutIcon class="sidebar__page-icon"/>
-            <p>Exit</p>
+            <p>{{$t('Exit')}}</p>
         </li>
     </ul>
     <transition name="modal">

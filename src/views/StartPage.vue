@@ -4,7 +4,7 @@
       <div class="start-main__hero">
         <img src="@/assets/img/earth.png" class="start-main__bg-image">
         <div class="start-main__content">
-          <h1 class="primary-text-color start-main__title">A POSTERIORI: ABDUCET PRAEDAM, QUI ACCURRIT PRIOR</h1>
+          <h1 class="primary-text-color start-main__title">{{$t('title')}}</h1>
           <p class="primary-text-color start-main__subtitle">
             
           </p>
@@ -63,6 +63,7 @@ export default {
   font-size: 44px;
   line-height: 120%;
   margin-bottom: 40px;
+  text-transform: uppercase;
 }
 .start-main__subtitle{
   display: none;

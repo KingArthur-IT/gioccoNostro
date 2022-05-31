@@ -1,6 +1,6 @@
 <template>
     <div class="border-radius head">
-        <p class="head__title primary-text-color">{{$route.meta.title}}</p>
+        <p class="head__title primary-text-color">{{$t(`${$route.meta.title}`)}}</p>
         <div class="head__controls">
             <div class="mr-30">
                 <SearchInput />

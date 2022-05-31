@@ -6,22 +6,22 @@
         </div>
         <div class="profile__mobile-text">
             <p>
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-              <span class="show-all" v-if="!isShowAllText" @click="isShowAllText = true">Show all</span>
+              {{$t('profile_text1')}}
+              <span class="show-all" v-if="!isShowAllText" @click="isShowAllText = true">{{$t('show_all')}}</span>
             </p>
             <p v-if="isShowAllText">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+              {{$t('profile_text2')}}
             </p>
             <p v-if="isShowAllText">
-              Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
+              {{$t('profile_text3')}}
             </p>
             <p v-if="isShowAllText">
-              Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
+              {{$t('profile_text4')}}
             </p>
         </div>
          <CustomInput 
-            :label="'User Info'"
-            :placeholder="'John Doe'"
+            :label="$t('user_info')"
+            :placeholder="$t('john_doe')"
             class="profile__input"
             v-model="newUserData.name"
          />
@@ -41,14 +41,14 @@
             v-model="newUserData.email"
          />
          <div class="profile__switch">
-           <span>Email notifications</span>
+           <span>{{$t('email_notifications')}}</span>
            <Switch v-model="emailNotificated" />
          </div>
 
          <div class="profile__change-password-section">
            <CustomInput 
-              :label="'Change Password'"
-              :placeholder="'Current Password'"
+              :label="$t('change_password')"
+              :placeholder="$t('current_password')"
               class="profile__input"
               :isPassword="true"
               v-model="password.current"
@@ -56,7 +56,7 @@
           />
           <CustomInput 
               :label="''"
-              :placeholder="'New Password'"
+              :placeholder="$t('new_password')"
               class="profile__input"
               :isPassword="true"
               v-model="password.new"
@@ -64,17 +64,17 @@
           />
           <CustomInput 
               :label="''"
-              :placeholder="'Replay Password'"
+              :placeholder="$t('reply_password')"
               :isPassword="true"
               v-model="password.reply"
               :isError="!passwordValid.reply"
-              :errorMessage="'Password is not match'"
+              :errorMessage="$t('password_not_match')"
           />
          </div>
 
         <div class="card-label-wrapper">
           <p class="card-label">Card</p>
-          <p class="card-change" @click="isShowCardNumber = true">Change</p>
+          <p class="card-change" @click="isShowCardNumber = true">{{$t('Change')}}</p>
         </div>
          <CustomInput 
             :label="''"
@@ -87,11 +87,11 @@
          />
 
          <div class="profile__btn-wrapper">
-           <CustomButton class="prodile__btn" :text="'Save'" @click="saveUserInfo"/>
-           <CustomButton class="prodile__btn" :text="'Cancel'" :isPrimary="false" @click="cancelChanges"/>
-           <CustomButton class="prodile__btn" :text="'Exit'" :isOutlined="true" @click="exit"/>
+           <CustomButton class="prodile__btn" :text="$t('Save')" @click="saveUserInfo"/>
+           <CustomButton class="prodile__btn" :text="$t('Cancel')" :isPrimary="false" @click="cancelChanges"/>
+           <CustomButton class="prodile__btn" :text="$t('Exit')" :isOutlined="true" @click="exit"/>
          </div>
-         <CustomButton class="prodile__btn" :text="'Delete Account'" :isPrimary="false" :isOutlined="true" @click="preDeleteAccount"/>
+         <CustomButton class="prodile__btn" :text="$t('delete_account')" :isPrimary="false" :isOutlined="true" @click="preDeleteAccount"/>
       </div>
       <div class="profile__right-side">
         <p>
