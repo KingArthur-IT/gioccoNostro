@@ -5,9 +5,10 @@
         <div class="forgot__hero">
           <h2 class="forgot__title">Forgot Password</h2>
           <p class="forgot__text">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium 
-              <a href="" class="forgot__link">poshta@gmail.com</a>, 
-              totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta.
+            To reset your password, please enter e-mail address below, recovery link will be provided automatically, please follow further instructions, sent to indicated e-mail address.
+              <!--
+              <a href="" class="forgot__link">poshta@gmail.com</a>
+              -->
           </p>
           <CustomInput 
                 :label="'Email'"

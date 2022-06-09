@@ -1,15 +1,27 @@
 <template>
   <form class="sign-up" autocomplete="off">
     <CustomInput 
-        :label="'Name & Surname'"
+        :label="'Name'"
         :placeholder="'Type here...'"
         :isRequired="true"
-        :showRequiredInfo="valid.userName"
+        :showRequiredInfo="valid.firstName"
         class="sign-up__input"
-        v-model="userData.userName.value"
-        :isError="!valid.userName"
+        v-model="userData.firstName.value"
+        :isError="!valid.firstName"
         @blur="userNameValidate"
-        :errorMessage="'Username is too short'"
+        :errorMessage="'Name is too short'"
+        :isShowWarningLabel="true"
+    />
+    <CustomInput 
+        :label="'Surname'"
+        :placeholder="'Type here...'"
+        :isRequired="true"
+        class="sign-up__input"
+        v-model="userData.lastName.value"
+        :isError="!valid.lastName"
+        @blur="userLastNameValidate"
+        :errorMessage="'Surname is too short'"
+        :isShowWarningLabel="true"
     />
     <CustomInput 
         :label="'Email'"
@@ -59,7 +71,7 @@
     <div class="sign-up__checkbox-wrap">
         <CustomCheckbox v-model="userData.isTermAgree.value" :isError="!valid.isTermAgree">
             <p class="sign-up__agree-text ml">
-                I agree with <a href="docs/Terms introduction.pdf" target="_blank">Terms of Conditions</a>
+                I agree with <a href="https://gioconostro.com/docs/Terms introduction.pdf" target="_blank">Terms and Conditions</a>
             </p>
         </CustomCheckbox>
     </div>
@@ -98,7 +110,8 @@ export default {
     setup(){
         const router = useRouter();
         const userData = {
-            userName: ref(''),
+            firstName: ref(''),
+            lastName: ref(''),
             email: ref(''),
             phone: ref(''),
             card: ref(''),
@@ -107,7 +120,8 @@ export default {
             isTermAgree: ref(false),
         }
         const valid = reactive({
-            userName: true,
+            firstName: true,
+            lastName: true,
             email: true,
             card: true,
             password: true,
@@ -124,23 +138,34 @@ export default {
         const goToSignIn = () => {
             router.push({name: 'signIn', params: {page: 'login'}})
         }
-        const userNameValidate = () => {
-            if(userData.userName.value.length < 5)
-                valid.userName = false
-            else valid.userName = true;
+        const userNameValidate = (isBlur = true) => {
+            const blurCheck = isBlur ? userData.firstName.value.length > 0 : true;
+            if(blurCheck && userData.firstName.value.length < 5)
+                valid.firstName = false
+            else valid.firstName = true;
         }
-        const emailValidate = () => {
-            if(userData.email.value.length > 7 && userData.email.value.includes('@') && userData.email.value.includes('.'))
+        const userLastNameValidate = (isBlur = true) => {
+            const blurCheck = isBlur ? userData.lastName.value.length > 0 : true;
+            if(blurCheck && userData.lastName.value.length < 5)
+                valid.lastName = false
+            else valid.lastName = true;
+        }
+        const emailValidate = (isBlur = true) => {
+            const blurCheck = isBlur ? userData.email.value.length === 0 : userData.email.value.length > 7;
+            if( blurCheck ||
+                (userData.email.value.length > 7 && userData.email.value.includes('@') && userData.email.value.includes('.'))
+            )
                 valid.email = true
             else valid.email = false;
         }
-        const cardValidate = () => {
-            if(userData.card.value.replaceAll(' ','').length === 16)
+        const cardValidate = (isBlur = true) => {
+            if((userData.card.value.replaceAll(' ','').length === 16 && !isBlur) || (isBlur && userData.card.value.replaceAll(' ','').length === 0))
                 valid.card = true
             else valid.card = false;
         }
-        const passwordValidate = () => {
-            if (userData.password.value === userData.confirmPassword.value && userData.password.value.length > 0)
+        const passwordValidate = (isBlur = true) => {
+            if ((userData.password.value === userData.confirmPassword.value && userData.password.value.length > 0 && !isBlur) ||
+                (isBlur && userData.password.value.length === 0 && userData.confirmPassword.value.length === 0))
                 valid.password = true
             else valid.password = false;
         }
@@ -161,16 +186,18 @@ export default {
                 return
             }
             else valid.isTermAgree = true;
-            userNameValidate();
-            emailValidate();
-            cardValidate();
-            passwordValidate();
+            userNameValidate(false);
+            userLastNameValidate(false);
+            emailValidate(false);
+            cardValidate(false);
+            passwordValidate(false);
             if (Object.values(valid).some((item) => item === false))
                 return;
                 
             await axios.post('https://api.gioconostro.com/api/v1/register', 
             {
-                'name': userData.userName.value,
+                'name': userData.firstName.value,
+                'last_name': userData.lastName.value,
                 'password': userData.password.value,
                 'email': userData.email.value,
                 "phone": userData.phone.value.replaceAll(' ', '').replace('(','').replace(')',''),
@@ -206,7 +233,7 @@ export default {
         }
         return { 
             userData, valid, goToSignIn, SignUpEvent,
-            userNameValidate, emailValidate, cardValidate, passwordValidate,
+            userNameValidate, userLastNameValidate, emailValidate, cardValidate, passwordValidate,
             isShowModal, signUpText, closeModal
         }
     }

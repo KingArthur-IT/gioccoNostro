@@ -9,10 +9,15 @@
                 :placeholder="placeholder" 
                 :value="maskedValue(modelValue)"
                 @input="(event) => inputEvent(event.target.value)"
-                @blur="() => $emit('blur')"
+                @blur="() => {$emit('blur'); isFocused = false;}"
+                @focus="isFocused = true"
                 autocomplete="off"
                 :disabled="disabled"
         >
+        <div v-if="isShowWarningLabel && isFocused" class="warning-label">
+            <p class="warning-label__title">Warning</p>
+            <p class="warning-label__text">To avoid mistakes make sure typing is identical to bank card</p>
+        </div>
         <EyeIcon v-if="isPassword" :isOpened="idPasswordVisible" @click="idPasswordVisible = !idPasswordVisible" class="password-eye" />
     </div>
 </template>
@@ -75,6 +80,10 @@ export default {
         disabled:{
             type: Boolean,
             default: false
+        },
+        isShowWarningLabel:{
+            type: Boolean,
+            default: false
         }
     },
     setup(props, {emit}){
@@ -82,6 +91,7 @@ export default {
             return props.label !== '' || props.showRequiredInfo || props.isError
         }
         const idPasswordVisible =  ref(false)
+        const isFocused = ref(false)
 
         const maskedValue = (value) => {
             if (props.isPhone)
@@ -104,7 +114,7 @@ export default {
         }
 
         return {
-            isHeadInfoShown, maskedValue, inputEvent, idPasswordVisible
+            isHeadInfoShown, maskedValue, inputEvent, idPasswordVisible, isFocused
         }
     }
 }
@@ -161,6 +171,25 @@ export default {
 }
 .w-100{
     width: 100%;
+}
+
+.warning-label{
+    width: 100%;
+    padding: 12px 17px;
+    background-color: var(--selected-background);
+    color: var(--primary-text-color);
+    border-radius: 10px;
+    border: 1px solid var(--input-border);
+    z-index: 1;
+    margin-top: 10px;
+}
+.warning-label__title{
+    margin-top: 0;
+    color: var(--warning-color);
+}
+.warning-label__text{
+    margin-bottom: 0;
+    color: var(--warning-color);
 }
 
 @media screen and (max-width: 425px) {
