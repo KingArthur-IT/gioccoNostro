@@ -26,14 +26,15 @@
             <li class="filter__item" 
                 :class="{'active': priceGameSelectorValue === '100'}"
                 @click="priceGameSelectorValue='100'"
-            >$100</li>
+            >€100</li>
             <li class="filter__item" 
                 :class="{'active': priceGameSelectorValue === '200'}"
-                @click="priceGameSelectorValue='200'">$200</li>
+                @click="priceGameSelectorValue='200'"
+            >€200</li>
             <li class="filter__item" 
                 :class="{'active': priceGameSelectorValue === '300'}"
                 @click="priceGameSelectorValue='300'"
-            >$300</li>
+            >€300</li>
         </ul>
     </div>
     <table v-if="marketData && marketData.length" class="table no-spacing" style="width: 100%">
@@ -84,7 +85,7 @@
             <td>{{item.id}}</td>
             <td>{{item.owner_email}}</td>
             <td>{{item.finished_games}}</td>
-            <td>$ {{item.price_code}}</td>
+            <td>€ {{item.price_code}}</td>
             <td>{{item.game_type_name}}</td>
             <td>
                 <div class="mr-20">

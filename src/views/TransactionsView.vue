@@ -40,7 +40,7 @@
         <td>{{item.id}}</td>
         <td>{{getDate(item.created_at)}}</td>
         <td class="type-text">{{item.type_name}}</td>
-        <td>$ {{item.amount}}</td>
+        <td>€ {{item.amount}}</td>
         <td>{{item.game.game_type_name}}</td>
         <td>
             <StatusLabel :status="item.status_name" class="mr-20"/>

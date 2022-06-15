@@ -18,15 +18,15 @@
                   <ul class="modal-body__list">
                     <li class="modal-body__list-item">
                       <p class="modal-body__list-text">Payment for saler #1</p>
-                      <p class="modal-body__list-text">$200</p>
+                      <p class="modal-body__list-text">€200</p>
                     </li>
                     <li class="modal-body__list-item">
                       <p class="modal-body__list-text">Payment for current saler</p>
-                      <p class="modal-body__list-text">$200</p>
+                      <p class="modal-body__list-text">€200</p>
                     </li>
                     <li class="modal-body__list-item">
                       <p class="modal-body__list-text">Payment to platform</p>
-                      <p class="modal-body__list-text">$200</p>
+                      <p class="modal-body__list-text">€200</p>
                     </li>
                   </ul>
                   <div class="modal-body__total">

@@ -140,13 +140,13 @@ export default {
         }
         const userNameValidate = (isBlur = true) => {
             const blurCheck = isBlur ? userData.firstName.value.length > 0 : true;
-            if(blurCheck && userData.firstName.value.length < 5)
+            if(blurCheck && userData.firstName.value.length < 3)
                 valid.firstName = false
             else valid.firstName = true;
         }
         const userLastNameValidate = (isBlur = true) => {
             const blurCheck = isBlur ? userData.lastName.value.length > 0 : true;
-            if(blurCheck && userData.lastName.value.length < 5)
+            if(blurCheck && userData.lastName.value.length < 3)
                 valid.lastName = false
             else valid.lastName = true;
         }
@@ -159,13 +159,14 @@ export default {
             else valid.email = false;
         }
         const cardValidate = (isBlur = true) => {
-            if((userData.card.value.replaceAll(' ','').length === 16 && !isBlur) || (isBlur && userData.card.value.replaceAll(' ','').length === 0))
+            const cardLength = userData.card.value.replaceAll(' ','').length
+            if(cardLength === 16 || (isBlur && cardLength === 0 ))
                 valid.card = true
             else valid.card = false;
         }
         const passwordValidate = (isBlur = true) => {
             if ((userData.password.value === userData.confirmPassword.value && userData.password.value.length > 0 && !isBlur) ||
-                (isBlur && userData.password.value.length === 0 && userData.confirmPassword.value.length === 0))
+                (userData.password.value === userData.confirmPassword.value && isBlur))
                 valid.password = true
             else valid.password = false;
         }

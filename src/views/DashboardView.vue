@@ -8,7 +8,7 @@
         <div v-for="game in games" :key="game.id">
             <div @click="selectGame(game)" class="game__item" :class="{'selected-game': selectedGame !== null && selectedGame.id === game.id}">
                 <span class="game__type">{{game.game_type_name}}</span>
-                <span class="game__price">${{game.price_code}}</span>
+                <span class="game__price">€{{game.price_code}}</span>
             </div>
         </div>
     </div>
@@ -18,14 +18,14 @@
                 <EarningIcon />
                 <div class="dashboard__item-content">
                     <p class="dashboard__item-title">{{$t('current_earning')}}:</p>
-                    <span class="dashboard__item-num">${{dashboardInfo.earning}}</span>
+                    <span class="dashboard__item-num">€{{dashboardInfo.earning}}</span>
                 </div>
             </div>
             <div class="dashboard__head-item">
                 <OutputIcon />
                 <div class="dashboard__item-content">
                     <p class="dashboard__item-title">{{$t('next_output')}}:</p>
-                    <span class="dashboard__item-num">${{dashboardInfo.expected}}</span>
+                    <span class="dashboard__item-num">€{{dashboardInfo.expected}}</span>
                 </div>
             </div>
             <div class="dashboard__head-item">

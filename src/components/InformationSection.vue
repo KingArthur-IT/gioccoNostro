@@ -4,7 +4,7 @@
         <a :href="`docs/rules/${locale}.pdf`" target="_blank">
             <p class="sidebar__information-item">{{$t('game_rules')}}</p>
         </a>
-        <a :href="`docs/Rules and Terms of Service-full text.pdf`" target="_blank">
+        <a :href="'https://gioconostro.com/docs/Terms introduction.pdf'" target="_blank">
             <p class="sidebar__information-item">{{$t('term_of_use')}}</p>
         </a>
     </div>
