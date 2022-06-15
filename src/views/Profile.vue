@@ -4,21 +4,6 @@
         <div class="profile__id-label">
           <IdLabel :id="userData.id"/>
         </div>
-        <div class="profile__mobile-text">
-            <p>
-              {{$t('profile_text1')}}
-              <span class="show-all" v-if="!isShowAllText" @click="isShowAllText = true">{{$t('show_all')}}</span>
-            </p>
-            <p v-if="isShowAllText">
-              {{$t('profile_text2')}}
-            </p>
-            <p v-if="isShowAllText">
-              {{$t('profile_text3')}}
-            </p>
-            <p v-if="isShowAllText">
-              {{$t('profile_text4')}}
-            </p>
-        </div>
          <CustomInput 
             :label="$t('user_info')"
             :placeholder="$t('john_doe')"
@@ -94,18 +79,7 @@
          <CustomButton class="prodile__btn" :text="$t('delete_account')" :isPrimary="false" :isOutlined="true" @click="preDeleteAccount"/>
       </div>
       <div class="profile__right-side">
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-        </p>
-        <p>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-        </p>
-        <p>
-          Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.
-        </p>
-        <p>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.
-        </p>
+        <img src="@/assets/img/Gif_balls.gif" alt="Balls">
       </div>
     </div>
     <transition name="modal">
@@ -161,7 +135,6 @@ export default {
       isShowModal: false,
       modalText: '',
       modalOnlyOkBtn: true,
-      isShowAllText: false,
       isShowCardNumber: false
     }
   },
@@ -341,6 +314,9 @@ export default {
 .profile__right-side{
   flex-basis: 60%;
 }
+.profile__right-side img{
+  width: 100%;
+}
 .profile__right-side p{
   margin: 0;
   font-style: normal;
@@ -379,9 +355,6 @@ export default {
 }
 .modal-header{
   text-align: center;
-}
-.profile__mobile-text{
-  display: none;
 }
 .card-label-wrapper{
   display: flex;
@@ -435,10 +408,6 @@ export default {
   }
   .profile__id-label{
     max-width: 240px;
-  }
-  .show-all{
-    color: var(--primary-text-color);
-    text-decoration: underline;
   }
 }
 
