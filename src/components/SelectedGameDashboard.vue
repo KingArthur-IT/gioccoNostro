@@ -11,7 +11,13 @@
           <BoardLegend />
       </div>
       <div class="game-board__hero">
+          <img v-if="gameType === 3" src="@/assets/img/3x3.jpeg" alt="3x3" class="game-board__img">
+          <img v-if="gameType === 4" src="@/assets/img/4x4.jpeg" alt="3x3" class="game-board__img">
+          <img v-if="gameType === 5" src="@/assets/img/5x5.jpeg" alt="3x3" class="game-board__img">
+          
+          <!--
           <GamesView :level="gameType === '' ? 0 : gameType"/>
+          -->
       </div>
   </div>
 </template>
@@ -91,5 +97,8 @@ export default {
     background: url('@/assets/img/games-bg.png') no-repeat;
     background-size: 100% 100%;
     margin-top: 25px
+}
+.game-board__img{
+    width: 100%;
 }
 </style>
