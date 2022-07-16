@@ -1,50 +1,41 @@
 <template>
-  <div class="screen">
+  <div class="screen" :class="{'fifth': level === 5}">
     <div class="screen-center">
-      <BoardItem :color="level === 5 ? 'red' : 'blue'" :glowSize="10" :showText="true"/>
+      <BoardItem :color="'red'" :glowSize="10"/>
     </div>
 
-    <div class="second-rind-1">
-      <BoardItem :color="level === 4 ? 'red' : 'green'" :glowSize="5" :showText="true"/>
-    </div>
-    <div class="second-rind-2">
-      <BoardItem :color="'green'" :glowSize="5"/>
-    </div>
-    <div class="second-rind-3">
+    <div  v-for="i in level" :key="i"
+          class="second-level"
+          :style="`top: calc(50% - ${topPos(i, 2)}px); left: calc(50% + ${leftPos(i, 2)}px)`"
+    >
       <BoardItem :color="'green'" :glowSize="5"/>
     </div>
 
-    <div class="third-rind-1">
-      <BoardItem :color="level === 3 ? 'red' : 'yellow'" :glowSize="3" :showText="true"/>
+    <div  v-for="i in level*level" :key="i"
+          class="third-level"
+          :style="`top: calc(50% - ${topPos(i, 3)}px); left: calc(50% + ${leftPos(i, 3)}px)`"
+    >
+      <BoardItem :color="'yellow'" :glowSize="5"/>
     </div>
-    <div class="third-rind-2">
-      <BoardItem :color="'yellow'" :glowSize="3"/>
+
+    <div v-if="level > 3">
+      <div  v-for="i in level*level*level" :key="i"
+            class="fourth-level"
+            :style="`top: calc(50% - ${topPos(i, 4, i % 2)}px); left: calc(50% + ${leftPos(i, 4, i % 2)}px)`"
+      >
+        <BoardItem :color="'orange'" :glowSize="5"/>
+      </div>
     </div>
-    <div class="third-rind-3">
-      <BoardItem :color="'yellow'" :glowSize="3"/>
+
+    <div v-if="level > 4">
+      <div  v-for="i in level*level*level*level" :key="i"
+            class="fifth-level"
+            :style="`top: calc(50% - ${topPos(i, 5, i % 5)}px); left: calc(50% + ${leftPos(i, 5, i % 5)}px)`"
+      >
+        <BoardItem :color="'blue'" :glowSize="5"/>
+      </div>
     </div>
-    <div class="third-rind-4">
-      <BoardItem :color="'yellow'" :glowSize="3"/>
-    </div>
-    <div class="third-rind-5">
-      <BoardItem :color="'yellow'" :glowSize="3"/>
-    </div>
-    <div class="third-rind-6">
-      <BoardItem :color="'yellow'" :glowSize="3"/>
-    </div>
-    <div class="third-rind-7">
-      <BoardItem :color="'yellow'" :glowSize="3"/>
-    </div>
-    <div class="third-rind-8">
-      <BoardItem :color="'yellow'" :glowSize="3"/>
-    </div>
-    <div class="third-rind-9">
-      <BoardItem :color="'yellow'" :glowSize="3"/>
-    </div>
-    <!--
-      <img src="@/assets/img/dashboard-3x3.svg" alt="" class="screen__img">
-    
-    -->
+
   </div>
 </template>
 
@@ -57,9 +48,40 @@ export default {
   },
   props:{
     level:{
-      type: Number
+      type: Number,
+      default: 3
     }
-  }
+  },
+  methods:{
+    levelRadius(lvl, step = 0){
+      const data = [
+        [130, 230],
+        [110, 200, 260],
+        [95, 160, 200, 250],
+      ];
+      const dist = this.level === 5 && lvl === 4 ? 20 : 8;
+      return data[this.level - 3][lvl - 2] + step * dist;
+    },
+    getItemAngleInRing(i, lvl, step = 0){
+      const angleH = this.level === 5 && lvl === 4 ? 2 : 0;
+      const startDegree = 45 + step * 10;
+      const countInRing = Math.pow(this.level, lvl - 1);
+      const angleStep = (360.0 - angleH) / countInRing;
+
+      const angle = i * angleStep + startDegree;
+      return angle;
+    },
+    topPos(i, lvl, step = 0){
+      const h = this.level === 4 && lvl === 4 ? 0 : 1;
+      const angle = this.getItemAngleInRing(i, lvl, step * h);
+      return this.levelRadius(lvl, step * h) * Math.sin(angle * Math.PI / 180.0);
+    },
+    leftPos(i, lvl, step = 0){
+      const h = this.level === 4 && lvl === 4 ? 0 : 1;
+      const angle = this.getItemAngleInRing(i, lvl, step * h);
+      return this.levelRadius(lvl, step * h) * Math.cos(angle * Math.PI / 180.0);
+    }
+  },
 }
 </script>
 
@@ -82,101 +104,49 @@ export default {
   transform: translate(-50%, -50%);
 }
 
-.second-rind-1{
+.second-level{
   width: 20%;
   height: 20%;
   position: absolute;
-  top: calc(50% - 120px * 0.26);
-  left: calc(50% + 120px * 0.966);
-  transform: translate(-50%, -50%);
-}
-.second-rind-2{
-  width: 20%;
-  height: 20%;
-  position: absolute;
-  top: calc(50% - 120px * 0.707);
-  left: calc(50% - 120px * 0.707);
-  transform: translate(-50%, -50%);
-}
-.second-rind-3{
-  width: 20%;
-  height: 20%;
-  position: absolute;
-  top: calc(50% + 120px * 0.966);
-  left: calc(50% - 120px * 0.259);
   transform: translate(-50%, -50%);
 }
 
-.third-rind-1{
+.third-level{
+  position: absolute;
   width: 15%;
   height: 15%;
-  position: absolute;
-  top: calc(50% - 205px * 0.174);
-  left: calc(50% + 205px * 0.989);
   transform: translate(-50%, -50%);
 }
-.third-rind-2{
+
+.fourth-level{
+  position: absolute;
+  width: 5%;
+  height: 5%;
+  transform: translate(-50%, -50%);
+}
+
+.fifth-level{
+  position: absolute;
+  width: 2.5%;
+  height: 2.5%;
+  transform: translate(-50%, -50%);
+}
+
+.fifth > .second-level{
   width: 15%;
   height: 15%;
-  position: absolute;
-  top: calc(50% - 205px * 0.776);
-  left: calc(50% + 205px * 0.643);
-  transform: translate(-50%, -50%);
 }
-.third-rind-3{
-  width: 15%;
-  height: 15%;
-  position: absolute;
-  top: calc(50% - 205px * 1.);
-  left: calc(50% + 205px * 0.0);
-  transform: translate(-50%, -50%);
+.fifth > .third-level{
+  width: 10%;
+  height: 10%;
 }
-.third-rind-4{
-  width: 15%;
-  height: 15%;
-  position: absolute;
-  top: calc(50% - 205px * 0.766);
-  left: calc(50% - 205px * 0.644);
-  transform: translate(-50%, -50%);
+.fifth .fourth-level{
+  width: 3%;
+  height: 3%;
 }
-.third-rind-5{
-  width: 15%;
-  height: 15%;
-  position: absolute;
-  top: calc(50% - 205px * 0.174);
-  left: calc(50% - 205px * 0.985);
-  transform: translate(-50%, -50%);
+.fifth .fifth-level{
+  width: 1.5%;
+  height: 1.5%;
 }
-.third-rind-6{
-  width: 15%;
-  height: 15%;
-  position: absolute;
-  top: calc(50% + 205px * 0.5);
-  left: calc(50% - 205px * 0.866);
-  transform: translate(-50%, -50%);
-}
-.third-rind-7{
-  width: 15%;
-  height: 15%;
-  position: absolute;
-  top: calc(50% + 205px * 0.94);
-  left: calc(50% - 205px * 0.342);
-  transform: translate(-50%, -50%);
-}
-.third-rind-8{
-  width: 15%;
-  height: 15%;
-  position: absolute;
-  top: calc(50% + 205px * 0.94);
-  left: calc(50% + 205px * 0.342);
-  transform: translate(-50%, -50%);
-}
-.third-rind-9{
-  width: 15%;
-  height: 15%;
-  position: absolute;
-  top: calc(50% + 205px * 0.5);
-  left: calc(50% + 205px * 0.866);
-  transform: translate(-50%, -50%);
-}
+
 </style>

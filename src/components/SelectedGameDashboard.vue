@@ -2,7 +2,7 @@
   <div class="game-board">
       <div class="game-board__info">
           <p v-if="gameType" class="game-board__game-type">{{gameType}}x{{gameType}}</p>
-          <p v-if="gamePrice > 0" class="game-board__game-price">${{gamePrice}}</p>
+          <p v-if="gamePrice > 0" class="game-board__game-price">€{{gamePrice}}</p>
       </div>
       <div v-if="gameId > 0" class="game-board__id">
           <IdLabel :id="gameId"/>
@@ -11,13 +11,13 @@
           <BoardLegend />
       </div>
       <div class="game-board__hero">
-          <img v-if="gameType === 3" src="@/assets/img/3x3.jpeg" alt="3x3" class="game-board__img">
+          <!-- <img v-if="gameType === 3" src="@/assets/img/3x3.jpeg" alt="3x3" class="game-board__img">
           <img v-if="gameType === 4" src="@/assets/img/4x4.jpeg" alt="3x3" class="game-board__img">
-          <img v-if="gameType === 5" src="@/assets/img/5x5.jpeg" alt="3x3" class="game-board__img">
+          <img v-if="gameType === 5" src="@/assets/img/5x5.jpeg" alt="3x3" class="game-board__img"> -->
           
-          <!--
+          
           <GamesView :level="gameType === '' ? 0 : gameType"/>
-          -->
+         
       </div>
   </div>
 </template>
