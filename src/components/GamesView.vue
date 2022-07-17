@@ -60,20 +60,25 @@ export default {
         [110, 200, 260],
         [95, 160, 200, 250],
       ];
+      // const dataMobile = [
+      //   [0.20, 0.375],
+      //   [0.18, 0.32, 0.42],
+      //   [0.15, 0.25, 0.32, 0.38],
+      // ];
       const dataMobile = [
-        [0.20, 0.375],
-        [0.18, 0.32, 0.42],
-        [0.15, 0.25, 0.32, 0.38],
+        [70, 120],
+        [65, 105, 130],
+        [50, 80, 105, 125],
       ];
 
       let dist = 0;
-      if (windowWidth > 500)
+      if (windowWidth > 600)
         dist = this.level === 5 && lvl === 4 ? 20 : 8; //для нескольких кругов
       else 
         dist = this.level === 5 && lvl === 4 ? 8 : 4;
       
       if (windowWidth < 601)
-        return dataMobile[this.level - 3][lvl - 2] * windowWidth + step * dist;
+        return dataMobile[this.level - 3][lvl - 2] + step * dist;
       else 
         return data[this.level - 3][lvl - 2] + step * dist;
     },
@@ -111,8 +116,8 @@ export default {
   height: 100%;
 }
 .screen-center{
-  width: 33%;
-  height: 33%;
+  width: 160px;
+  height: 160px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -120,48 +125,93 @@ export default {
 }
 
 .second-level{
-  width: 20%;
-  height: 20%;
+  width: 97px;
+  height: 97px;
   position: absolute;
   transform: translate(-50%, -50%);
 }
 
 .third-level{
   position: absolute;
-  width: 15%;
-  height: 15%;
+  width: 73px;
+  height: 73px;
   transform: translate(-50%, -50%);
 }
 
 .fourth-level{
   position: absolute;
-  width: 5%;
-  height: 5%;
+  width: 24px;
+  height: 24px;
   transform: translate(-50%, -50%);
 }
 
 .fifth-level{
   position: absolute;
-  width: 2.5%;
-  height: 2.5%;
+  width: 7px;
+  height: 7px;
   transform: translate(-50%, -50%);
 }
 
 .fifth > .second-level{
-  width: 15%;
-  height: 15%;
+  width: 80px;
+  height: 80px;
 }
 .fifth > .third-level{
-  width: 10%;
-  height: 10%;
+  width: 50px;
+  height: 50px;
 }
 .fifth .fourth-level{
-  width: 3%;
-  height: 3%;
+  width: 18px;
+  height: 18px;
 }
 .fifth .fifth-level{
-  width: 1.5%;
-  height: 1.5%;
+  width: 7px;
+  height: 7px;
+}
+
+@media screen and (max-width: 600px) {
+  .screen-center{
+    width: 90px;
+    height: 90px;
+  }
+
+  .second-level{
+    width: 50px;
+    height: 50px;
+  }
+
+  .third-level{
+    width: 26px;
+    height: 26px;
+  }
+
+  .fourth-level{
+    width: 10px;
+    height: 10px;
+  }
+
+  .fifth-level{
+    width: 4px;
+    height: 4px;
+  }
+
+
+  .fifth > .second-level{
+    width: 40px;
+    height: 40px;
+  }
+  .fifth > .third-level{
+    width: 25px;
+    height: 25px;
+  }
+  .fifth .fourth-level{
+    width: 8px;
+    height: 8px;
+  }
+  .fifth .fifth-level{
+    width: 3px;
+    height: 3px;
+  }
 }
 
 </style>

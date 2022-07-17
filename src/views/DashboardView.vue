@@ -529,6 +529,7 @@ export default {
     border-radius: 20px;
     height: calc(100vh - 80px - 26px - 119px - 26px);
     position: relative;
+    overflow: scroll;
 }
 .dashboard-view-full{
     width: 100%;

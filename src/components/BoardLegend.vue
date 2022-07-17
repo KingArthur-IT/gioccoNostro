@@ -9,7 +9,7 @@
 
 
         <li v-for="i in level - 1" :key="i" class="legend-item">
-            <div class="legend-img">
+            <div class="legend-img" :class="{'orange-item': legendColor[i - 1] === 'orange'}">
                 <BoardItem :color="legendColor[i - 1]" />
             </div>
             <p class="legend-text">{{legendName[i + 4 - level]}}</p>
@@ -68,6 +68,10 @@ export default {
     font-size: 10px;
     line-height: 120%;
     color: var(--primary-text-color);
+}
+.orange-item{
+    width: 20px;
+    height: 20px;
 }
 
 @media screen and (max-width: 600px) {

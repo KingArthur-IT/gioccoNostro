@@ -52,6 +52,7 @@ export default {
     position: relative;
     padding: 20px;
     height: 100%;
+    min-height: 650px;
 }
 .game-board__info{
     position: absolute;
@@ -89,12 +90,14 @@ export default {
     bottom: 0px;
 }
 .game-board__hero{
-    height: calc(100vh - 80px - 26px - 119px - 26px - 120px);
-    width: calc(100vh - 80px - 26px - 119px - 26px - 120px);
+    /* height: calc(100vh - 80px - 26px - 119px - 26px - 120px); */
+    height: 475px;
+    width: 475px;
+    /* width: calc(100vh - 80px - 26px - 119px - 26px - 120px); */
     margin: auto;
     background: url('@/assets/img/games-bg.png') no-repeat;
     background-size: 100% 100%;
-    margin-top: 25px
+    margin-top: 50px
 }
 .game-board__img{
     width: 100%;
@@ -105,8 +108,9 @@ export default {
 
 @media screen and (max-width: 600px) {
     .game-board__hero{
-        width: 100%;
-        height: 80vw;
+        width: 245px;
+        height: 245px;
+        /* height: 80vw; */
     }
 }
 </style>
