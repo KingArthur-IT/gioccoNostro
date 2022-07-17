@@ -5,38 +5,42 @@
             <span>{{$t('your_games')}}</span>
             <div class="games__hide" @click="gamesShownToggle">{{isGamesShown ? $t('Hide') : $t('Show')}}</div>
         </div>
-        <div v-for="game in games" :key="game.id">
-            <div @click="selectGame(game)" class="game__item" :class="{'selected-game': selectedGame !== null && selectedGame.id === game.id}">
-                <span class="game__type">{{game.game_type_name}}</span>
-                <span class="game__price">€{{game.price_code}}</span>
+        <div class="games__list">
+            <div v-for="game in games" :key="game.id">
+                <div @click="selectGame(game)" class="game__item" :class="{'selected-game': selectedGame !== null && selectedGame.id === game.id}">
+                    <span class="game__type">{{game.game_type_name}}</span>
+                    <span class="game__price">€{{game.price_code}}</span>
+                </div>
             </div>
         </div>
     </div>
     <div class="dashboard__hero">
         <div class="dashboard__head">
-            <div class="dashboard__head-item">
-                <EarningIcon />
-                <div class="dashboard__item-content">
-                    <p class="dashboard__item-title">{{$t('current_earning')}}:</p>
-                    <span class="dashboard__item-num">€{{dashboardInfo.earning}}</span>
+            <div class="dashboard__head-wrapper">
+                <div class="dashboard__head-item">
+                    <EarningIcon />
+                    <div class="dashboard__item-content">
+                        <p class="dashboard__item-title">{{$t('current_earning')}}:</p>
+                        <span class="dashboard__item-num">€{{dashboardInfo.earning}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="dashboard__head-item">
-                <OutputIcon />
-                <div class="dashboard__item-content">
-                    <p class="dashboard__item-title">{{$t('next_output')}}:</p>
-                    <span class="dashboard__item-num">€{{dashboardInfo.expected}}</span>
+                <div class="dashboard__head-item">
+                    <OutputIcon />
+                    <div class="dashboard__item-content">
+                        <p class="dashboard__item-title">{{$t('next_output')}}:</p>
+                        <span class="dashboard__item-num">€{{dashboardInfo.expected}}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="dashboard__head-item">
-                <GamesIcon />
-                <div class="dashboard__item-content">
-                    <p class="dashboard__item-title">{{$t('complete_games')}}</p>
-                    <span class="dashboard__item-num">{{dashboardInfo.finished}}</span>
+                <div class="dashboard__head-item">
+                    <GamesIcon />
+                    <div class="dashboard__item-content">
+                        <p class="dashboard__item-title">{{$t('complete_games')}}</p>
+                        <span class="dashboard__item-num">{{dashboardInfo.finished}}</span>
+                    </div>
                 </div>
             </div>
         </div>
-        <div v-if="isGamesShown" class="dashboard__views">
+        <div v-if="isGamesShown && canGamesBeShown" class="dashboard__views">
             <SelectedGameDashboard  :gameType="selectedGame?.game_type"
                                     :gamePrice="selectedGame?.price_code"
                                     :gameId="selectedGame?.id"
@@ -44,7 +48,7 @@
         </div>
     </div>
   </div>
-  <div v-if="!isGamesShown" class="dashboard-view-full">
+  <div v-if="!isGamesShown || (isGamesShown && !canGamesBeShown)" class="dashboard-view-full">
       <SelectedGameDashboard    :gameType="selectedGame?.game_type"
                                 :gamePrice="selectedGame?.price_code"
                                 :gameId="selectedGame?.id"
@@ -73,10 +77,16 @@ export default {
                 finished: 0
             },
             isGamesShown: true,
-            selectedGame: null
+            selectedGame: null,
+            canGamesBeShown: true
         }
     },
+    created(){
+        window.addEventListener('resize', this.resizeHandle);
+    },
     async mounted(){
+        this.checkGamesMobileVisible();
+
         await axios.get('https://api.gioconostro.com/api/v1/user/games', 
             {
                 headers: {
@@ -130,7 +140,7 @@ export default {
                 "finished_games": 0
             },
             {
-                "id": 14,
+                "id": 12,
                 "ident": "G-1dBJjMtPbABg",
                 "price_code": 100,
                 "game_type": 4,
@@ -145,7 +155,7 @@ export default {
                 "finished_games": 0
             },
             {
-                "id": 14,
+                "id": 13,
                 "ident": "G-1dBJjMtPbABg",
                 "price_code": 100,
                 "game_type": 5,
@@ -154,6 +164,66 @@ export default {
                 "parent_ident": "G-000000000001",
                 "is_finished": 0,
                 "game_type_name": "5x5",
+                "price_value": 101,
+                "owner_email": "*****@aa.bb",
+                "sub_owner_email": "*****system.com",
+                "finished_games": 0
+            },
+            {
+                "id": 14,
+                "ident": "G-1dBJjMtPbABg",
+                "price_code": 100,
+                "game_type": 3,
+                "level_1_count": 0,
+                "level_2_count": 0,
+                "parent_ident": "G-000000000001",
+                "is_finished": 0,
+                "game_type_name": "3x3",
+                "price_value": 101,
+                "owner_email": "*****@aa.bb",
+                "sub_owner_email": "*****system.com",
+                "finished_games": 0
+            },
+            {
+                "id": 15,
+                "ident": "G-1dBJjMtPbABg",
+                "price_code": 100,
+                "game_type": 3,
+                "level_1_count": 0,
+                "level_2_count": 0,
+                "parent_ident": "G-000000000001",
+                "is_finished": 0,
+                "game_type_name": "3x3",
+                "price_value": 101,
+                "owner_email": "*****@aa.bb",
+                "sub_owner_email": "*****system.com",
+                "finished_games": 0
+            },
+            {
+                "id": 16,
+                "ident": "G-1dBJjMtPbABg",
+                "price_code": 100,
+                "game_type": 3,
+                "level_1_count": 0,
+                "level_2_count": 0,
+                "parent_ident": "G-000000000001",
+                "is_finished": 0,
+                "game_type_name": "3x3",
+                "price_value": 101,
+                "owner_email": "*****@aa.bb",
+                "sub_owner_email": "*****system.com",
+                "finished_games": 0
+            },
+            {
+                "id": 17,
+                "ident": "G-1dBJjMtPbABg",
+                "price_code": 100,
+                "game_type": 3,
+                "level_1_count": 0,
+                "level_2_count": 0,
+                "parent_ident": "G-000000000001",
+                "is_finished": 0,
+                "game_type_name": "3x3",
                 "price_value": 101,
                 "owner_email": "*****@aa.bb",
                 "sub_owner_email": "*****system.com",
@@ -320,13 +390,25 @@ export default {
     methods:{
         gamesShownToggle(){
             this.isGamesShown = !this.isGamesShown;
+            this.checkGamesMobileVisible();
         },
         selectGame(game){
             if (this.selectedGame === null)
                 this.selectedGame = game;
             else this.selectedGame = null;
+        },
+        checkGamesMobileVisible(){
+            if (window.innerWidth < 1224){
+                this.canGamesBeShown = false;
+            }
+            else this.canGamesBeShown = true;
+        },
+        resizeHandle(){
+            this.checkGamesMobileVisible();
+            if (window.innerWidth < 1224)
+                this.isGamesShown = false;
         }
-    }
+    },
 }
 </script>
 
@@ -337,18 +419,26 @@ export default {
 
 .games{
     padding: 24px 20px 0 20px;
-    overflow: hidden;
     border-radius: 20px;
     background: var(--section-background);
     min-width: 308px;
     max-height: calc(100vh - 80px - 26px);
     margin-right: 23px;
+    margin-bottom: 24px;
+}
+.games__list{
+    overflow-y: scroll;
+    max-height: calc(100vh - 80px - 26px - 90px);
+    margin-bottom: 10px;
+}
+.games-hidden .games__list{
+    max-height: 45px;
 }
 .games__title{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
 }
 .games__title span{
     font-style: normal;
@@ -391,9 +481,11 @@ export default {
     width: 100%;
 }
 .dashboard__head{
-    width: 100%;
-    display: flex;
     margin-bottom: 24px;
+    overflow-x: scroll;
+}
+.dashboard__head-wrapper{
+    display: flex;
 }
 .dashboard__head-item{
     height: 119px;
@@ -445,5 +537,34 @@ export default {
 }
 .games-hidden{
     max-height: 119px;
+}
+
+@media screen and (max-width: 1200px) {
+    .dashboard__head{
+        width: calc(100vw - 250px - 52px - 308px - 48px);
+    }
+}
+@media screen and (max-width: 1020px) {
+    .dashboard__head{
+        width: calc(100vw - 193px - 52px - 308px - 48px);
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .dashboard__head{
+        width: calc(100vw - 52px - 308px - 24px);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .dashboard{
+        flex-direction: column-reverse;
+    }
+    .dashboard__head{
+        width: 100%;
+    }
+    .games{
+        margin-right: 0;
+    }
 }
 </style>
