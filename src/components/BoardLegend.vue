@@ -2,27 +2,17 @@
   <ul class="legend-list">
         <li class="legend-item">
             <div class="legend-img">
-                <BoardItem :color="'blue'" />
-            </div>
-            <p class="legend-text">Capo Nostro</p>
-        </li>
-        <li class="legend-item">
-            <div class="legend-img">
-                <BoardItem :color="'green'" />
-            </div>
-            <p class="legend-text">Venditore</p>
-        </li>
-        <li class="legend-item">
-            <div class="legend-img">
                 <BoardItem :color="'red'" />
             </div>
             <p class="legend-text">Your position</p>
         </li>
-        <li class="legend-item">
+
+
+        <li v-for="i in level - 1" :key="i" class="legend-item">
             <div class="legend-img">
-                <BoardItem :color="'yellow'" />
+                <BoardItem :color="legendColor[i - 1]" />
             </div>
-            <p class="legend-text">Noviziio</p>
+            <p class="legend-text">{{legendName[i + 4 - level]}}</p>
         </li>
     </ul>
 </template>
@@ -34,6 +24,22 @@ export default {
     components: {
         BoardItem
     },
+    props:{
+        level:{
+            type: Number,
+            default: 3
+        }
+    },
+    data(){
+        return{
+            legendName: [
+                'Osservatore', 'Comandante', 'Venditore', 'Novizio'
+            ],
+            legendColor: [
+                'green', 'yellow', 'orange', 'blue'
+            ]
+        }
+    }
 }
 </script>
 
@@ -62,5 +68,16 @@ export default {
     font-size: 10px;
     line-height: 120%;
     color: var(--primary-text-color);
+}
+
+@media screen and (max-width: 600px) {
+    .legend-list{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .legend-item{
+        margin-right: 0px;
+        margin-bottom: 8px;
+    }
 }
 </style>

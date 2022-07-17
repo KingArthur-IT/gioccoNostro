@@ -52,6 +52,7 @@
       <SelectedGameDashboard    :gameType="selectedGame?.game_type"
                                 :gamePrice="selectedGame?.price_code"
                                 :gameId="selectedGame?.id"
+                                :isFullScreenView="true"
       />
   </div>
 </template>
@@ -76,7 +77,7 @@ export default {
                 expected: 0,
                 finished: 0
             },
-            isGamesShown: true,
+            isGamesShown: window.innerWidth > 1224 ? true : false,
             selectedGame: null,
             canGamesBeShown: true
         }
@@ -495,6 +496,7 @@ export default {
     margin-right: 20px;
     border-radius: 10px;
     display: flex;
+    min-width: 230px;
 }
 .dashboard__head-item:last-child{
     margin-right: 0;
@@ -539,7 +541,7 @@ export default {
     max-height: 119px;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1375px) {
     .dashboard__head{
         width: calc(100vw - 250px - 52px - 308px - 48px);
     }

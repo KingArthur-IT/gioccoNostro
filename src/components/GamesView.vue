@@ -1,6 +1,6 @@
 <template>
   <div class="screen" :class="{'fifth': level === 5}">
-    <div class="screen-center">
+    <div v-if="level" class="screen-center">
       <BoardItem :color="'red'" :glowSize="10"/>
     </div>
 
@@ -54,13 +54,28 @@ export default {
   },
   methods:{
     levelRadius(lvl, step = 0){
+      const windowWidth = window.innerWidth;
       const data = [
         [130, 230],
         [110, 200, 260],
         [95, 160, 200, 250],
       ];
-      const dist = this.level === 5 && lvl === 4 ? 20 : 8;
-      return data[this.level - 3][lvl - 2] + step * dist;
+      const dataMobile = [
+        [0.20, 0.375],
+        [0.18, 0.32, 0.42],
+        [0.15, 0.25, 0.32, 0.38],
+      ];
+
+      let dist = 0;
+      if (windowWidth > 500)
+        dist = this.level === 5 && lvl === 4 ? 20 : 8; //для нескольких кругов
+      else 
+        dist = this.level === 5 && lvl === 4 ? 8 : 4;
+      
+      if (windowWidth < 601)
+        return dataMobile[this.level - 3][lvl - 2] * windowWidth + step * dist;
+      else 
+        return data[this.level - 3][lvl - 2] + step * dist;
     },
     getItemAngleInRing(i, lvl, step = 0){
       const angleH = this.level === 5 && lvl === 4 ? 2 : 0;

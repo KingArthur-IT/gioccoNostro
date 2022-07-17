@@ -8,9 +8,9 @@
           <IdLabel :id="gameId"/>
       </div>
       <div class="game-board__legend">
-          <BoardLegend />
+          <BoardLegend v-if="gameType > 2" :level="gameType === '' || gameType === 0 ? 3 : gameType"/>
       </div>
-      <div class="game-board__hero">
+      <div class="game-board__hero" :class="{'mt-90': isFullScreenView}">
           <GamesView :level="gameType === '' ? 0 : gameType"/>        
       </div>
   </div>
@@ -37,6 +37,10 @@ export default {
         gameId:{
             type: Number,
             default: -1
+        },
+        isFullScreenView:{
+            type: Boolean,
+            default: false
         }
     }
 }
@@ -94,5 +98,15 @@ export default {
 }
 .game-board__img{
     width: 100%;
+}
+.mt-90{
+    margin-top: 90px;
+}
+
+@media screen and (max-width: 600px) {
+    .game-board__hero{
+        width: 100%;
+        height: 80vw;
+    }
 }
 </style>
