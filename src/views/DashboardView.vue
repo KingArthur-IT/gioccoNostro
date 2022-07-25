@@ -423,9 +423,9 @@ export default {
     border-radius: 20px;
     background: var(--section-background);
     min-width: 308px;
-    max-height: calc(100vh - 80px - 26px);
+    /* max-height: calc(100vh - 80px - 26px); */
     margin-right: 23px;
-    margin-bottom: 24px;
+    /* margin-bottom: 24px; */
 }
 .games__list{
     overflow-y: scroll;
@@ -527,9 +527,9 @@ export default {
     width: 100%;
     background-color: var(--section-background);
     border-radius: 20px;
-    height: calc(100vh - 80px - 26px - 119px - 26px);
+    min-height: calc(100vh - 80px - 26px - 119px - 26px);
     position: relative;
-    overflow: scroll;
+    /* overflow: scroll; */
 }
 .dashboard-view-full{
     width: 100%;

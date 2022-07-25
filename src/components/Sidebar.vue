@@ -31,7 +31,7 @@ export default {
 .sidebar{
     background-color: var(--section-background);
     min-width: 250px;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
