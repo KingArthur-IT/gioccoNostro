@@ -17,21 +17,21 @@
                   <p class="modal-body__detail">Detail:</p>
                   <ul class="modal-body__list">
                     <li class="modal-body__list-item">
-                      <p class="modal-body__list-text">Payment for saler #1</p>
-                      <p class="modal-body__list-text">€200</p>
+                      <p class="modal-body__list-text">Payment</p>
+                      <p class="modal-body__list-text">€{{gamePrice}}</p>
                     </li>
-                    <li class="modal-body__list-item">
+                    <!-- <li class="modal-body__list-item">
                       <p class="modal-body__list-text">Payment for current saler</p>
                       <p class="modal-body__list-text">€200</p>
                     </li>
                     <li class="modal-body__list-item">
                       <p class="modal-body__list-text">Payment to platform</p>
                       <p class="modal-body__list-text">€200</p>
-                    </li>
+                    </li> -->
                   </ul>
                   <div class="modal-body__total">
                     <p>Total:</p>
-                    <p>$600</p>
+                    <p>€{{totalPrice}}</p>
                   </div>
                   <div class="modal-body__terms-wrapper">
                     <CustomCheckbox v-model="isTermAccepred" :isError="!isTermAgreeValid">
@@ -69,6 +69,14 @@ export default {
     isShown:{
       type: Boolean,
       default: false
+    },
+    gamePrice:{
+      type: Number,
+      default: 0
+    },
+    totalPrice:{
+      type: Number,
+      default: 0
     }
   },
   data(){
