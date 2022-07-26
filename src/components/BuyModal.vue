@@ -20,14 +20,14 @@
                       <p class="modal-body__list-text">Payment</p>
                       <p class="modal-body__list-text">€{{gamePrice}}</p>
                     </li>
-                    <!-- <li class="modal-body__list-item">
+                    <li class="modal-body__list-item">
                       <p class="modal-body__list-text">Payment for current saler</p>
-                      <p class="modal-body__list-text">€200</p>
+                      <p class="modal-body__list-text">€{{gamePrice}}</p>
                     </li>
                     <li class="modal-body__list-item">
                       <p class="modal-body__list-text">Payment to platform</p>
-                      <p class="modal-body__list-text">€200</p>
-                    </li> -->
+                      <p class="modal-body__list-text">€{{gamePrice}}</p>
+                    </li>
                   </ul>
                   <div class="modal-body__total">
                     <p>Total:</p>
@@ -77,6 +77,10 @@ export default {
     totalPrice:{
       type: Number,
       default: 0
+    },
+    gameIdent:{
+      type: String,
+      default: ''
     }
   },
   data(){
@@ -99,7 +103,7 @@ export default {
         return
       }
       else this.isTermAgreeValid = true;
-      this.$emit('PaymentEvent');
+      this.$emit('PaymentEvent', this.gameIdent);
     }
   },
   computed:{
