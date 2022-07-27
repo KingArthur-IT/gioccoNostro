@@ -129,13 +129,28 @@ export default {
       else
         return data[this.level - 3][lvl - 2] + step * dist;
     },
-    getItemAngleInRing(i, lvl, step = 0) {
-      const angleH = this.level === 5 && lvl === 4 ? 2 : 0;
-      const startDegree = 45 + step * 10;
-      const countInRing = Math.pow(this.level, lvl - 1);
-      const angleStep = (360.0 - angleH) / countInRing;
 
-      const angle = i * angleStep + startDegree;
+    getAngleStep(lvl) {
+      const angleH = this.level === 5 && lvl === 4 ? 2 : 0;
+      const countInRing = Math.pow(this.level, lvl - 1);
+      return (360.0 - angleH) / countInRing;
+    },
+
+    getItemAngleInRing(i, lvl, step = 0) {
+      const startDegree = 45 + step * 10;
+      const angleStep = this.getAngleStep(lvl);
+
+      let bias = 0;
+      if(lvl > 2){
+        for (let lv=3; lv <= lvl; lv++) {
+          let pAstep = this.getAngleStep(lv);
+          bias += ((this.level - 1) / 2) * pAstep;
+          console.log('lv=', lv, 'pAstep=', pAstep, 'bias=', bias);
+        }
+      }
+
+      const angle = (i-1) * angleStep + startDegree - bias;
+      console.log(lvl, i, angle, angleStep, bias);
       return angle;
     },
     topPos(i, lvl, step = 0) {
