@@ -4,14 +4,14 @@
           <p v-if="gameType" class="game-board__game-type">{{gameType}}x{{gameType}}</p>
           <p v-if="gamePrice > 0" class="game-board__game-price">€{{gamePrice}}</p>
       </div>
-      <div v-if="gameId > 0" class="game-board__id">
+      <div v-if="gameId" class="game-board__id">
           <IdLabel :id="gameId"/>
       </div>
       <div class="game-board__legend">
           <BoardLegend v-if="gameType > 2" :level="gameType === '' || gameType === 0 ? 3 : gameType"/>
       </div>
       <div class="game-board__hero" :class="{'mt-90': isFullScreenView}">
-          <GamesView :level="gameType === '' ? 0 : gameType"/>        
+          <GamesView :gameId="gameId"  :level="gameType === '' ? 0 : gameType"/>
       </div>
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
         },
         gameId:{
             type: Number,
-            default: -1
+            default: 0
         },
         isFullScreenView:{
             type: Boolean,

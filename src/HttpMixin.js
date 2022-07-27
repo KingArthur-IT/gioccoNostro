@@ -3,6 +3,7 @@ import axios from "axios";
 export default {
     data() {
         return {
+            apiUrl: 'https://api.gioconostro.com/api/v1/'
         };
     },
 

@@ -37,7 +37,7 @@ export default {
 
 <style scoped>
 .free {
-  opacity: 0.1;
+  opacity: 0.2;
 }
 .item{
     width: 100%;

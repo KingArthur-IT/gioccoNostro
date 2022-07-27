@@ -1,59 +1,60 @@
 <template>
   <div class="dashboard">
     <div class="games" :class="{'games-hidden': !isGamesShown}">
-        <div class="games__title">
-            <span>{{$t('your_games')}}</span>
-            <div class="games__hide" @click="gamesShownToggle">{{isGamesShown ? $t('Hide') : $t('Show')}}</div>
+      <div class="games__title">
+        <span>{{ $t('your_games') }}</span>
+        <div class="games__hide" @click="gamesShownToggle">{{ isGamesShown ? $t('Hide') : $t('Show') }}</div>
+      </div>
+      <div class="games__list">
+        <div v-for="game in games" :key="game.id">
+          <div @click="selectGame(game)" class="game__item"
+               :class="{'selected-game': selectedGame !== null && selectedGame.id === game.id}">
+            <span class="game__type">{{ game.game_type_name }}</span>
+            <span class="game__price">€{{ game.price_code }}</span>
+          </div>
         </div>
-        <div class="games__list">
-            <div v-for="game in games" :key="game.id">
-                <div @click="selectGame(game)" class="game__item" :class="{'selected-game': selectedGame !== null && selectedGame.id === game.id}">
-                    <span class="game__type">{{game.game_type_name}}</span>
-                    <span class="game__price">€{{game.price_code}}</span>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
     <div class="dashboard__hero">
-        <div class="dashboard__head">
-            <div class="dashboard__head-wrapper">
-                <div class="dashboard__head-item">
-                    <EarningIcon />
-                    <div class="dashboard__item-content">
-                        <p class="dashboard__item-title">{{$t('current_earning')}}:</p>
-                        <span class="dashboard__item-num">€{{dashboardInfo.earning}}</span>
-                    </div>
-                </div>
-                <div class="dashboard__head-item">
-                    <OutputIcon />
-                    <div class="dashboard__item-content">
-                        <p class="dashboard__item-title">{{$t('next_output')}}:</p>
-                        <span class="dashboard__item-num">€{{dashboardInfo.expected}}</span>
-                    </div>
-                </div>
-                <div class="dashboard__head-item">
-                    <GamesIcon />
-                    <div class="dashboard__item-content">
-                        <p class="dashboard__item-title">{{$t('complete_games')}}</p>
-                        <span class="dashboard__item-num">{{dashboardInfo.finished}}</span>
-                    </div>
-                </div>
+      <div class="dashboard__head">
+        <div class="dashboard__head-wrapper">
+          <div class="dashboard__head-item">
+            <EarningIcon/>
+            <div class="dashboard__item-content">
+              <p class="dashboard__item-title">{{ $t('current_earning') }}:</p>
+              <span class="dashboard__item-num">€{{ dashboardInfo.earning }}</span>
             </div>
+          </div>
+          <div class="dashboard__head-item">
+            <OutputIcon/>
+            <div class="dashboard__item-content">
+              <p class="dashboard__item-title">{{ $t('next_output') }}:</p>
+              <span class="dashboard__item-num">€{{ dashboardInfo.expected }}</span>
+            </div>
+          </div>
+          <div class="dashboard__head-item">
+            <GamesIcon/>
+            <div class="dashboard__item-content">
+              <p class="dashboard__item-title">{{ $t('complete_games') }}</p>
+              <span class="dashboard__item-num">{{ dashboardInfo.finished }}</span>
+            </div>
+          </div>
         </div>
-        <div v-if="isGamesShown && canGamesBeShown" class="dashboard__views">
-            <SelectedGameDashboard  :gameType="selectedGame?.game_type"
-                                    :gamePrice="selectedGame?.price_code"
-                                    :gameId="selectedGame?.id"
-            />
-        </div>
+      </div>
+      <div v-if="isGamesShown && canGamesBeShown" class="dashboard__views">
+        <SelectedGameDashboard :gameType="selectedGame?.game_type"
+                               :gamePrice="selectedGame?.price_code"
+                               :gameId="selectedGame?.id"
+        />
+      </div>
     </div>
   </div>
   <div v-if="!isGamesShown || (isGamesShown && !canGamesBeShown)" class="dashboard-view-full">
-      <SelectedGameDashboard    :gameType="selectedGame?.game_type"
-                                :gamePrice="selectedGame?.price_code"
-                                :gameId="selectedGame?.id"
-                                :isFullScreenView="true"
-      />
+    <SelectedGameDashboard :gameType="selectedGame?.game_type"
+                           :gamePrice="selectedGame?.price_code"
+                           :gameId="selectedGame?.id"
+                           :isFullScreenView="true"
+    />
   </div>
 </template>
 
@@ -62,512 +63,256 @@ import EarningIcon from '@/components/Icons/EarningIcon.vue'
 import GamesIcon from '@/components/Icons/GamesIcon.vue'
 import OutputIcon from '@/components/Icons/OutputIcon.vue'
 import SelectedGameDashboard from '@/components/SelectedGameDashboard.vue'
-import axios from 'axios'
+import HttpMixin from "../HttpMixin";
 
 export default {
-    components:{
-        EarningIcon, GamesIcon, OutputIcon,
-        SelectedGameDashboard
-    },
-    data(){
-        return{
-            games: [],
-            dashboardInfo: {
-                earning: 0,
-                expected: 0,
-                finished: 0
-            },
-            isGamesShown: window.innerWidth > 1224 ? true : false,
-            selectedGame: null,
-            canGamesBeShown: true
-        }
-    },
-    created(){
-        window.addEventListener('resize', this.resizeHandle);
-    },
-    async mounted(){
-        this.checkGamesMobileVisible();
+  mixins: [HttpMixin],
+  components: {
+    EarningIcon, GamesIcon, OutputIcon,
+    SelectedGameDashboard
+  },
+  data() {
+    return {
+      games: [],
+      dashboardInfo: {
+        earning: 0,
+        expected: 0,
+        finished: 0
+      },
+      isGamesShown: window.innerWidth > 1224 ? true : false,
+      selectedGame: null,
+      canGamesBeShown: true,
+    }
+  },
+  created() {
+    window.addEventListener('resize', this.resizeHandle);
+  },
+  async mounted() {
+    this.checkGamesMobileVisible();
 
-        await axios.get('https://api.gioconostro.com/api/v1/user/games', 
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                }
-            })
-            .then((response) => {
-                if (response && response.statusText === 'OK'){
-                    this.games = [...response.data.page.data];
-                }
-            })
-            .catch((error) => {
-                console.log(error.message)
-            });
+    await this.sendRequest(this.apiUrl + 'user/games')
+        .then((response) => {
+          if (response && response.statusText === 'OK') {
+            this.games = [...response.data.page.data];
+          }
+        })
+        .catch((error) => {
+          console.log(error.message)
+        });
 
-        await axios.get('https://api.gioconostro.com/api/v1/user/dashboard', 
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                }
-            })
-            .then((response) => {
-                if (response && response.statusText === 'OK'){
-                    this.dashboardInfo = Object.assign({}, response.data.data)
-                }
-            })
-            .catch((error) => {
-                console.log(error.message)
-            })
-        
-        // this.games = [
-        //     {
-        //         "id": 11,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 12,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 4,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "4x4",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 13,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 5,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "5x5",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 15,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 16,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 17,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        //     {
-        //         "id": 14,
-        //         "ident": "G-1dBJjMtPbABg",
-        //         "price_code": 100,
-        //         "game_type": 3,
-        //         "level_1_count": 0,
-        //         "level_2_count": 0,
-        //         "parent_ident": "G-000000000001",
-        //         "is_finished": 0,
-        //         "game_type_name": "3x3",
-        //         "price_value": 101,
-        //         "owner_email": "*****@aa.bb",
-        //         "sub_owner_email": "*****system.com",
-        //         "finished_games": 0
-        //     },
-        // ]
+    await this.sendRequest(this.apiUrl + 'user/dashboard')
+        .then((response) => {
+          if (response && response.statusText === 'OK') {
+            this.dashboardInfo = Object.assign({}, response.data.data)
+          }
+        })
+        .catch((error) => {
+          console.log(error.message)
+        })
 
-        // this.dashboardInfo = {
-        //     "earning": 0,
-        //     "expected": 1212,
-        //     "finished": 0
-        // }
+  },
+  methods: {
+    gamesShownToggle() {
+      this.isGamesShown = !this.isGamesShown;
+      this.checkGamesMobileVisible();
     },
-    methods:{
-        gamesShownToggle(){
-            this.isGamesShown = !this.isGamesShown;
-            this.checkGamesMobileVisible();
-        },
-        selectGame(game){
-            if (this.selectedGame === null)
-                this.selectedGame = game;
-            else this.selectedGame = null;
-        },
-        checkGamesMobileVisible(){
-            if (window.innerWidth < 1224){
-                this.canGamesBeShown = false;
-            }
-            else this.canGamesBeShown = true;
-        },
-        resizeHandle(){
-            this.checkGamesMobileVisible();
-            if (window.innerWidth < 1224)
-                this.isGamesShown = false;
-        }
+    async selectGame(game) {
+      if (this.selectedGame === null) {
+        this.selectedGame = game;
+      } else {
+        this.selectedGame = null;
+      }
     },
+    checkGamesMobileVisible() {
+      if (window.innerWidth < 1224) {
+        this.canGamesBeShown = false;
+      } else this.canGamesBeShown = true;
+    },
+    resizeHandle() {
+      this.checkGamesMobileVisible();
+      if (window.innerWidth < 1224)
+        this.isGamesShown = false;
+    }
+  },
 }
 </script>
 
 <style scoped>
-.dashboard{
-    display: flex;
+.dashboard {
+  display: flex;
 }
 
-.games{
-    padding: 24px 20px 0 20px;
-    border-radius: 20px;
-    background: var(--section-background);
-    min-width: 308px;
-    /* max-height: calc(100vh - 80px - 26px); */
-    margin-right: 23px;
-    /* margin-bottom: 24px; */
-}
-.games__list{
-    overflow-y: scroll;
-    max-height: calc(100vh - 80px - 26px - 90px);
-    margin-bottom: 10px;
-}
-.games-hidden .games__list{
-    max-height: 45px;
-}
-.games__title{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 18px;
-}
-.games__title span{
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 120%;
-    color: var(--primary-text-color);
-}
-.games__hide{
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 120%;
-    text-decoration-line: underline;
-    color: var(--gray-text-color);
-    cursor: pointer;
-}
-.game__item{
-    background: var(--selected-background);
-    height: 45px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 5px;
-    cursor: pointer;
-}
-.selected-game{
-    background: var(--primary-button-color);
-}
-.game__type, 
-.game__price{
-    color: var(--primary-text-color);
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 120%
-}
-.dashboard__hero{
-    width: 100%;
-}
-.dashboard__head{
-    margin-bottom: 24px;
-    overflow-x: scroll;
-}
-.dashboard__head-wrapper{
-    display: flex;
-}
-.dashboard__head-item{
-    height: 119px;
-    background: var(--section-background);
-    padding: 34px 20px;
-    flex-basis: 33.3%;
-    margin-right: 20px;
-    border-radius: 10px;
-    display: flex;
-    min-width: 230px;
-}
-.dashboard__head-item:last-child{
-    margin-right: 0;
-}
-.dashboard__item-content{
-    display: flex;
-    flex-direction: column;
-    margin-left: 15px;
-}
-.dashboard__item-title{
-    margin: 0;
-    margin-bottom: 5px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 120%;
-    color: var(--gray-text-color);
-}
-.dashboard__item-num{
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 120%;
-    color: var(--primary-text-color);
+.games {
+  padding: 24px 20px 0 20px;
+  border-radius: 20px;
+  background: var(--section-background);
+  min-width: 308px;
+  /* max-height: calc(100vh - 80px - 26px); */
+  margin-right: 23px;
+  /* margin-bottom: 24px; */
 }
 
-.dashboard__views{
-    width: 100%;
-    background-color: var(--section-background);
-    border-radius: 20px;
-    min-height: calc(100vh - 80px - 26px - 119px - 26px);
-    position: relative;
-    /* overflow: scroll; */
+.games__list {
+  overflow-y: scroll;
+  max-height: calc(100vh - 80px - 26px - 90px);
+  margin-bottom: 10px;
 }
-.dashboard-view-full{
-    width: 100%;
-    background-color: var(--section-background);
-    border-radius: 20px;
-    height: 100vh;
-    position: relative;
+
+.games-hidden .games__list {
+  max-height: 45px;
 }
-.games-hidden{
-    max-height: 119px;
+
+.games__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.games__title span {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 120%;
+  color: var(--primary-text-color);
+}
+
+.games__hide {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 120%;
+  text-decoration-line: underline;
+  color: var(--gray-text-color);
+  cursor: pointer;
+}
+
+.game__item {
+  background: var(--selected-background);
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.selected-game {
+  background: var(--primary-button-color);
+}
+
+.game__type,
+.game__price {
+  color: var(--primary-text-color);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 120%
+}
+
+.dashboard__hero {
+  width: 100%;
+}
+
+.dashboard__head {
+  margin-bottom: 24px;
+  overflow-x: scroll;
+}
+
+.dashboard__head-wrapper {
+  display: flex;
+}
+
+.dashboard__head-item {
+  height: 119px;
+  background: var(--section-background);
+  padding: 34px 20px;
+  flex-basis: 33.3%;
+  margin-right: 20px;
+  border-radius: 10px;
+  display: flex;
+  min-width: 230px;
+}
+
+.dashboard__head-item:last-child {
+  margin-right: 0;
+}
+
+.dashboard__item-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+.dashboard__item-title {
+  margin: 0;
+  margin-bottom: 5px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 120%;
+  color: var(--gray-text-color);
+}
+
+.dashboard__item-num {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 120%;
+  color: var(--primary-text-color);
+}
+
+.dashboard__views {
+  width: 100%;
+  background-color: var(--section-background);
+  border-radius: 20px;
+  min-height: calc(100vh - 80px - 26px - 119px - 26px);
+  position: relative;
+  /* overflow: scroll; */
+}
+
+.dashboard-view-full {
+  width: 100%;
+  background-color: var(--section-background);
+  border-radius: 20px;
+  height: 100vh;
+  position: relative;
+}
+
+.games-hidden {
+  max-height: 119px;
 }
 
 @media screen and (max-width: 1375px) {
-    .dashboard__head{
-        width: calc(100vw - 250px - 52px - 308px - 48px);
-    }
+  .dashboard__head {
+    width: calc(100vw - 250px - 52px - 308px - 48px);
+  }
 }
+
 @media screen and (max-width: 1020px) {
-    .dashboard__head{
-        width: calc(100vw - 193px - 52px - 308px - 48px);
-    }
+  .dashboard__head {
+    width: calc(100vw - 193px - 52px - 308px - 48px);
+  }
 }
 
 @media screen and (max-width: 860px) {
-    .dashboard__head{
-        width: calc(100vw - 52px - 308px - 24px);
-    }
+  .dashboard__head {
+    width: calc(100vw - 52px - 308px - 24px);
+  }
 }
 
 @media screen and (max-width: 600px) {
-    .dashboard{
-        flex-direction: column-reverse;
-    }
-    .dashboard__head{
-        width: 100%;
-    }
-    .games{
-        margin-right: 0;
-    }
+  .dashboard {
+    flex-direction: column-reverse;
+  }
+
+  .dashboard__head {
+    width: 100%;
+  }
+
+  .games {
+    margin-right: 0;
+  }
 }
 </style>

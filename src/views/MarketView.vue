@@ -136,8 +136,9 @@ import TableSortArrows from '@/components/UIKit/TableSortArrows.vue'
 import Pagination from '@/components/Pagination.vue'
 import BuyModal from '@/components/BuyModal.vue'
 import CustomModal from '@/components/Modal.vue'
-import axios from 'axios'
+import HttpMixin from "../HttpMixin";
 export default {
+  mixins: [HttpMixin],
   components: {
     CustomButton,
     Pagination,
@@ -167,7 +168,7 @@ export default {
     }
   },
   async mounted() {
-    await this.sendRequest('https://api.gioconostro.com/api/v1/game/list')
+    await this.sendRequest(this.apiUrl + 'game/list')
         .then((response) => {
           if (response && response.status && response.data.status === 'success') {
             this.marketData = [...response.data.data.data];
@@ -185,28 +186,6 @@ export default {
     }
   },
   methods: {
-    showErrorAlert(error) {
-      this.isShowAlertModal = true;
-      let errorMsg = error.message;
-      if (error.response && error.response.data && error.response.data.message)
-        errorMsg = error.response.data.message;
-      this.alertModalText = errorMsg;
-      console.log(error.message, error.response.data.message);
-    },
-    sendRequest(url, data = {}, type = 'get') {
-      return axios({
-        method: type,
-        url: url,
-        data: data,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-        }
-      });
-    },
-
     sortTableData(field) {
       if (this.sortVals[field] === null) this.sortVals[field] = 1;
       this.filteredMarketData.sort((a, b) => {
