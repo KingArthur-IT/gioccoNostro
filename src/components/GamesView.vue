@@ -1,21 +1,21 @@
 <template>
   <div class="screen" :class="{'fifth': level === 5}">
     <div v-if="level" class="screen-center">
-      <BoardItem :color="'red'" :glowSize="10"/>
+      <BoardItem :color="ColorL1" :glowSize="10" :isPainted="true"/>
     </div>
 
     <div  v-for="i in level" :key="i"
           class="second-level"
           :style="`top: calc(50% - ${topPos(i, 2)}px); left: calc(50% + ${leftPos(i, 2)}px)`"
     >
-      <BoardItem :color="'green'" :glowSize="5"/>
+      <BoardItem :color="ColorL2" :glowSize="5" :isPainted="true"/>
     </div>
 
     <div  v-for="i in level*level" :key="i"
           class="third-level"
           :style="`top: calc(50% - ${topPos(i, 3)}px); left: calc(50% + ${leftPos(i, 3)}px)`"
     >
-      <BoardItem :color="'yellow'" :glowSize="5"/>
+      <BoardItem :color="ColorL3" :glowSize="5" :isPainted="true"/>
     </div>
 
     <div v-if="level > 3">
@@ -23,7 +23,7 @@
             class="fourth-level"
             :style="`top: calc(50% - ${topPos(i, 4, i % 2)}px); left: calc(50% + ${leftPos(i, 4, i % 2)}px)`"
       >
-        <BoardItem :color="'orange'" :glowSize="5"/>
+        <BoardItem :color="ColorL4" :glowSize="5"/>
       </div>
     </div>
 
@@ -32,7 +32,7 @@
             class="fifth-level"
             :style="`top: calc(50% - ${topPos(i, 5, i % 5)}px); left: calc(50% + ${leftPos(i, 5, i % 5)}px)`"
       >
-        <BoardItem :color="'blue'" :glowSize="5"/>
+        <BoardItem :color="ColorL5" :glowSize="5"/>
       </div>
     </div>
 
@@ -50,6 +50,15 @@ export default {
     level:{
       type: Number,
       default: 3
+    }
+  },
+  data() {
+    return {
+      ColorL1: 'red',
+      ColorL2: 'green',
+      ColorL3: 'yellow',
+      ColorL4: 'orange',
+      ColorL5: 'blue',
     }
   },
   methods:{

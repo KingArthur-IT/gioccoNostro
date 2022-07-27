@@ -137,7 +137,6 @@ import Pagination from '@/components/Pagination.vue'
 import BuyModal from '@/components/BuyModal.vue'
 import CustomModal from '@/components/Modal.vue'
 import axios from 'axios'
-
 export default {
   components: {
     CustomButton,
