@@ -7,13 +7,13 @@
           <p class="reset__text">
               Sed ut perspiciatis unde omnis iste natus error sit voluptatem quae ab illo inventore veritatis et quasi architecto beatae vitae dicta.
           </p>
-          <CustomInput 
+          <CustomInput
                 :label="'Create new password'"
                 :placeholder="'Create new password'"
                 class="reset__input"
                 v-model="password"
           />
-          <CustomInput 
+          <CustomInput
                 :label="'Confirm password'"
                 :placeholder="'Create new password'"
                 class="reset__input"

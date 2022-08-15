@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-      <img  :src="'/src/assets/img/' + color + '-sphere.png'" :alt="color"
+      <img  :src="source" :alt="color"
             :class="['item-img', {'free': !isPainted}]"
             :style="`filter: drop-shadow(0px 0px ${glowSize}px ${itemColor})`"
       >
@@ -31,6 +31,9 @@ export default {
             if (this.color === 'green') return '#22FA86';
             return '#FACB22'
         },
+      source() {
+          return '/src/assets/img/' + this.color + '-sphere.png';
+      }
     }
 }
 </script>

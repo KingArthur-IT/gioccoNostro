@@ -1,121 +1,95 @@
 <template>
   <div class="pagination">
-        <PageArrow :isLeft="true" :isEnable="isLeftArrowEnable" @click="prevPage"/>
-        <div class="page-nums-wrapper">
-            <div v-for="i in pageItemsArray" :key="i">
-                <span   :class="{'active-page': i === modelValue}" 
-                        class="page-item"
-                        @click="goToPage(i)"
-                >
-                    {{i}}
+    <PageArrow :isLeft="true"
+               :isEnable="isLeftArrowEnable"
+               @click="goToPage( linksArray[0].url, isLeftArrowEnable)" />
+    <div class="page-nums-wrapper">
+      <div v-for="(item, i) in linksArray" :key="item.label">
+
+                <span :class="{'active-page': item.active, 'enable':  (item.label != '...')}" v-if="i != 0 && i != (linksArray.length - 1)"
+                      class="page-item"
+                      @click="goToPage(item.url, true)">
+                    {{ item.label }}
                 </span>
-            </div>
-        </div>
-        <PageArrow :isLeft="false" :isEnable="isRightArrowEnable" @click="nextPage"/>
+      </div>
     </div>
+    <PageArrow :isLeft="false" :isEnable="isRightArrowEnable"
+               @click="goToPage( linksArray[linksArray.length - 1].url, isRightArrowEnable)" />
+  </div>
 </template>
 
 <script>
-import { computed } from 'vue'
+import {computed} from 'vue'
 import PageArrow from '@/components/UIKit/PageArrow.vue'
 
 export default {
-    components:{
-        PageArrow
+  components: {
+    PageArrow
+  },
+  emits: ['pageClicked'],
+  props: {
+    currentPage: {
+      type: Number,
+      default: 0
     },
-    emits:['update:modelValue'],
-    props:{
-        modelValue:{
-            type: Number,
-        },
-        arrayLength:{
-            type: Number,
-            required: true
-        },
-        perPage: {
-            type: Number,
-            required: true
-        }
+    linksArray: {
+      type: Array,
+      default: []
     },
-    setup(props, { emit }){
-        const pagesCount = computed(() => {
-            return Math.ceil(props.arrayLength / props.perPage)
-        })
 
-        const isLeftArrowEnable = computed(() => {
-            return props.modelValue > 1
-        })
-        const isRightArrowEnable = computed(() => {
-            return props.modelValue < pagesCount.value
-        })
+  },
+  setup(props, {emit}) {
 
-        const isPageItemShow = (index) => {
-            return index === 1 || index === pagesCount.value || Math.abs(index - props.modelValue) < 2
-        }
-        const pageItemsArray = computed(() => {
-            let hasDots = false,
-                arr = []
-            for(let i = 1; i <= pagesCount.value; i++ ){
-                if (isPageItemShow(i)) 
-                    arr.push(i)
-                else{
-                    if (!hasDots){
-                        arr.push('...');
-                        hasDots = true;
-                    }
-                }
-            }
-            return arr;
-        })
+    const isLeftArrowEnable = computed(() => {
+      return props.currentPage > 1
+    })
+    const isRightArrowEnable = computed(() => {
+      return props.currentPage < (props.linksArray.length - 2)
+    })
 
-        const nextPage = () => {
-            if (isRightArrowEnable){
-                const num = props.modelValue + 1;
-                emit('update:modelValue', num)
-            }
-        }
-        const prevPage = () => {
-            if (isLeftArrowEnable){
-                const num = props.modelValue - 1;
-                emit('update:modelValue', num)
-            }
-        }
-        const goToPage = (num) => {
-            if (num !== '...')
-                emit('update:modelValue', num)
-        }
-
-        return {
-            isLeftArrowEnable, isRightArrowEnable,
-            pageItemsArray,
-            nextPage, prevPage, goToPage
-        }
+    const goToPage = (page, isEnable) => {
+      if(isEnable) {
+        emit('pageClicked', page)
+      }
     }
+
+    return {
+      isLeftArrowEnable, isRightArrowEnable,
+      goToPage
+    }
+  },
 }
 </script>
 
 <style scoped>
-.pagination{
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
 }
-.page-nums-wrapper{
-    display: flex;
+
+.page-nums-wrapper {
+  display: flex;
 }
-.page-item{
-    color: var(--gray-text-color);
-    cursor: pointer;
-     margin-right: 25px;
+
+.page-item.enable {
+  cursor: pointer;
 }
-.page-item:first-child{
-    margin-left: 20px;
+.page-item {
+  color: var(--gray-text-color);
+  margin-right: 25px;
 }
-.page-item:last-child{
-    margin-right: 20px;
+
+.page-item:first-child {
+  margin-left: 20px;
 }
-.active-page{
-    color: var(--primary-text-color)
+
+.page-item:last-child {
+  margin-right: 20px;
+}
+
+.active-page {
+  color: var(--primary-text-color)
 }
 
 

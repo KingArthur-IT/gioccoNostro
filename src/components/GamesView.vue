@@ -1,58 +1,58 @@
 <template>
-  <div class="screen" :class="{'fifth': level === 5}" v-if="currentGameData.tree">
-    <div v-if="level" class="screen-center">
-      <BoardItem :color="ColorL1" :glowSize="10" :isPainted="true"/>
-    </div>
-
-    <div v-for="i in level" :key="i"
-         class="second-level"
-         :style="`top: calc(50% - ${topPos(i, 2)}px); left: calc(50% + ${leftPos(i, 2)}px)`"
-    >
-      <BoardItem :color="ColorL2" :glowSize="5"
-                 :data-level="currentGameData.tree[0][i-1].level"
-                 :data-parent="currentGameData.tree[0][i-1].parent_item"
-                 :data-id="currentGameData.tree[0][i-1].id"
-                 :isPainted="currentGameData.tree[0][i-1].value"/>
-    </div>
-
-    <div v-for="i in level*level" :key="i"
-         class="third-level"
-         :style="`top: calc(50% - ${topPos(i, 3) }px); left: calc(50% + ${leftPos(i, 3) }px)`"
-    >
-      <BoardItem :color="ColorL3"
-                 :data-level="currentGameData.tree[1][i-1].level"
-                 :data-parent="currentGameData.tree[1][i-1].parent_item"
-                 :data-id="currentGameData.tree[1][i-1].id"
-                 glowSize="5" :isPainted="currentGameData.tree[1][i-1].value" />
-    </div>
-
-    <div v-if="level > 3">
-      <div v-for="i in level*level*level" :key="i"
-           class="fourth-level"
-           :style="`top: calc(50% - ${topPos(i, 4, i % 2)}px); left: calc(50% + ${leftPos(i, 4, i % 2)}px)`"
-      >
-        <BoardItem :color="ColorL4"
-                   :data-level="currentGameData.tree[2][i-1].level"
-                   :data-parent="currentGameData.tree[2][i-1].parent_item"
-                   :data-id="currentGameData.tree[2][i-1].id"
-                   :glowSize="5" :isPainted="currentGameData.tree[2][i-1].value"/>
+    <div class="screen" :class="{'fifth': level === 5}" v-if="viewReady">
+      <div v-if="level" class="screen-center">
+        <BoardItem :color="ColorL1" :glowSize="10" :isPainted="true"/>
       </div>
-    </div>
 
-    <div v-if="level > 4">
-      <div v-for="i in level*level*level*level" :key="i"
-           class="fifth-level"
-           :style="`top: calc(50% - ${topPos(i, 5, i % 5)}px); left: calc(50% + ${leftPos(i, 5, i % 5)}px)`"
+      <div v-for="i in level" :key="i"
+           class="second-level"
+           :style="`top: calc(50% - ${topPos(i, 2)}px); left: calc(50% + ${leftPos(i, 2)}px)`"
       >
-        <BoardItem :color="ColorL5"
-                   :data-level="currentGameData.tree[3][i-1].level"
-                   :data-parent="currentGameData.tree[3][i-1].parent_item"
-                   :data-id="currentGameData.tree[3][i-1].id"
-                   :glowSize="5" :isPainted="currentGameData.tree[3][i-1].value"/>
+        <BoardItem :color="ColorL2" :glowSize="5"
+                   :data-level="currentGameData.tree[0][i-1].level"
+                   :data-parent="currentGameData.tree[0][i-1].parent_item"
+                   :data-id="currentGameData.tree[0][i-1].id"
+                   :isPainted="currentGameData.tree[0][i-1].value"/>
       </div>
-    </div>
 
-  </div>
+      <div v-for="i in level*level" :key="i"
+           class="third-level"
+           :style="`top: calc(50% - ${topPos(i, 3) }px); left: calc(50% + ${leftPos(i, 3) }px)`"
+      >
+        <BoardItem :color="ColorL3"
+                   :data-level="currentGameData.tree[1][i-1].level"
+                   :data-parent="currentGameData.tree[1][i-1].parent_item"
+                   :data-id="currentGameData.tree[1][i-1].id"
+                   glowSize="5" :isPainted="currentGameData.tree[1][i-1].value"/>
+      </div>
+
+      <div v-if="level > 3">
+        <div v-for="i in level*level*level" :key="i"
+             class="fourth-level"
+             :style="`top: calc(50% - ${topPos(i, 4, i % 2)}px); left: calc(50% + ${leftPos(i, 4, i % 2)}px)`"
+        >
+          <BoardItem :color="ColorL4"
+                     :data-level="currentGameData.tree[2][i-1].level"
+                     :data-parent="currentGameData.tree[2][i-1].parent_item"
+                     :data-id="currentGameData.tree[2][i-1].id"
+                     :glowSize="5" :isPainted="currentGameData.tree[2][i-1].value"/>
+        </div>
+      </div>
+
+      <div v-if="level > 4">
+        <div v-for="i in level*level*level*level" :key="i"
+             class="fifth-level"
+             :style="`top: calc(50% - ${topPos(i, 5, i % 5)}px); left: calc(50% + ${leftPos(i, 5, i % 5)}px)`"
+        >
+          <BoardItem :color="ColorL5"
+                     :data-level="currentGameData.tree[3][i-1].level"
+                     :data-parent="currentGameData.tree[3][i-1].parent_item"
+                     :data-id="currentGameData.tree[3][i-1].id"
+                     :glowSize="5" :isPainted="currentGameData.tree[3][i-1].value"/>
+        </div>
+      </div>
+
+    </div>
 </template>
 
 <script>
@@ -78,6 +78,7 @@ export default {
       ColorL4: 'orange',
       ColorL5: 'blue',
 
+      viewReady: false,
       currentGameData: {}
     }
   },
@@ -88,10 +89,12 @@ export default {
   },
   watch: {
     async gameId() {
+      this.viewReady = false;
       if (this.gameId) {
         await this.sendRequest(this.apiUrl + 'game/show/' + this.gameId)
             .then((response) => {
               this.currentGameData = response.data.data;
+              this.viewReady = true;
             })
             .catch((error) => {
               this.showErrorAlert(error)
@@ -137,20 +140,18 @@ export default {
     },
 
     getItemAngleInRing(i, lvl, step = 0) {
-      const startDegree = 45 + step * 10;
+      const startDegree = 45;
       const angleStep = this.getAngleStep(lvl);
 
       let bias = 0;
-      if(lvl > 2){
-        for (let lv=3; lv <= lvl; lv++) {
+      if (lvl > 2) {
+        for (let lv = 3; lv <= lvl; lv++) {
           let pAstep = this.getAngleStep(lv);
           bias += ((this.level - 1) / 2) * pAstep;
-          console.log('lv=', lv, 'pAstep=', pAstep, 'bias=', bias);
         }
       }
 
-      const angle = (i-1) * angleStep + startDegree - bias;
-      console.log(lvl, i, angle, angleStep, bias);
+      const angle = (i - 1) * angleStep + startDegree - bias;
       return angle;
     },
     topPos(i, lvl, step = 0) {

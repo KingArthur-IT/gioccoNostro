@@ -89,7 +89,7 @@
         </div>
       </th>
     </tr>
-    <tr v-for="item in currentPageArray" :key="item.id" class="table__body-row body-text">
+    <tr v-for="item in marketData" :key="item.id" class="table__body-row body-text">
       <td>{{ item.id }}</td>
       <td>{{ item.owner_email }}</td>
       <td>{{ item.finished_games }}</td>
@@ -102,10 +102,11 @@
       </td>
     </tr>
   </table>
-  <Pagination v-if="filteredMarketData && filteredMarketData.length && filteredMarketData.length > perPage"
-              v-model="currentPage"
+  <Pagination v-if="linksArray && linksArray.length"
+              :currentPage="currentPage"
               :arrayLength="filteredMarketData.length"
-              :perPage="perPage"
+              :linksArray="linksArray"
+              @pageClicked="getMarketdata"
   />
 
   <BuyModal :isShown="isShowModal"
@@ -154,6 +155,7 @@ export default {
       priceGameSelectorValue: 'All',
       currentPage: 1,
       perPage: 10,
+      linksArray: [],
       sortVals: {
         finished_games: null,
         price_code: null,
@@ -164,28 +166,31 @@ export default {
       orderGamePrice: 0,
       orderGameTotal: 0,
       orderGameIdent: '',
-      alertModalText: ''
+      alertModalText: '',
+      requestData: {}
     }
   },
-  async mounted() {
-    await this.sendRequest(this.apiUrl + 'game/list')
-        .then((response) => {
-          if (response && response.status && response.data.status === 'success') {
-            this.marketData = [...response.data.data.data];
-          }
-        })
-        .catch((error) => {
-          this.isShowAlertModal = true;
-          this.alertModalText = error.message;
-          console.log(error.message)
-        });
+  mounted() {
+    this.getMarketdata(this.apiUrl + 'game/list');
   },
-  computed: {
-    currentPageArray() {
-      return this.filteredMarketData.slice((this.currentPage - 1) * this.perPage, this.currentPage * this.perPage)
-    }
-  },
+
   methods: {
+    async getMarketdata(url){
+      await this.sendRequest(url).then((response) => {
+        if (response && response.status && response.data.status === 'success') {
+          this.marketData = [...response.data.data.data];
+          this.linksArray = [...response.data.data.links];
+          this.currentPage = response.data.data.current_page;
+
+        }
+      })
+          .catch((error) => {
+            this.isShowAlertModal = true;
+            this.alertModalText = error.message;
+            console.log(error.message)
+          });
+    },
+
     sortTableData(field) {
       if (this.sortVals[field] === null) this.sortVals[field] = 1;
       this.filteredMarketData.sort((a, b) => {

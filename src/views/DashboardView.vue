@@ -116,11 +116,11 @@ export default {
       this.isGamesShown = !this.isGamesShown;
       this.checkGamesMobileVisible();
     },
-    async selectGame(game) {
-      if (this.selectedGame === null) {
-        this.selectedGame = game;
-      } else {
+    selectGame(game) {
+      if (this.selectedGame === game) {
         this.selectedGame = null;
+      } else {
+        this.selectedGame = game;
       }
     },
     checkGamesMobileVisible() {
@@ -153,7 +153,7 @@ export default {
 }
 
 .games__list {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: calc(100vh - 80px - 26px - 90px);
   margin-bottom: 10px;
 }
@@ -217,7 +217,7 @@ export default {
 
 .dashboard__head {
   margin-bottom: 24px;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .dashboard__head-wrapper {

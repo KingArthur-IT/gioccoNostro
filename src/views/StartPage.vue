@@ -2,11 +2,11 @@
   <div class="start-main">
     <div class="container">
       <div class="start-main__hero">
-        <img src="@/assets/img/earth.png" class="start-main__bg-image">
+        <img src="/src/assets/img/earth.png" class="start-main__bg-image">
         <div class="start-main__content">
           <h1 class="primary-text-color start-main__title">{{$t('title')}}</h1>
           <p class="primary-text-color start-main__subtitle">
-            
+
           </p>
           <div class="start-main__btn">
             <CustomButton :text="'Start Now'" @click="startEvent"/>
@@ -29,7 +29,13 @@ export default {
   setup(){
     const router = useRouter()
     const startEvent = () => {
-      router.push({name: 'signIn'})
+      if(localStorage.getItem('access_token')) {
+        router.push({name: 'dashboard'})
+      }
+        else {
+          router.push({name: 'signIn'})
+      }
+
     }
 
     return { startEvent }

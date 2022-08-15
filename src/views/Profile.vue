@@ -79,7 +79,11 @@
          <CustomButton class="prodile__btn" :text="$t('delete_account')" :isPrimary="false" :isOutlined="true" @click="preDeleteAccount"/>
       </div>
       <div class="profile__right-side">
-        <img src="@/assets/img/Gif_balls.gif" alt="Balls">
+        <video src="@/assets/img/Gif_balls.webm"
+               alt="Balls"
+               playsinline autoplay muted loop>
+          <source src="@/assets/img/Gif_balls.webm"  type="video/webm">
+        </video>
       </div>
     </div>
     <transition name="modal">
