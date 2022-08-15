@@ -9,16 +9,18 @@ export default {
 
     methods: {
         sendRequest(url, data = {}, type = 'get') {
+            url = new URL(url);
+            data['params']['page'] = url.searchParams.get('page');
             return axios({
                 method: type,
-                url: url,
-                data: data,
+                url: url.origin + url.pathname,
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-                }
+                },
+                ...data
             });
         },
         showErrorAlert(error) {

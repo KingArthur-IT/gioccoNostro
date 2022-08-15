@@ -78,9 +78,9 @@
         </div>
       </th>
       <th>
-        <div class="table__head-cell cell-pointer" @click="sortTableData('game_type_name')">
+        <div class="table__head-cell cell-pointer" @click="sortTableData('game_type')">
           <span>{{ $t('type_game') }}</span>
-          <TableSortArrows :sortVal="sortVals.game_type_name"/>
+          <TableSortArrows :sortVal="sortVals.game_type"/>
         </div>
       </th>
       <th>
@@ -159,7 +159,7 @@ export default {
       sortVals: {
         finished_games: null,
         price_code: null,
-        game_type_name: null
+        game_type: null
       },
       isShowModal: false,
       isShowAlertModal: false,
@@ -167,21 +167,30 @@ export default {
       orderGameTotal: 0,
       orderGameIdent: '',
       alertModalText: '',
-      requestData: {}
+      sortBy: null,
+      sortDirection: null,
+      filterBy: null,
+      filterValue: null,
+      currentUrl: ''
+
     }
   },
   mounted() {
-    this.getMarketdata(this.apiUrl + 'game/list');
+    this.currentUrl = this.apiUrl + 'game/list';
+    this.getMarketdata(this.currentUrl);
   },
 
   methods: {
-    async getMarketdata(url){
-      await this.sendRequest(url).then((response) => {
+    async getMarketdata(url, data={}){
+      data['params'] = {};
+      data['params']['page'] = this.currentPage;
+      data['params']['sort_by'] = this.sortBy;
+      data['params']['sort_dir'] = this.sortDirection;
+      await this.sendRequest(url, data).then((response) => {
         if (response && response.status && response.data.status === 'success') {
           this.marketData = [...response.data.data.data];
           this.linksArray = [...response.data.data.links];
           this.currentPage = response.data.data.current_page;
-
         }
       })
           .catch((error) => {
@@ -193,16 +202,16 @@ export default {
 
     sortTableData(field) {
       if (this.sortVals[field] === null) this.sortVals[field] = 1;
-      this.filteredMarketData.sort((a, b) => {
-        return (a[field] > b[field]) ? 1 * this.sortVals[field] : ((b[field] > a[field]) ? -1 * this.sortVals[field] : 0)
-      })
       this.sortVals[field] *= -1;
+      this.sortBy = field;
+      this.sortDirection = this.sortVals[field] > 0 ? 'desc' : 'asc';
+      this.getMarketdata(this.currentUrl);
     },
     filtering() {
       let array = [...this.marketData];
       if (this.typeGameSelectorValue !== 'All')
         array = this.marketData.filter((item) => {
-          return item.game_type_name.includes(this.typeGameSelectorValue)
+          return item.game_type.includes(this.typeGameSelectorValue)
         });
       if (this.priceGameSelectorValue !== 'All')
         return array.filter((item) => {
