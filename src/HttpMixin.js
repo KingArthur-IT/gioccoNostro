@@ -9,7 +9,7 @@ export default {
     },
 
     methods: {
-        ...mapMutations(['addGameData', 'setGameViewReady']),
+        ...mapMutations(['addGameData', 'setGameViewReady', 'setSearchEmail']),
         sendRequest(url, data = {}, type = 'get') {
             url = new URL(url);
             if(url.searchParams.get('page')) {

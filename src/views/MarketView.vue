@@ -1,4 +1,5 @@
 <template>
+  <span :key="routeKey">
   <div class="filters-wrapper" v-if="marketData && marketData.length">
     <ul class="filter">
       <li class="filter__item"
@@ -129,6 +130,7 @@
       </template>
     </CustomModal>
   </transition>
+  </span>
 </template>
 
 <script>
@@ -138,6 +140,7 @@ import Pagination from '@/components/Pagination.vue'
 import BuyModal from '@/components/BuyModal.vue'
 import CustomModal from '@/components/Modal.vue'
 import HttpMixin from "../HttpMixin";
+
 export default {
   mixins: [HttpMixin],
   components: {
@@ -180,14 +183,25 @@ export default {
     this.currentUrl = this.apiUrl + 'game/list';
     this.getMarketdata(this.currentUrl);
   },
-
+  computed: {
+    routeKey() {
+      return this.$route.query;
+    }
+  },
+  watch:{
+    $route() {
+      this.getMarketdata(this.$route.href);
+    }
+  },
   methods: {
-    async getMarketdata(url){
+    async getMarketdata(url) {
       let data = {};
+      let email = this.$route.query.email;
       data['params'] = {...this.filters};
       data['params']['page'] = this.currentPage;
       data['params']['sort_by'] = this.sortBy;
       data['params']['sort_dir'] = this.sortDirection;
+      data['params']['email'] = email;
       await this.sendRequest(url, data).then((response) => {
         if (response && response.status && response.data.status === 'success') {
           this.marketData = [...response.data.data.data];
@@ -227,7 +241,9 @@ export default {
               this.isShowModal = true;
             }
           })
-          .catch((error) => {this.showErrorAlert(error)});
+          .catch((error) => {
+            this.showErrorAlert(error)
+          });
     },
     async paymentEvent(gameIdent) {
       await this.sendRequest(this.apiUrl + 'game/order',
@@ -242,7 +258,9 @@ export default {
               this.alertModalText = 'Here will be redirect to payment system page. Now game just bought';
             }
           })
-          .catch((error) => {this.showErrorAlert(error)});
+          .catch((error) => {
+            this.showErrorAlert(error)
+          });
 
     }
   },

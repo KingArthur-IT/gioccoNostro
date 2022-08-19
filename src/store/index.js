@@ -8,7 +8,8 @@ export default createStore({
     userId: '',
     selectedGame: {},
     currentGameData: {},
-    gameViewReady: false
+    gameViewReady: false,
+    searchEmail: ''
   },
   mutations: {
     addUserData(state, data) {
@@ -21,6 +22,9 @@ export default createStore({
     },
     setGameViewReady(state, data){
       state.gameViewReady = data;
+    },
+    setSearchEmail(state, data){
+      state.searchEmail = data;
     }
   },
   plugins: [createPersistedState()],

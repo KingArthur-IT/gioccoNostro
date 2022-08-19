@@ -80,9 +80,6 @@ export default {
       ColorL5: 'blue',
     }
   },
-  mounted() {
-    console.log(this.viewReady,  this.currentGameData.tree?.length)
-  },
   computed: mapState({
     currentGameData: state => state.selectedGame,
     viewReady(state) {

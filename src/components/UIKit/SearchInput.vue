@@ -42,7 +42,14 @@ export default {
   },
   methods: {
     searchGame(){
-      this.findGame(this.modelValue);
+      if(Number.isInteger(+this.modelValue)) {
+        this.findGame(this.modelValue);
+      }
+      else {
+        console.log('goto');
+        // this.$router.replace('/market?email=' + this.modelValue);
+        location.replace('/market?email=' + this.modelValue);
+      }
     }
   }
 }

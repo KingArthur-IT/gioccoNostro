@@ -6,7 +6,7 @@
                 <p>{{$t('Dashboard')}}</p>
             </li>
         </router-link>
-        <router-link to="/market" class="router-link" @click="$emit('closeMobileMenu')">
+        <router-link to="/market" class="router-link" @click="goLink('/market')">
             <li class="sidebar__page-link" :class="{'active-link': $route.meta.title === 'Market'}">
                 <MarketIcon class="sidebar__page-icon"/>
                 <p>{{$t('Market')}}</p>
@@ -30,6 +30,12 @@ export default {
     components: {
         DashboardIcon, MarketIcon, TransitionsIcon,
     },
+  methods: {
+      goLink(link){
+        this.$emit('closeMobileMenu');
+        location.replace(link);
+      }
+  }
 }
 </script>
 
