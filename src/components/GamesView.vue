@@ -1,63 +1,64 @@
 <template>
-    <div class="screen" :class="{'fifth': level === 5}" v-if="viewReady">
-      <div v-if="level" class="screen-center">
-        <BoardItem :color="ColorL1" :glowSize="10" :isPainted="true"/>
-      </div>
-
-      <div v-for="i in level" :key="i"
-           class="second-level"
-           :style="`top: calc(50% - ${topPos(i, 2)}px); left: calc(50% + ${leftPos(i, 2)}px)`"
-      >
-        <BoardItem :color="ColorL2" :glowSize="5"
-                   :data-level="currentGameData.tree[0][i-1].level"
-                   :data-parent="currentGameData.tree[0][i-1].parent_item"
-                   :data-id="currentGameData.tree[0][i-1].id"
-                   :isPainted="currentGameData.tree[0][i-1].value"/>
-      </div>
-
-      <div v-for="i in level*level" :key="i"
-           class="third-level"
-           :style="`top: calc(50% - ${topPos(i, 3) }px); left: calc(50% + ${leftPos(i, 3) }px)`"
-      >
-        <BoardItem :color="ColorL3"
-                   :data-level="currentGameData.tree[1][i-1].level"
-                   :data-parent="currentGameData.tree[1][i-1].parent_item"
-                   :data-id="currentGameData.tree[1][i-1].id"
-                   glowSize="5" :isPainted="currentGameData.tree[1][i-1].value"/>
-      </div>
-
-      <div v-if="level > 3">
-        <div v-for="i in level*level*level" :key="i"
-             class="fourth-level"
-             :style="`top: calc(50% - ${topPos(i, 4, i % 2)}px); left: calc(50% + ${leftPos(i, 4, i % 2)}px)`"
-        >
-          <BoardItem :color="ColorL4"
-                     :data-level="currentGameData.tree[2][i-1].level"
-                     :data-parent="currentGameData.tree[2][i-1].parent_item"
-                     :data-id="currentGameData.tree[2][i-1].id"
-                     :glowSize="5" :isPainted="currentGameData.tree[2][i-1].value"/>
-        </div>
-      </div>
-
-      <div v-if="level > 4">
-        <div v-for="i in level*level*level*level" :key="i"
-             class="fifth-level"
-             :style="`top: calc(50% - ${topPos(i, 5, i % 5)}px); left: calc(50% + ${leftPos(i, 5, i % 5)}px)`"
-        >
-          <BoardItem :color="ColorL5"
-                     :data-level="currentGameData.tree[3][i-1].level"
-                     :data-parent="currentGameData.tree[3][i-1].parent_item"
-                     :data-id="currentGameData.tree[3][i-1].id"
-                     :glowSize="5" :isPainted="currentGameData.tree[3][i-1].value"/>
-        </div>
-      </div>
-
+  <div class="screen" :class="{'fifth': level === 5}" v-if="viewReady" >
+    <div v-if="level" class="screen-center">
+      <BoardItem :color="ColorL1" :glowSize="10" :isPainted="true"/>
     </div>
+
+    <div v-for="i in level" :key="i"
+         class="second-level"
+         :style="`top: calc(50% - ${topPos(i, 2)}px); left: calc(50% + ${leftPos(i, 2)}px)`"
+    >
+      <BoardItem :color="ColorL2" :glowSize="5"
+                 :data-level="currentGameData.tree[0][i-1].level"
+                 :data-parent="currentGameData.tree[0][i-1].parent_item"
+                 :data-id="currentGameData.tree[0][i-1].id"
+                 :isPainted="currentGameData.tree[0][i-1].value"/>
+    </div>
+
+    <div v-for="i in level*level" :key="i"
+         class="third-level"
+         :style="`top: calc(50% - ${topPos(i, 3) }px); left: calc(50% + ${leftPos(i, 3) }px)`"
+    >
+      <BoardItem :color="ColorL3"
+                 :data-level="currentGameData.tree[1][i-1].level"
+                 :data-parent="currentGameData.tree[1][i-1].parent_item"
+                 :data-id="currentGameData.tree[1][i-1].id"
+                 glowSize="5" :isPainted="currentGameData.tree[1][i-1].value"/>
+    </div>
+
+    <div v-if="level > 3">
+      <div v-for="i in level*level*level" :key="i"
+           class="fourth-level"
+           :style="`top: calc(50% - ${topPos(i, 4, i % 2)}px); left: calc(50% + ${leftPos(i, 4, i % 2)}px)`"
+      >
+        <BoardItem :color="ColorL4"
+                   :data-level="currentGameData.tree[2][i-1].level"
+                   :data-parent="currentGameData.tree[2][i-1].parent_item"
+                   :data-id="currentGameData.tree[2][i-1].id"
+                   :glowSize="5" :isPainted="currentGameData.tree[2][i-1].value"/>
+      </div>
+    </div>
+
+    <div v-if="level > 4">
+      <div v-for="i in level*level*level*level" :key="i"
+           class="fifth-level"
+           :style="`top: calc(50% - ${topPos(i, 5, i % 5)}px); left: calc(50% + ${leftPos(i, 5, i % 5)}px)`"
+      >
+        <BoardItem :color="ColorL5"
+                   :data-level="currentGameData.tree[3][i-1].level"
+                   :data-parent="currentGameData.tree[3][i-1].parent_item"
+                   :data-id="currentGameData.tree[3][i-1].id"
+                   :glowSize="5" :isPainted="currentGameData.tree[3][i-1].value"/>
+      </div>
+    </div>
+
+  </div>
 </template>
 
 <script>
 import BoardItem from '@/components/UIKit/BoardItem.vue'
 import HttpMixin from "../HttpMixin";
+import { mapState } from 'vuex'
 
 export default {
   mixins: [HttpMixin],
@@ -77,31 +78,21 @@ export default {
       ColorL3: 'yellow',
       ColorL4: 'orange',
       ColorL5: 'blue',
+    }
+  },
+  mounted() {
+    console.log(this.viewReady,  this.currentGameData.tree?.length)
+  },
+  computed: mapState({
+    currentGameData: state => state.selectedGame,
+    viewReady(state) {
+      return state.gameViewReady && state.selectedGame.tree;
+    },
 
-      viewReady: false,
-      currentGameData: {}
+    level(state) {
+      return state.selectedGame.game_type;
     }
-  },
-  computed: {
-    level() {
-      return this.currentGameData.game_type;
-    }
-  },
-  watch: {
-    async gameId() {
-      this.viewReady = false;
-      if (this.gameId) {
-        await this.sendRequest(this.apiUrl + 'game/show/' + this.gameId)
-            .then((response) => {
-              this.currentGameData = response.data.data;
-              this.viewReady = true;
-            })
-            .catch((error) => {
-              this.showErrorAlert(error)
-            });
-      }
-    }
-  },
+  }),
   methods: {
     levelRadius(lvl, step = 0) {
       const windowWidth = window.innerWidth;
@@ -154,6 +145,7 @@ export default {
       const angle = (i - 1) * angleStep + startDegree - bias;
       return angle;
     },
+
     topPos(i, lvl, step = 0) {
       const h = this.level === 4 && lvl === 4 ? 0 : 1;
       const angle = this.getItemAngleInRing(i, lvl, step * h);
@@ -164,7 +156,8 @@ export default {
       const angle = this.getItemAngleInRing(i, lvl, step * h);
       return this.levelRadius(lvl, step * h) * Math.cos(angle * Math.PI / 180.0);
     }
-  },
+  }
+  ,
 }
 </script>
 

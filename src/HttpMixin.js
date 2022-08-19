@@ -1,16 +1,20 @@
 import axios from "axios";
+import { mapMutations } from 'vuex';
 
 export default {
     data() {
         return {
-            apiUrl: 'https://api.gioconostro.com/api/v1/'
+            apiUrl: 'https://api.gioconostro.com/api/v1/',
         };
     },
 
     methods: {
+        ...mapMutations(['addGameData', 'setGameViewReady']),
         sendRequest(url, data = {}, type = 'get') {
             url = new URL(url);
-            data['params']['page'] = url.searchParams.get('page');
+            if(url.searchParams.get('page')) {
+                data.params.page = url.searchParams.get('page');
+            }
             return axios({
                 method: type,
                 url: url.origin + url.pathname,
@@ -31,6 +35,21 @@ export default {
             this.alertModalText = errorMsg;
             console.log(error.message, error.response.data.message);
         },
+        async findGame(id){
+            if(id) {
+                this.setGameViewReady(false);
+                this.addGameData({});
+                await this.sendRequest(this.apiUrl + 'game/show/' + id)
+                    .then((response) => {
+                        this.addGameData(response.data.data);
+                        this.setGameViewReady(true);
+                    })
+                    .catch((error) => {
+                        // this.setGameViewReady(true);
+                        this.showErrorAlert(error)
+                    });
+            }
+        }
 
     },
 }

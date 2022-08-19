@@ -143,26 +143,7 @@ export default {
     }
   },
   async mounted(){
-    // this.userData = {
-    //     "id": 37,
-    //     "name": "NDCtest",
-    //     "last_name": null,
-    //     "year": null,
-    //     "gender": null,
-    //     "phone": "123356664",
-    //     "email": "vlook.reg@gmail.co",
-    //     "email_verified_at": "2022-05-25T22:51:59.000000Z",
-    //     "card_number": "4441114454427277",
-    //     "blocked": 0,
-    //     "deleted": 0,
-    //     "finished_games": 0,
-    //     "created_at": "2022-05-25T22:51:46.000000Z",
-    //     "updated_at": "2022-05-25T22:51:59.000000Z",
-    //     "email_part": "*****.reg@gmail.co"
-    // };
-    // this.newUserData = Object.assign({}, this.userData);
-
-    await axios.get('https://api.gioconostro.com/api/v1/user/show', 
+    await axios.get('https://api.gioconostro.com/api/v1/user/show',
       {
         headers: {
             'Content-Type': 'application/json',

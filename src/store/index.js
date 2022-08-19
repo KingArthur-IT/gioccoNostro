@@ -5,7 +5,10 @@ export default createStore({
   state: {
     userName: '',
     userLastName: '',
-    userId: ''
+    userId: '',
+    selectedGame: {},
+    currentGameData: {},
+    gameViewReady: false
   },
   mutations: {
     addUserData(state, data) {
@@ -13,6 +16,12 @@ export default createStore({
       state.userLastName = data.userLastName;
       state.userId = data.userId;
     },
+    addGameData(state, data) {
+      state.selectedGame = {...data};
+    },
+    setGameViewReady(state, data){
+      state.gameViewReady = data;
+    }
   },
   plugins: [createPersistedState()],
 });

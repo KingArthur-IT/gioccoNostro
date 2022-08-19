@@ -2,45 +2,45 @@
   <div class="filters-wrapper" v-if="marketData && marketData.length">
     <ul class="filter">
       <li class="filter__item"
-          :class="{'active': typeGameSelectorValue === 'All'}"
-          @click="typeGameSelectorValue = 'All'"
+          :class="{'active': !filters['game_type']}"
+          @click="filtering('game_type', null )"
       >{{ $t('All') }}
       </li>
       <li class="filter__item"
-          :class="{'active': typeGameSelectorValue === '3'}"
-          @click="typeGameSelectorValue='3'"
+          :class="{'active': filters['game_type'] == 3}"
+          @click="filtering('game_type', 3 )"
       >3x3
       </li>
       <li class="filter__item"
-          :class="{'active': typeGameSelectorValue === '4'}"
-          @click="typeGameSelectorValue='4'"
+          :class="{'active': filters['game_type'] == 4}"
+          @click="filtering('game_type', 4 )"
       >4x4
       </li>
       <li class="filter__item"
-          :class="{'active': typeGameSelectorValue === '5'}"
-          @click="typeGameSelectorValue='5'"
+          :class="{'active': filters['game_type'] == 5}"
+          @click="filtering('game_type', 5 )"
       >5x5
       </li>
     </ul>
     <ul class="filter">
       <li class="filter__item"
-          :class="{'active': priceGameSelectorValue === 'All'}"
-          @click="priceGameSelectorValue='All'"
+          :class="{'active': !filters['price_code']}"
+          @click="filtering('price_code', null )"
       >{{ $t('All') }}
       </li>
       <li class="filter__item"
-          :class="{'active': priceGameSelectorValue === '100'}"
-          @click="priceGameSelectorValue='100'"
+          :class="{'active': filters['price_code'] == 100}"
+          @click="filtering('price_code', 100 )"
       >€100
       </li>
       <li class="filter__item"
-          :class="{'active': priceGameSelectorValue === '200'}"
-          @click="priceGameSelectorValue='200'"
+          :class="{'active': filters['price_code'] == 200}"
+          @click="filtering('price_code', 200 )"
       >€200
       </li>
       <li class="filter__item"
-          :class="{'active': priceGameSelectorValue === '300'}"
-          @click="priceGameSelectorValue='300'"
+          :class="{'active': filters['price_code'] == 300}"
+          @click="filtering('price_code', 300 )"
       >€300
       </li>
     </ul>
@@ -104,7 +104,7 @@
   </table>
   <Pagination v-if="linksArray && linksArray.length"
               :currentPage="currentPage"
-              :arrayLength="filteredMarketData.length"
+              :arrayLength="marketData.length"
               :linksArray="linksArray"
               @pageClicked="getMarketdata"
   />
@@ -150,7 +150,6 @@ export default {
   data() {
     return {
       marketData: [],
-      filteredMarketData: [],
       typeGameSelectorValue: 'All',
       priceGameSelectorValue: 'All',
       currentPage: 1,
@@ -169,8 +168,10 @@ export default {
       alertModalText: '',
       sortBy: null,
       sortDirection: null,
-      filterBy: null,
-      filterValue: null,
+      filters: {
+        game_type: null,
+        price_code: null
+      },
       currentUrl: ''
 
     }
@@ -181,8 +182,9 @@ export default {
   },
 
   methods: {
-    async getMarketdata(url, data={}){
-      data['params'] = {};
+    async getMarketdata(url){
+      let data = {};
+      data['params'] = {...this.filters};
       data['params']['page'] = this.currentPage;
       data['params']['sort_by'] = this.sortBy;
       data['params']['sort_dir'] = this.sortDirection;
@@ -207,20 +209,12 @@ export default {
       this.sortDirection = this.sortVals[field] > 0 ? 'desc' : 'asc';
       this.getMarketdata(this.currentUrl);
     },
-    filtering() {
-      let array = [...this.marketData];
-      if (this.typeGameSelectorValue !== 'All')
-        array = this.marketData.filter((item) => {
-          return item.game_type.includes(this.typeGameSelectorValue)
-        });
-      if (this.priceGameSelectorValue !== 'All')
-        return array.filter((item) => {
-          return item.price_code == this.priceGameSelectorValue
-        })
-      else return array;
+    filtering(field, value) {
+      this.filters[field] = value;
+      this.getMarketdata(this.currentUrl);
     },
     async orderEvent(ident) {
-      await this.sendRequest('https://api.gioconostro.com/api/v1/game/buy',
+      await this.sendRequest(this.apiUrl + 'game/buy',
           {
             ident: ident
           },
@@ -236,7 +230,7 @@ export default {
           .catch((error) => {this.showErrorAlert(error)});
     },
     async paymentEvent(gameIdent) {
-      await this.sendRequest('https://api.gioconostro.com/api/v1/game/order',
+      await this.sendRequest(this.apiUrl + 'game/order',
           {
             ident: gameIdent
           },
@@ -252,17 +246,6 @@ export default {
 
     }
   },
-  watch: {
-    typeGameSelectorValue() {
-      this.filteredMarketData = this.filtering();
-    },
-    priceGameSelectorValue() {
-      this.filteredMarketData = this.filtering();
-    },
-    marketData() {
-      this.filteredMarketData = [...this.marketData];
-    }
-  }
 }
 </script>
 

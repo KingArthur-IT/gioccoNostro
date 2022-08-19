@@ -4,17 +4,19 @@
         <input  type="text" 
                 :placeholder=$t(placeholder) 
                 class="primary-text-color"
-                :value="modelValue"
-                @input="(event) => $emit('update:modelValue', event.target.value)"
+                v-model="modelValue"
+                @change="searchGame"
         >
     </div>
 </template>
 
 <script>
 import SearchIcon from '@/components/Icons/SearchIcon.vue'
+import HttpMixin from "../../HttpMixin";
+
 
 export default {
-    emits: ['update:modelValue'],
+  mixins: [HttpMixin],
     components:{
         SearchIcon
     },
@@ -23,15 +25,26 @@ export default {
             type: String,
             default: 'type_to_search'
         },
-        modelValue: {
-            type: String,
-            default: ''
-        },
         isForMobileMenu:{
             type: Boolean,
             default: false
         }
+    },
+  data() {
+    return {
+      modelValue: ''
     }
+  },
+  watch: {
+    selectedGame() {
+      console.log('search' + this.selectedGame);
+    }
+  },
+  methods: {
+    searchGame(){
+      this.findGame(this.modelValue);
+    }
+  }
 }
 </script>
 

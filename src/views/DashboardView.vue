@@ -80,7 +80,6 @@ export default {
         finished: 0
       },
       isGamesShown: window.innerWidth > 1224 ? true : false,
-      selectedGame: null,
       canGamesBeShown: true,
     }
   },
@@ -111,6 +110,16 @@ export default {
         })
 
   },
+  computed: {
+    selectedGame() {
+      return this.$store.state.selectedGame;
+    }
+  },
+  watch: {
+    selectedGame() {
+      console.log('dash ' + this.selectedGame);
+    }
+  },
   methods: {
     gamesShownToggle() {
       this.isGamesShown = !this.isGamesShown;
@@ -118,9 +127,9 @@ export default {
     },
     selectGame(game) {
       if (this.selectedGame === game) {
-        this.selectedGame = null;
+        this.setGameViewReady(false);
       } else {
-        this.selectedGame = game;
+        this.findGame(game.id);
       }
     },
     checkGamesMobileVisible() {
