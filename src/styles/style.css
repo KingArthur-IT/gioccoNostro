@@ -1,9 +1,50 @@
 @font-face {
     font-family: 'Gilroy';
-    src: local('Gilroy Medium'), local('Gilroy-Medium'),
-        url('Gilroy-Medium.woff2') format('woff2'),
-        url('Gilroy-Medium.woff') format('woff'),
-        url('Gilroy-Medium.ttf') format('truetype');
+      src: local('@/assets/fonts/Gilroy Medium'), local('@/assets/fonts/Gilroy-Medium'),
+          url('../assets/fonts/Gilroy-Medium.woff2') format('woff2'),
+          url('../assets/fonts/Gilroy-Medium.woff') format('woff'),
+          url('../assets/fonts/Gilroy-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
   }
+.float-right {
+    float: right;
+}
+
+
+.border-radius.sidebar{
+    justify-content: flex-start;
+}
+.border-radius.sidebar .sidebar__bottom-section{
+    justify-content: flex-start;
+}
+.games{
+    position: absolute;
+    z-index: 1;
+}
+.dashboard__hero{
+    min-width: 566px;
+}
+.dashboard__head{
+    margin-left: auto;
+}
+.dashboard__head-wrapper{
+    justify-content: flex-end;
+}
+.dashboard__head-item{
+    min-width: auto;
+    max-width: calc((100% - 368px) / 3);
+}
+@media screen and (max-width: 1375px){
+    .dashboard__head-wrapper{
+        justify-content: flex-start;
+    }
+    .dashboard__head-item{
+        min-width: 230px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .games {
+        position: unset;
+    }
+}
