@@ -59,7 +59,7 @@
 
         <div class="card-label-wrapper">
           <p class="card-label">Card</p>
-          <p class="card-change" @click="isShowCardNumber = true">{{$t('Change')}}</p>
+          <p class="card-change" @click="showCardNumber">{{$t('Change')}}</p>
         </div>
          <CustomInput 
             :label="''"
@@ -89,9 +89,7 @@
     <transition name="modal">
     <CustomModal v-if="isShowModal" :width="modalOnlyOkBtn ? 300 : 500">
         <template v-slot:header>
-            <div class="modal-header">
-                {{modalText}}
-            </div>
+            <div class="modal-header" v-html="modalText"></div>
         </template>
         <template v-slot:footer>
             <div v-if="modalOnlyOkBtn">
@@ -115,12 +113,14 @@ import Switch from '@/components/UIKit/Switch.vue'
 import CustomModal from '@/components/Modal.vue'
 import axios from 'axios'
 import { mapMutations } from 'vuex'
+import HttpMixin from "../HttpMixin";
 
 export default {
   components: {
         CustomInput, CustomButton, IdLabel, CustomRadio, Switch,
         CustomModal
   },
+  mixins: [HttpMixin],
   data(){
     return{
       userData: {},
@@ -156,6 +156,7 @@ export default {
           if (response && response.data && response.statusText === 'OK'){
             this.userData = Object.assign({}, response.data.item);
             this.newUserData = Object.assign({}, response.data.item);
+            this.newUserData.card_number = response.data.item.card_last;
           }
           else {
               this.isShowModal = true;
@@ -194,16 +195,19 @@ export default {
         this.passwordValid.new = false;
         return
       }
+      let requestData = {
+        name: this.newUserData.name,
+        gender: this.newUserData.gender,
+        phone: this.newUserData.phone,
+        new_password: this.password.new,
+        old_password: this.password.current
+      };
+      if(this.isShowCardNumber){
+        requestData.card_number = this.newUserData.card_number
+      }
 
-      await axios.post('https://api.gioconostro.com/api/v1/user/update', 
-        {
-          name: this.newUserData.name,
-          gender: this.newUserData.gender,
-          phone: this.newUserData.phone,
-          card_number: this.newUserData.card_number,
-          new_password: this.password.new,
-          old_password: this.password.current
-        },
+      await axios.post('https://api.gioconostro.com/api/v1/user/update',
+          requestData,
         {
           headers: {
               'Content-Type': 'application/json',
@@ -216,18 +220,33 @@ export default {
             if (response && response.data && response.statusText === 'OK'){
               this.userData = Object.assign({}, response.data.item);
               this.newUserData = Object.assign({}, response.data.item);
+              this.newUserData.card_number = response.data.item.card_last;
+              this.isShowCardNumber = false;
             }
             else {
                 this.isShowModal = true;
-                this.modalText = 'Error while updating user info.';
+                this.modalText = response.data.item.message + ':<br>' + Object.values(response.data.item.message.errors).join('<br>');
             }
           })
           .catch((error) => {
-            console.log(error)
               this.isShowModal = true;
-              this.modalText = 'Error while updating user info. ' + error.message;
+              this.modalText = error.message + '<br>' + error.response.data.message + ':<br>' + Object.values(error.response.data.errors).join('<br>');
           })
     },
+
+    showCardNumber(){
+      this.isShowCardNumber = ! this.isShowCardNumber;
+      if(this.isShowCardNumber) {
+        this.sendRequest(this.apiUrl + 'user/show-card').then((response) => {
+          this.newUserData.card_number = response.data.card;
+        })
+            .catch((error) => {
+              this.showErrorAlert(error);
+            });
+      }
+
+    },
+
     cancelChanges(){
       this.newUserData = Object.assign({}, this.userData);
       this.emailNotificated = false;
