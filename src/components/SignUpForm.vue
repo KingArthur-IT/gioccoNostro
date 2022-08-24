@@ -1,27 +1,27 @@
 <template>
   <form class="sign-up" autocomplete="off">
     <CustomInput 
-        :label="'Name'"
-        :placeholder="'Type here...'"
+        :label="$t('Name')"
+        :placeholder="$t('type_here') + '...'"
         :isRequired="true"
         :showRequiredInfo="valid.firstName"
         class="sign-up__input"
         v-model="userData.firstName.value"
         :isError="!valid.firstName"
         @blur="userNameValidate"
-        :errorMessage="'Name is too short'"
-        :isShowWarningLabel="true"
+        :errorMessage="$t('name_is_too_short')"
+        :isShowWarningLabel="false"
     />
     <CustomInput 
-        :label="'Surname'"
-        :placeholder="'Type here...'"
+        :label="$t('surname')"
+        :placeholder="$t('type_here') + '...'"
         :isRequired="true"
         class="sign-up__input"
         v-model="userData.lastName.value"
         :isError="!valid.lastName"
         @blur="userLastNameValidate"
-        :errorMessage="'Surname is too short'"
-        :isShowWarningLabel="true"
+        :errorMessage="$t('surname_is_too_short')"
+        :isShowWarningLabel="false"
     />
     <CustomInput 
         :label="'Email'"
@@ -31,10 +31,10 @@
         v-model="userData.email.value"
         :isError="!valid.email"
         @blur="emailValidate"
-        :errorMessage="'Email is not valid'"
+        :errorMessage="$t('email_is_not_valid')"
     />
     <CustomInput 
-        :label="'Phone'"
+        :label="$t('phone')"
         :placeholder="'+xx(xxx) xxx xx xx'"
         class="sign-up__input"
         v-model="userData.phone.value"
@@ -49,35 +49,37 @@
         :isCard="true"
         :isError="!valid.card"
         @blur="cardValidate"
-        :errorMessage="'Card number is not valid'"
+        :errorMessage="$t('card_number_not_valid')"
+        :isShowWarningLabel="true"
+        :warningText="$t('card_warning')"
     />
     <CustomInput 
-        :label="'Password'"
-        :placeholder="'Create the password'"
+        :label="$t('password')"
+        :placeholder="$t('create_the_password')"
         class="sign-up__input"
         v-model="userData.password.value"
         :isPassword="true"
     />
     <CustomInput 
-        :label="'Confirm password'"
-        :placeholder="'Confrim the password'"
+        :label="$t('confirm_password')"
+        :placeholder="$t('confirm_password')"
         class="sign-up__input"
         v-model="userData.confirmPassword.value"
         :isError="!valid.password"
         @blur="passwordValidate"
-        :errorMessage="'Incorrect'"
+        :errorMessage="$t('Incorrect')"
         :isPassword="true"
     />
     <div class="sign-up__checkbox-wrap">
         <CustomCheckbox v-model="userData.isTermAgree.value" :isError="!valid.isTermAgree">
             <p class="sign-up__agree-text ml">
-                I agree with <a href="https://gioconostro.com/docs/Terms introduction.pdf" target="_blank">Terms and Conditions</a>
+                {{$t('i_agree_with')}} <a href="https://gioconostro.com/docs/Terms introduction.pdf" target="_blank">{{$t('terms_and_conditions')}}</a>
             </p>
         </CustomCheckbox>
     </div>
     <CustomButton class="sign-up__btn" :text="'Sign Up'" @click.prevent="SignUpEvent"/>
     <p class="sign-up__text">
-        Do you already have an account? <span @click="goToSignIn">Sign In</span>
+        {{$t('do_have_account')}}? <span @click="goToSignIn">{{ $t('sign_in') }}</span>
     </p>
   </form>
   <transition name="modal">
