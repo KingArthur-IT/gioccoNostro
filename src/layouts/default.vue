@@ -5,6 +5,9 @@
             <router-link to="/" class="primary-text-color header__logo">
                 Giocco Nostro
             </router-link>
+        <div class="head__lang secondary-text-color">
+          <Select class="float-right"/>
+        </div>
         </p>
       </div>
   </header>
@@ -14,6 +17,12 @@
 </template>
 
 <script>
+import Select from '@/components/UIKit/Select.vue';
+export default {
+  components: {
+    Select
+  }
+}
 
 </script>
 

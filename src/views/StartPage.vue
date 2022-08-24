@@ -9,7 +9,7 @@
 
           </p>
           <div class="start-main__btn">
-            <CustomButton :text="'Start Now'" @click="startEvent"/>
+            <CustomButton :text="$t('start_now')" @click="startEvent"/>
           </div>
         </div>
         <img src="@/assets/img/laptop.png" class="start-main__laptop">

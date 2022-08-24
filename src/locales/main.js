@@ -1,6 +1,7 @@
 export const localesTexts = {
     eng: {
         title: 'A POSTERIORI: ABDUCET PRAEDAM, QUI ACCURRIT PRIOR',
+        start_now: 'Start Now',
         Profile: 'Profile',
         Transactions: 'Transactions',
         Market: 'Market',
@@ -11,7 +12,6 @@ export const localesTexts = {
         Information: 'Information',
         game_rules: 'Game Rules',
         term_of_use: 'Terms of Use',
-        Exit: 'Exit',
         user_info: 'User Info',
         john_doe: 'John Doe',
         email_notifications: 'Email notifications',
@@ -46,6 +46,7 @@ export const localesTexts = {
     },
     rus: {
         title: 'A POSTERIORI: ABDUCET PRAEDAM, QUI ACCURRIT PRIOR',
+        start_now: 'Начать сейчас',
         Profile: 'Profile',
         Transactions: 'Transactions',
         Market: 'Market',
@@ -68,7 +69,6 @@ export const localesTexts = {
         Change: 'Change',
         Save: 'Save',
         Cancel: 'Cancel',
-        Exit: 'Exit',
         delete_account: 'Delete Account',
         your_games: 'Your Games',
         Hide: 'Hide',
@@ -91,6 +91,7 @@ export const localesTexts = {
     },
     ger:{
         title: 'A POSTERIORI: ABDUCET PRAEDAM, QUI ACCURRIT PRIOR',
+        start_now: 'Jetzt anfangen',
         Profile: 'Profile',
         Transactions: 'Transactions',
         Market: 'Market',
@@ -113,7 +114,6 @@ export const localesTexts = {
         Change: 'Change',
         Save: 'Save',
         Cancel: 'Cancel',
-        Exit: 'Exit',
         delete_account: 'Delete Account',
         your_games: 'Your Games',
         Hide: 'Hide',
@@ -136,6 +136,7 @@ export const localesTexts = {
     },
     ita:{
         title: 'A POSTERIORI: ABDUCET PRAEDAM, QUI ACCURRIT PRIOR',
+        start_now: 'Start Now',
         Profile: 'Profile',
         Transactions: 'Transactions',
         Market: 'Market',
@@ -146,7 +147,6 @@ export const localesTexts = {
         Information: 'Information',
         game_rules: 'Game Rules',
         term_of_use: 'Terms of Use',
-        Exit: 'Exit',
         user_info: 'User Info',
         jon_doe: 'John Doe',
         email_notifications: 'Email notifications',
