@@ -8,7 +8,7 @@
       <div class="games__list">
         <div v-for="game in games" :key="game.id">
           <div @click="selectGame(game)" class="game__item"
-               :class="{'selected-game': selectedGame !== null && selectedGame.id === game.id}">
+               :class="{'selected-game': selectedGameRow[game.id]}">
             <span class="game__type">{{ game.game_type_name }}</span>
             <span class="game__price">€{{ game.price_code }}</span>
           </div>
@@ -81,6 +81,7 @@ export default {
       },
       isGamesShown: window.innerWidth > 1224 ? true : false,
       canGamesBeShown: true,
+      selectedGameRow: {}
     }
   },
   created() {
@@ -115,20 +116,19 @@ export default {
       return this.$store.state.selectedGame;
     }
   },
-  watch: {
-    selectedGame() {
-      console.log('dash ' + this.selectedGame);
-    }
-  },
   methods: {
     gamesShownToggle() {
       this.isGamesShown = !this.isGamesShown;
       this.checkGamesMobileVisible();
     },
     selectGame(game) {
+      for(let item in this.games){
+        this.selectedGameRow[this.games[item].id] = false;
+      }
       if (this.selectedGame === game) {
-        this.setGameViewReady(false);
+        this.setGameViewReady( false);
       } else {
+        this.selectedGameRow[game.id] = true;
         this.findGame(game.id);
       }
     },
