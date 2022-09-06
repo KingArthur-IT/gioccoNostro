@@ -4,8 +4,12 @@
       <div class="sign__wrapper">
         <div class="sign__hero">
           <ul class="sign__tabs">
-            <li class="sign__tab" :class="{'tab-active': isSignUpTabActive}" @click="$router.push({name: 'signIn', params: {page: 'register'}})">Sign Up</li>
-            <li class="sign__tab" :class="{'tab-active': !isSignUpTabActive}" @click="$router.push({name: 'signIn', params: {page: 'login'}})">Sign In</li>
+            <li class="sign__tab" :class="{'tab-active': isSignUpTabActive}" @click="$router.push({name: 'signIn', params: {page: 'register'}})">
+              {{$t('sign_up')}}
+            </li>
+            <li class="sign__tab" :class="{'tab-active': !isSignUpTabActive}" @click="$router.push({name: 'signIn', params: {page: 'login'}})">
+              {{$t('sign_in')}}
+            </li>
           </ul>
           <SignUpForm v-if="isSignUpTabActive"/>
           <SignInForm v-else/>

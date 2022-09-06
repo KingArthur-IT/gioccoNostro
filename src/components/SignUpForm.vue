@@ -41,7 +41,7 @@
         :isPhone="true"
     />
     <CustomInput 
-        :label="'Card'"
+        :label="$t('card')"
         :placeholder="'**** **** **** ****'"
         :isRequired="true"
         class="sign-up__input"
@@ -55,7 +55,7 @@
     />
     <CustomInput 
         :label="$t('password')"
-        :placeholder="$t('create_the_password')"
+        :placeholder="$t('create_password')"
         class="sign-up__input"
         v-model="userData.password.value"
         :isPassword="true"
@@ -67,7 +67,7 @@
         v-model="userData.confirmPassword.value"
         :isError="!valid.password"
         @blur="passwordValidate"
-        :errorMessage="$t('Incorrect')"
+        :errorMessage="$t('incorrect')"
         :isPassword="true"
     />
     <div class="sign-up__checkbox-wrap">
@@ -79,7 +79,7 @@
     </div>
     <CustomButton class="sign-up__btn" :text="'Sign Up'" @click.prevent="SignUpEvent"/>
     <p class="sign-up__text">
-        {{$t('do_have_account')}}? <span @click="goToSignIn">{{ $t('sign_in') }}</span>
+        {{$t('have_account')}}? <span @click="goToSignIn">{{ $t('sign_in') }}</span>
     </p>
   </form>
   <transition name="modal">

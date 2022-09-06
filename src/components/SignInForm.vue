@@ -7,29 +7,29 @@
         v-model="formData.email.value"
         :isError="!valid.email"
         @blur="emailValidate"
-        :errorMessage="'Email is not valid'"
+        :errorMessage="$t('email_is_not_valid')"
     />
     <CustomInput 
-        :label="'Password'"
-        :placeholder="'Type here'"
+        :label="$t('password')"
+        :placeholder="$t('type here')"
         class="sign-in__input"
         v-model="formData.password.value"
         :isPassword="true"
         :isError="!valid.password"
         @blur="passwordValidate"
-        :errorMessage="'Incorrect'"
+        :errorMessage="$t('incorrect')"
     />
     <div class="sign-in__checkbox-wrap">
         <div class="sign-in__checkbox-hero">
             <CustomCheckbox v-model="shouldRememberMe">
-                <p class="sign-in__remember-text ml">Remember me</p>
+                <p class="sign-in__remember-text ml">{{$t('remember_me')}}</p>
             </CustomCheckbox>
         </div>
-        <p class="sign-in__text sign-in__forgot" @click="goToResetPasswordPage">Forgot Password?</p>
+        <p class="sign-in__text sign-in__forgot" @click="goToResetPasswordPage">{{$t('fogot_password')}}?</p>
     </div>
-    <CustomButton class="sign-in__btn" :text="'Sign In'" @click.prevent="SignInEvent"/>
+    <CustomButton class="sign-in__btn" :text="$t('sign_in')" @click.prevent="SignInEvent"/>
     <p class="sign-in__text">
-        Don't have an account? <span @click="goToSignUp">Sign Up</span>
+        {{$t('no_account')}}? <span @click="goToSignUp">{{$t('sugn_up')}}</span>
     </p>
   </form>
   <transition name="modal">

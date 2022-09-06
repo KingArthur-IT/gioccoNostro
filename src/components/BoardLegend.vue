@@ -4,7 +4,7 @@
             <div class="legend-img">
                 <BoardItem :color="'red'" />
             </div>
-            <p class="legend-text">Your position</p>
+            <p class="legend-text">{{$t('your_position')}}</p>
         </li>
 
 

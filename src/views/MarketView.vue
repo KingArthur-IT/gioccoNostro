@@ -188,13 +188,15 @@ export default {
       return this.$route.query;
     }
   },
-  watch:{
+  watch: {
     $route() {
       this.getMarketdata(this.$route.href);
+      console.log(window.location.href);
     }
   },
   methods: {
     async getMarketdata(url) {
+      console.log('url', url);
       let data = {};
       let email = this.$route.query.email;
       data['params'] = {...this.filters};
@@ -208,12 +210,7 @@ export default {
           this.linksArray = [...response.data.data.links];
           this.currentPage = response.data.data.current_page;
         }
-      })
-          .catch((error) => {
-            this.isShowAlertModal = true;
-            this.alertModalText = error.message;
-            console.log(error.message)
-          });
+      });
     },
 
     sortTableData(field) {
@@ -230,7 +227,9 @@ export default {
     async orderEvent(ident) {
       await this.sendRequest(this.apiUrl + 'game/buy',
           {
-            ident: ident
+            data: {
+              ident: ident
+            }
           },
           'post')
           .then((response) => {
@@ -240,9 +239,6 @@ export default {
               this.orderGameIdent = ident;
               this.isShowModal = true;
             }
-          })
-          .catch((error) => {
-            this.showErrorAlert(error)
           });
     },
     async paymentEvent(gameIdent) {
@@ -257,9 +253,6 @@ export default {
               this.isShowAlertModal = true;
               this.alertModalText = 'Here will be redirect to payment system page. Now game just bought';
             }
-          })
-          .catch((error) => {
-            this.showErrorAlert(error)
           });
 
     }

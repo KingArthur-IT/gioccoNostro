@@ -18,7 +18,7 @@ export default {
         const { locale } = useI18n({ useScope: 'global' })
         const   isSelectShown = ref(false),
                 currentLanguage = ref('eng'),
-                languages = ['eng', 'rus', 'ger', 'ita']
+                languages = ['eng', 'rus']
 
 
         const popupEvent = () => {

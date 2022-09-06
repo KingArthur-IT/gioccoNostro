@@ -96,8 +96,8 @@
               <CustomButton :isOutlined="true" :text="'OK'" @click="closeModal"/>
             </div>
             <div v-else class="modal-btns">
-              <CustomButton :isPrimary="false" :text="'Yes'" @click="yesBtnEvent" class="mr-2"/>
-              <CustomButton :isOutlined="true" :text="'No'" @click="closeModal" />
+              <CustomButton :isPrimary="false" :text="$t('yes')" @click="yesBtnEvent" class="mr-2"/>
+              <CustomButton :isOutlined="true" :text="$t('no')" @click="closeModal" />
             </div>
         </template>
     </CustomModal>
@@ -239,10 +239,7 @@ export default {
       if(this.isShowCardNumber) {
         this.sendRequest(this.apiUrl + 'user/show-card').then((response) => {
           this.newUserData.card_number = response.data.card;
-        })
-            .catch((error) => {
-              this.showErrorAlert(error);
-            });
+        });
       }
 
     },

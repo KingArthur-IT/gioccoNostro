@@ -1,9 +1,9 @@
 <template>
     <div class="sidebar__information-wrapper">
         <p class="sidebar__information-title">{{$t('Information')}}</p>
-        <a :href="`docs/rules/${locale}.pdf`" target="_blank">
-            <p class="sidebar__information-item">{{$t('game_rules')}}</p>
-        </a>
+      <router-link to="/rules" class="sidebar__information-item" :class="{'active-link': $route.meta.title === 'Rules'}" @click="$emit('closeMobileMenu')">
+        <p class="sidebar__information-item">{{$t('game_rules')}}</p>
+      </router-link>
         <a :href="'https://gioconostro.com/docs/Terms introduction.pdf'" target="_blank">
             <p class="sidebar__information-item">{{$t('term_of_use')}}</p>
         </a>
@@ -23,8 +23,8 @@
             </template>
             <template v-slot:footer>
                 <div class="modal-btns">
-                <CustomButton :isPrimary="false" :text="'Yes'" @click="yesBtnEvent" class="mr-2"/>
-                <CustomButton :isOutlined="true" :text="'No'" @click="isShowModal = false" />
+                <CustomButton :isPrimary="false" :text="$t('yes')" @click="yesBtnEvent" class="mr-2"/>
+                <CustomButton :isOutlined="true" :text="$t('no')" @click="isShowModal = false" />
                 </div>
             </template>
         </CustomModal>

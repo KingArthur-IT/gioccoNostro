@@ -7,6 +7,7 @@ import Profile from '../views/Profile.vue'
 import TransactionsView from '../views/TransactionsView.vue'
 import MarketView from '../views/MarketView.vue'
 import DashboardView from '../views/DashboardView.vue'
+import Rules from "../views/Rules.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,6 +59,12 @@ const router = createRouter({
       name: 'dashboard',
       component: DashboardView,
       meta: { auth: true, title: 'Dashboard' }
+    },
+    {
+      path: '/rules',
+      name: 'rules',
+      component: Rules,
+      meta: { auth: true, title: 'Rules' }
     },
   ]
 })

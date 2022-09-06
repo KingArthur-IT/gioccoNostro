@@ -87,28 +87,22 @@ export default {
   created() {
     window.addEventListener('resize', this.resizeHandle);
   },
-  async mounted() {
+  mounted() {
     this.checkGamesMobileVisible();
 
-    await this.sendRequest(this.apiUrl + 'user/games')
+    this.sendRequest(this.apiUrl + 'user/games')
         .then((response) => {
           if (response && response.statusText === 'OK') {
             this.games = [...response.data.page.data];
           }
-        })
-        .catch((error) => {
-          console.log(error.message)
         });
 
-    await this.sendRequest(this.apiUrl + 'user/dashboard')
+    this.sendRequest(this.apiUrl + 'user/dashboard')
         .then((response) => {
           if (response && response.statusText === 'OK') {
             this.dashboardInfo = Object.assign({}, response.data.data)
           }
-        })
-        .catch((error) => {
-          console.log(error.message)
-        })
+        });
 
   },
   computed: {

@@ -88,7 +88,6 @@ export default {
                 }
             })
             .then((response) => {
-                console.log(response)
                 if (response && response.statusText === 'OK'){
                     this.transactionsData = [...response.data.page.data];
                 }
@@ -97,124 +96,6 @@ export default {
                 console.log(error.message)
             })
 
-        // this.transactionsData = [
-        //     {
-        //         "id": 5,
-        //         "type": 2,
-        //         "amount": 600,
-        //         "game_id": 10,
-        //         "user_id": 12,
-        //         "order_id": 5,
-        //         "status": 1,
-        //         "message": null,
-        //         "created_at": "2022-05-15T16:38:17.000000Z",
-        //         "updated_at": "2022-05-15T16:38:17.000000Z",
-        //         "type_name": "Outgoing",
-        //         "status_name": "Success",
-        //         "game_ident": "G-HXMR7GLhhIFQ",
-        //         "user_email": "email@aa.aa",
-        //         "payment_code": "2344655868",
-        //         "game": {
-        //             "id": 10,
-        //             "ident": "G-HXMR7GLhhIFQ",
-        //             "price_code": 100,
-        //             "game_type": 3,
-        //             "level_1_count": 1,
-        //             "level_2_count": 0,
-        //             "parent_ident": "G-000000000001",
-        //             "is_finished": 0,
-        //             "game_type_name": "3x3",
-        //             "price_value": 101,
-        //             "owner_email": "*****on43@example.org",
-        //             "sub_owner_email": "*****system.com"
-        //         },
-        //         "user": {
-        //             "id": 12,
-        //             "name": "name",
-        //             "phone": "123356664",
-        //             "email": "email@aa.aa",
-        //             "email_verified_at": "2022-05-10T18:19:33.000000Z",
-        //             "card_number": "4441114454427277",
-        //             "blocked": 0,
-        //             "deleted": 0,
-        //             "finished_games": 0,
-        //             "created_at": "2022-05-10T18:19:16.000000Z",
-        //             "updated_at": "2022-05-18T13:19:15.000000Z",
-        //             "email_part": "*****@aa.aa"
-        //         },
-        //         "order": {
-        //             "id": 5,
-        //             "buyer_id": 12,
-        //             "owner_id": 2,
-        //             "sub_owner_id": 1,
-        //             "game_id": 10,
-        //             "total_amount": 600,
-        //             "payment_id": "2344655868",
-        //             "status": 4,
-        //             "message": null,
-        //             "created_at": "2022-05-15T16:38:17.000000Z",
-        //             "updated_at": "2022-05-15T16:38:17.000000Z"
-        //         }
-        //     },
-        //     {
-        //         "id": 7,
-        //         "type": 2,
-        //         "amount": 903,
-        //         "game_id": 8,
-        //         "user_id": 12,
-        //         "order_id": 6,
-        //         "status": 1,
-        //         "message": null,
-        //         "created_at": "2022-05-15T18:08:30.000000Z",
-        //         "updated_at": "2022-05-15T18:08:30.000000Z",
-        //         "type_name": "Outgoing",
-        //         "status_name": "Success",
-        //         "game_ident": "G-000000000008",
-        //         "user_email": "email@aa.aa",
-        //         "payment_code": "23446558681",
-        //         "game": {
-        //             "id": 8,
-        //             "ident": "G-000000000008",
-        //             "price_code": 300,
-        //             "game_type": 4,
-        //             "level_1_count": 1,
-        //             "level_2_count": 0,
-        //             "parent_ident": null,
-        //             "is_finished": 0,
-        //             "game_type_name": "4x4",
-        //             "price_value": 301,
-        //             "owner_email": "*****system.com",
-        //             "sub_owner_email": ""
-        //         },
-        //         "user": {
-        //             "id": 12,
-        //             "name": "name",
-        //             "phone": "123356664",
-        //             "email": "email@aa.aa",
-        //             "email_verified_at": "2022-05-10T18:19:33.000000Z",
-        //             "card_number": "4441114454427277",
-        //             "blocked": 0,
-        //             "deleted": 0,
-        //             "finished_games": 0,
-        //             "created_at": "2022-05-10T18:19:16.000000Z",
-        //             "updated_at": "2022-05-18T13:19:15.000000Z",
-        //             "email_part": "*****@aa.aa"
-        //         },
-        //         "order": {
-        //             "id": 6,
-        //             "buyer_id": 12,
-        //             "owner_id": 1,
-        //             "sub_owner_id": null,
-        //             "game_id": 8,
-        //             "total_amount": 903,
-        //             "payment_id": "23446558681",
-        //             "status": 4,
-        //             "message": null,
-        //             "created_at": "2022-05-15T18:08:30.000000Z",
-        //             "updated_at": "2022-05-15T18:08:30.000000Z"
-        //         }
-        //     }
-        // ]
     },
     methods:{
         sortTableData(field){

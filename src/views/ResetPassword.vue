@@ -3,23 +3,23 @@
     <div class="container">
       <div class="reset__wrapper">
         <div class="reset__hero">
-          <h2 class="reset__title">Reset Password</h2>
+          <h2 class="reset__title">{{$t('reset_password')}}</h2>
           <p class="reset__text">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem quae ab illo inventore veritatis et quasi architecto beatae vitae dicta.
+              {{$t('reset_password_text')}}
           </p>
           <CustomInput
-                :label="'Create new password'"
-                :placeholder="'Create new password'"
+                :label="$t('create_new_password')"
+                :placeholder="$t('create_new_password')"
                 class="reset__input"
                 v-model="password"
           />
           <CustomInput
-                :label="'Confirm password'"
-                :placeholder="'Create new password'"
+                :label="$t('confirm_password')"
+                :placeholder="$t('confirm_password')"
                 class="reset__input"
                 v-model="confirmPassword"
           />
-          <CustomButton class="reset__btn" :text="'Confirm'" @click="ResetEvent"/>
+          <CustomButton class="reset__btn" :text="$t('confirm')" @click="ResetEvent"/>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export default {
 
     methods: {
         ...mapMutations(['addGameData', 'setGameViewReady', 'setSearchEmail']),
-        sendRequest(url, data = {}, type = 'get') {
+        async sendRequest(url, data = {}, type = 'get') {
             url = new URL(url);
             if(url.searchParams.get('page')) {
                 data.params.page = url.searchParams.get('page');
@@ -25,6 +25,13 @@ export default {
                     'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                 },
                 ...data
+            })
+                .catch((error) => {
+                    if(error.response.status == 401){
+                        location.replace('/sign-in/login');
+                    }
+                    this.isShowAlertModal = true;
+                    this.alertModalText = error.response?.data ? error.response?.data.message : error.message;
             });
         },
         showErrorAlert(error) {
@@ -33,7 +40,7 @@ export default {
             if (error.response && error.response.data && error.response.data.message)
                 errorMsg = error.response.data.message;
             this.alertModalText = errorMsg;
-            console.log(error.message, error.response.data.message);
+            console.log(error.message, error);
         },
         async findGame(id){
             if(id) {
@@ -43,10 +50,6 @@ export default {
                     .then((response) => {
                         this.addGameData(response.data.data);
                         this.setGameViewReady(true);
-                    })
-                    .catch((error) => {
-                        // this.setGameViewReady(true);
-                        this.showErrorAlert(error)
                     });
             }
         }

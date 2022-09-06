@@ -9,34 +9,34 @@
 
             <template v-slot:body>
                 <div class="modal-body">
-                  <h2 class="modal-body__title">Buy game</h2>
-                  <h3 class="modal-body__subtitle">Sed ut perspiciatis unde</h3>
+                  <h2 class="modal-body__title">{{$t('buy_game')}}</h2>
+                  <h3 class="modal-body__subtitle">{{$t('buy_game_subtitle')}}</h3>
                   <p class="modal-body__text">
-                    But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself
+                    {{$t('buy_game_text')}}
                   </p>
-                  <p class="modal-body__detail">Detail:</p>
+                  <p class="modal-body__detail">{{ $t('detail') }}:</p>
                   <ul class="modal-body__list">
                     <li class="modal-body__list-item">
-                      <p class="modal-body__list-text">Payment</p>
+                      <p class="modal-body__list-text">{{$t('payment')}}</p>
                       <p class="modal-body__list-text">€{{gamePrice}}</p>
                     </li>
                     <li class="modal-body__list-item">
-                      <p class="modal-body__list-text">Payment for current saler</p>
+                      <p class="modal-body__list-text">{{$t('payment_for_current')}}</p>
                       <p class="modal-body__list-text">€{{gamePrice}}</p>
                     </li>
                     <li class="modal-body__list-item">
-                      <p class="modal-body__list-text">Payment to platform</p>
+                      <p class="modal-body__list-text">{{$t('payment_for_platform')}}</p>
                       <p class="modal-body__list-text">€{{gamePrice}}</p>
                     </li>
                   </ul>
                   <div class="modal-body__total">
-                    <p>Total:</p>
+                    <p>{{$t('total')}}:</p>
                     <p>€{{totalPrice}}</p>
                   </div>
                   <div class="modal-body__terms-wrapper">
                     <CustomCheckbox v-model="isTermAccepred" :isError="!isTermAgreeValid">
                       <p class="modal-body__agree-text">
-                          I accept all the <a href="docs/Terms introduction.pdf" target="_blank">terms of</a> the public offer
+                          {{$t('i_accept')}} <a href="docs/Terms introduction.pdf" target="_blank">{{$t('terms_of')}}</a> {{$t('public_offer')}}
                       </p>
                     </CustomCheckbox>
                   </div>
@@ -45,7 +45,7 @@
 
             <template v-slot:footer>
                 <div class="modal-footer">
-                  <CustomButton :text="'Payment'" @click="paymentEvent"/>
+                  <CustomButton :text="$t('payment')" @click="paymentEvent"/>
                 </div>
             </template>
         </CustomModal>

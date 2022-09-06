@@ -3,12 +3,9 @@
     <div class="container">
       <div class="forgot__wrapper">
         <div class="forgot__hero">
-          <h2 class="forgot__title">Forgot Password</h2>
+          <h2 class="forgot__title">{{$t("forgot Password")}}</h2>
           <p class="forgot__text">
-            To reset your password, please enter e-mail address below, recovery link will be provided automatically, please follow further instructions, sent to indicated e-mail address.
-              <!--
-              <a href="" class="forgot__link">poshta@gmail.com</a>
-              -->
+            {{$t('fogot_password_text')}}
           </p>
           <CustomInput 
                 :label="'Email'"
@@ -17,7 +14,7 @@
                 v-model="email"
                 :isError="!emailValid"
           />
-          <CustomButton class="forgot__btn" :text="'Reset Password'" @click="ResetEvent"/>
+          <CustomButton class="forgot__btn" :text="$('reset_password')" @click="ResetEvent"/>
           <p class="forgot__link" @click="goToSignIn">I remember the password</p>
         </div>
       </div>
